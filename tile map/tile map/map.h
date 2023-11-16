@@ -3,10 +3,7 @@
 #include"tools.h"
 #include"player.h"
 
-sfSprite* chest;
-sfTexture* chesttexture;
-sfIntRect chestrect;
-sfVector2f chestpos;
+
 int iModeDeJeu;
 
 void initMap();

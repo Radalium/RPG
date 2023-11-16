@@ -20,7 +20,10 @@ FILE* fichier;
 char map[60][200];
 
 
-
+sfSprite* chest;
+sfTexture* chesttexture;
+sfIntRect chestrect;
+sfVector2f chestpos;
 
 
 
@@ -90,7 +93,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Affichage du mode édition pour la map 
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
-			// Si le bouton gauche de la souris est presser alors on change la case de la map
+			// Si le bouton gauche de la souris est presser alors on change la case de la mapdddd
 			if (sfMouse_isButtonPressed(sfMouseLeft))
 			{
 				if (TailleBrush == 0)
