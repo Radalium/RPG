@@ -4,20 +4,22 @@
 #define TEXTURE_PATH "../Ressources/Textures/"
 
 
-sfIntRect chestrect = { 0,0,32,32 };
+
 typedef struct Cchest Cchest;
 struct Cchest
-{
+{	
+	sfSprite* chest;
+	sfIntRect chestrect;
+	sfTexture* chesttexture;
 	sfVector2f chestpos;
 	int ChestState;
 };
-Cchest op[3] ;
+Cchest ch[5] ;
 int NChest=0;
+float CRayon = 32;
 
 
-sfSprite* chest;
-sfTexture* chesttexture;
-sfIntRect chestrect;
+
 
 
 sfSprite* tileSprite;
@@ -45,10 +47,21 @@ void initMap()
 	fclose(fichier);
 
  	// Initialisation coffre 
-	chesttexture = sfTexture_createFromFile(TEXTURE_PATH"coffre32.png", NULL);
-	chest = sfSprite_create();
-	sfSprite_setTexture(chest, chesttexture, sfTrue);
-	sfSprite_setTextureRect(chest, chestrect);
+	for (int i = 0; i < 3; i++)
+	{
+		ch[i].chestrect.height = 0;
+		ch[i].chestrect.left = 0;
+		ch[i].chestrect.top = 32;
+		ch[i].chestrect.width = 32;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+	ch[i].chesttexture = sfTexture_createFromFile(TEXTURE_PATH"coffre32.png", NULL);
+	ch[i].chest = sfSprite_create();
+	sfSprite_setTexture(ch[i].chest, ch[i]. chesttexture, sfTrue);
+	sfSprite_setTextureRect(ch[i].chest, ch[i].chestrect);
+	}
+
 
 
 	// Initialisation tileset
@@ -155,28 +168,23 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 	if (iModeDeJeu == 0)
 	{
-		if (sfKeyboard_isKeyPressed(sfKeyO))
+		if (sfKeyboard_isKeyPressed(sfKeyE) && timer > 0.3f)
 		{
-
-			coffre = 1;
-			
+			for (int i = 0; i < 3; i++)
+			{
+				if (CalculD(ch[i].chestpos, CRayon) && ch[i].ChestState==0)
+				{
+					ch[i].ChestState = 1;
+					Openchest(i);
+				}
+			}
 		}
-
-		if (coffre == 1)
-		{
-			Openchest();
-		}
-		
-
-		
 	}
-
-	
 }
 
 int blocage = 0;
 
-void Openchest()
+void Openchest(int i)
 {
 	
 	if (timer_c >= 0.8f)
@@ -184,14 +192,13 @@ void Openchest()
 		timer_c = 0;
 		if (blocage ==0)
 		{
-			if (chestrect.left == 64)
+			if (ch[i].chestrect.left == 64)
 			{
 				blocage = 1;
 				coffre = 0;
 			}
-			chestrect.left += 32;
-			sfSprite_setTextureRect(chest, chestrect);
-			
+			ch[i].chestrect.left += 32;
+			sfSprite_setTextureRect(ch[i].chest, ch[i].chestrect);
 		}
 	}
 }
@@ -261,15 +268,19 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
 			case 5:
-				// iciccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-
+				// ici
 				position.x = x * 32;
 				position.y = y * 32;
-				sfSprite_setPosition(chest, position);
-				sfSprite_setTextureRect(chest, chestrect);
-				sfRenderWindow_drawSprite(_window, chest, NULL);
-				NChest++;
+				ch[NChest].chestpos.x = position.x;
+				ch[NChest].chestpos.y = position.y;
+				sfSprite_setPosition(ch[NChest].chest, position);
+				sfSprite_setTextureRect(ch[NChest].chest, ch[NChest].chestrect);
+				sfRenderWindow_drawSprite(_window, ch[NChest].chest, NULL);
+				if (NChest<2)
+				{
+					NChest++;
+				}
+			
 				break;
 			case 6:
 				tileRect.left = 32 * 7;
