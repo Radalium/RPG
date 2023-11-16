@@ -15,7 +15,10 @@ int frameY = 0;
 sfBool isMoving = sfFalse;
 sfVector2f Pposition = { 340.0f, 340.0f };
 sfVector2f vitesse = { 75.0f, 75.0f };
+
 float letemps = 0.0f;
+
+float rayon1;
 
 void initPlayer()
 {
@@ -33,6 +36,7 @@ void updatePlayer(sfRenderWindow* _window)
 {
 	// Update du joueur
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(player);
+	rayon1 = playerfrect.width*3;
 
 	if (sfKeyboard_isKeyPressed(sfKeyEscape))
 	{
@@ -110,10 +114,10 @@ void updatePlayer(sfRenderWindow* _window)
 		
 		if (animTime > 0.08)
 		{
-			frameX++;											// Incrémente frameX donc change de frame
+			frameX++;											// IncrÃ©mente frameX donc change de frame
 			if (frameX > 8) frameX = 0;
-			irect.left = frameX * irect.width;					// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
-			irect.top = frameY * irect.height;					// Même chose pour la position haute
+			irect.left = frameX * irect.width;					// On recalcul la position Ã  gauche du rectangle par rapport Ã  la nouvelle frame
+			irect.top = frameY * irect.height;					// MÃªme chose pour la position haute
 			sfSprite_setTextureRect(player, irect);
 															// Application sur la texture du sprite de ce rectangle
 			animTime = 0.0f;									// Reset animTime
@@ -121,8 +125,8 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 	else													// si on ne bouge pas
 	{
-		frameX = 0;											// On remet l'animation à la première frame
-		irect.left = frameX * irect.width;					// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
+		frameX = 0;											// On remet l'animation Ã  la premiÃ¨re frame
+		irect.left = frameX * irect.width;					// On recalcul la position Ã  gauche du rectangle par rapport Ã  la nouvelle frame
 		sfSprite_setTextureRect(player, irect);				// Application sur la texture du sprite de ce rectangle
 	}
 	updateCam(Pposition);
@@ -194,3 +198,12 @@ void Vmoins()
 	}
 }
 
+
+sfBool CalculD(sfVector2f _pos1, float _rayon2)
+{
+		if ((_pos1.x - Pposition.x) * (_pos1.x - Pposition.x) + (_pos1.y - Pposition.y) * (_pos1.y - Pposition.y) < (rayon1 + _rayon2) * (rayon1 + _rayon2))
+		{
+			return sfTrue;
+		}
+		else return sfFalse;	
+}
