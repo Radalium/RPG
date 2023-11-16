@@ -7,6 +7,7 @@
 #include <time.h>
 #include "player.h"
 #include "menu.h"
+#include "NPC.h"
 
 #define TEXTURE_PATH "../Ressources/Textures/"
 
@@ -31,6 +32,7 @@ int main()
 	initPlayer();
 	initCam();
 	initMenu();
+   	initNPC();
 
 	float timer = 0.0f;
 
@@ -56,8 +58,12 @@ int main()
 		}
 		else if (actualState == JOUER)
 		{
+
+			updateNPC(window);
+
 			iModeDeJeu = 0;
 			GameMod_player();
+
 			updatePlayer(window);
 			updateMap(window, cam);
 
@@ -86,6 +92,7 @@ int main()
 			displayMap(window, cam);
 			displayCam(window);
 			displayPlayer(window);
+			DisplayNPC(window);
 		}
 		else if (actualState == EDITEUR)
 		{

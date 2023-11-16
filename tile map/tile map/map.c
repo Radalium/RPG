@@ -53,7 +53,7 @@ void initMap()
 
 
 
-// A revoir car pas clair
+int coffre = 0;
 float timer2 = 0.0f;
 float timer = 0.0f;
 int TailleBrush = 0;
@@ -138,37 +138,47 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			fclose(fichier);
 		}
 	}
-	
+
+	timer_c += GetDeltaTime();
+
 	if (iModeDeJeu == 0)
 	{
-		timer_c += GetDeltaTime();
-
 		if (sfKeyboard_isKeyPressed(sfKeyO))
 		{
-			Openchest();
+
+			coffre = 1;
 			
 		}
+
+		if (coffre == 1)
+		{
+			Openchest();
+		}
+		
+
+		
 	}
 
 	
 }
 
+int blocage = 0;
 
 void Openchest()
 {
-	int blocage = 0;
-	if (timer_c >= .3)
+	
+	if (timer_c >= 0.8f)
 	{
-		if (blocage == 1)
+		timer_c = 0;
+		if (blocage ==0)
 		{
-
-		}
-		else
-		{
-			if (chestrect.left >= 128) blocage = 1;
+			if (chestrect.left == 64)
+			{
+				blocage = 1;
+			}
 			chestrect.left += 32;
 			sfSprite_setTextureRect(chest, chestrect);
-			timer_c = 0;
+			
 		}
 	}
 }
