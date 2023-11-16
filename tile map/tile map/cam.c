@@ -3,9 +3,9 @@
 #include "SFML/Graphics.h"
 #include "map.h"
 
-
-sfVector2f camrect = {200.f ,150.f };
 int Editor = 0;
+sfVector2f camrect = {200.f ,150.f };
+
 
 void initCam()
 {

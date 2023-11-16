@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics/Types.h>
 
+int Editor;
+
 void initCam();
 
 void updateCam(_playerpos);

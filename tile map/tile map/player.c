@@ -3,6 +3,7 @@
 #include"tools.h"
 #include"map.h"
 #include "musique.h"
+#include "cam.h"
 
 sfSprite* player;
 sfTexture* playertexture;
@@ -14,10 +15,14 @@ int frameY = 0;
 sfBool isMoving = sfFalse;
 sfVector2f Pposition = { 340.0f, 340.0f };
 sfVector2f vitesse = { 75.0f, 75.0f };
+
+float letemps = 0.0f;
+
 float rayon1;
 
 void initPlayer()
 {
+	
 	// Initialisation du joueur
 
 	playertexture = sfTexture_createFromFile(TEXTURE_PATH"player.png", NULL);
@@ -35,6 +40,8 @@ void updatePlayer(sfRenderWindow* _window)
 
 	if (sfKeyboard_isKeyPressed(sfKeyEscape))
 	{
+		Editor = 0;
+		iModeDeJeu = 0;
 		actualState = MENU;
 		sfMusic_play(menu);
 	}
@@ -43,6 +50,7 @@ void updatePlayer(sfRenderWindow* _window)
 	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >10)
 	{	// Mouvement vers le haut
 		frameY = HAUT;
+		
 		if(!collision(playerfrect, HAUT , vitesse ))
 		{
 			Pposition.y -= vitesse.y * GetDeltaTime();
@@ -56,7 +64,7 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y < 1890)
 	{	// Mouvement vers le bas
-
+		
 		frameY = BAS;
 		if (!collision(playerfrect, BAS, vitesse))
 		{
@@ -72,7 +80,7 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 	else if (sfKeyboard_isKeyPressed(sfKeyQ) && Pposition.x > 10)
 	{	// Mouvement vers la gauche
-
+		
 		frameY = GAUCHE;
 		if (!collision(playerfrect, GAUCHE, vitesse))
 		{
@@ -87,7 +95,7 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 	else if (sfKeyboard_isKeyPressed(sfKeyD) && Pposition.x < 6390)
 	{	// Mouvement vers la droite
-
+		
 		frameY = DROITE;
 		if (!collision(playerfrect, DROITE, vitesse))
 		{
@@ -103,12 +111,13 @@ void updatePlayer(sfRenderWindow* _window)
 
 	if (isMoving)									// Si timer > 0.2s on fait l'anim
 	{
+		
 		if (animTime > 0.08)
 		{
-			frameX++;											// Incrémente frameX donc change de frame
+			frameX++;											// IncrÃ©mente frameX donc change de frame
 			if (frameX > 8) frameX = 0;
-			irect.left = frameX * irect.width;					// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
-			irect.top = frameY * irect.height;					// Même chose pour la position haute
+			irect.left = frameX * irect.width;					// On recalcul la position Ã  gauche du rectangle par rapport Ã  la nouvelle frame
+			irect.top = frameY * irect.height;					// MÃªme chose pour la position haute
 			sfSprite_setTextureRect(player, irect);
 															// Application sur la texture du sprite de ce rectangle
 			animTime = 0.0f;									// Reset animTime
@@ -116,11 +125,21 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 	else													// si on ne bouge pas
 	{
-		frameX = 0;											// On remet l'animation à la première frame
-		irect.left = frameX * irect.width;					// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
+		frameX = 0;											// On remet l'animation Ã  la premiÃ¨re frame
+		irect.left = frameX * irect.width;					// On recalcul la position Ã  gauche du rectangle par rapport Ã  la nouvelle frame
 		sfSprite_setTextureRect(player, irect);				// Application sur la texture du sprite de ce rectangle
 	}
 	updateCam(Pposition);
+
+	if (isMoving == sfTrue && actualState == JOUER)
+	{
+		if (letemps > 0.4f )
+		{
+			sfSound_play(pas);
+			letemps = 0.0f;
+		}
+	}
+	letemps += GetDeltaTime();
 	
 }
 
@@ -135,8 +154,12 @@ void displayPlayer(sfRenderWindow* _window)
 
 }
 
+
 void EditorMod_player()
-{	// Editeur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode 
+{
+	
+	
+	// Editeur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode 
 	scale.x = 0.0f;
 	scale.y = 0.0f;
 	vitesse.x = 2000.f;
@@ -144,8 +167,12 @@ void EditorMod_player()
 	sfSprite_setScale(player, scale);
 }
 
+
 void GameMod_player()
-{	// Joueur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode
+{
+	
+
+	// Joueur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode
 	scale.x = 0.8f;
 	scale.y = 0.8f;
 	vitesse.x = 75.f;
