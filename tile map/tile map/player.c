@@ -171,14 +171,12 @@ void Vmoins()
 }
 
 
-sfBool CalculD(sfVector2f _obj)
+sfBool CalculD(sfVector2f _pos1, float _rayon1, float _rayon2)
 {
-	if (sqrtf(powf(_obj.x - Pposition.x, 2) + powf( _obj.y - Pposition.y, 2)) < 40.0f)
-	{
-		return sfTrue;
-	}
-	else
-	{
-		return sfFalse;
-	}
+		if ((_pos1.x - Pposition.x) * (_pos1.x - Pposition.x) + (_pos1.y - Pposition.y) * (_pos1.y - Pposition.y) < (_rayon1 + _rayon2) * (_rayon1 + _rayon2))
+		{
+			return sfTrue;
+		}
+		else return sfFalse;
+	
 }
