@@ -2,6 +2,7 @@
 #define TEXTURE_PATH "../Ressources/Textures/"
 #include"tools.h"
 #include"map.h"
+#include "musique.h"
 
 sfSprite* player;
 sfTexture* playertexture;
@@ -32,8 +33,8 @@ void updatePlayer(sfRenderWindow* _window)
 
 	if (sfKeyboard_isKeyPressed(sfKeyEscape))
 	{
-	
 		actualState = MENU;
+		sfMusic_play(menu);
 	}
 
 	isMoving = sfFalse;

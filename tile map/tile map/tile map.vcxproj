@@ -143,6 +143,7 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
     <ClCompile Include="menu.c" />
+    <ClCompile Include="musique.c" />
     <ClCompile Include="NPC.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="tools.c" />
@@ -151,6 +152,7 @@
     <ClInclude Include="cam.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="musique.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="tools.h" />
