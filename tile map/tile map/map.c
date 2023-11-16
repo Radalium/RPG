@@ -1,6 +1,7 @@
 #include "map.h"
 #include "tools.h"
 #include "player.h"
+#include "musique.h"
 #define TEXTURE_PATH "../Ressources/Textures/"
 
 
@@ -52,7 +53,6 @@ void initMap()
 }
 
 
-
 int coffre = 0;
 float timer2 = 0.0f;
 float timer = 0.0f;
@@ -86,7 +86,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	// Gestion de l'édition de la map
 	if (iModeDeJeu == 1)
 	{
-
+		
 		// Affichage du mode édition pour la map 
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
