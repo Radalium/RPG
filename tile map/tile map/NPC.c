@@ -11,7 +11,7 @@ sfVector2f NPCscale = { 0.8f,0.8f };
 float NPCanimTime = 0.0f;
 int NframeX = 0;
 sfBool isTalking = sfFalse;
-sfVector2f NPCpos = { 340.0f, 340.0f };
+sfVector2f NPCpos = { 320.0f, 320.0f };
 int parle = 0;
 
 void initNPC()
@@ -30,11 +30,11 @@ void updateNPC(sfRenderWindow* _window)
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(NPC);
 
 	isTalking = sfFalse;
-	if (sfKeyboard_isKeyPressed(sfKeyV))
-	{	// elle parle
+	if (CalculD(NPCpos)==sfTrue)
+	{	
+		// elle parle
 		NPCanimTime += GetDeltaTime();
 		isTalking = sfTrue;
-
 	}
 	if (isTalking)												// Si timer > 0.2s on fait l'anim
 	{

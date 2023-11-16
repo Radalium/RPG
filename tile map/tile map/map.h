@@ -17,3 +17,4 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 void displayMap(sfRenderWindow* _window, sfView* _cam);
 
 void Openchest();
+
