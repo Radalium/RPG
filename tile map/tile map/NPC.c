@@ -11,8 +11,9 @@ sfVector2f NPCscale = { 0.8f,0.8f };
 float NPCanimTime = 0.0f;
 int NframeX = 0;
 sfBool isTalking = sfFalse;
-sfVector2f NPCpos = { 340.0f, 340.0f };
+sfVector2f NPCpos = { 320.0f, 320.0f };
 int parle = 0;
+float rayonNPC;
 
 void initNPC()
 {
@@ -28,31 +29,32 @@ void updateNPC(sfRenderWindow* _window)
 {
 	// Update du NPC
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(NPC);
+	rayonNPC = playerfrect.width ;
 
 	isTalking = sfFalse;
-	if (sfKeyboard_isKeyPressed(sfKeyV))
-	{	// elle parle
+	if (sfKeyboard_isKeyPressed(sfKeyV) && CalculD(NPCpos,rayonNPC))
+		// elle parle
 		NPCanimTime += GetDeltaTime();
 		isTalking = sfTrue;
-
-	}
-	if (isTalking)												// Si timer > 0.2s on fait l'anim
-	{
-		if (NPCanimTime > 0.08)
+		if (isTalking)												// Si timer > 0.2s on fait l'anim
 		{
-			NframeX++;											// Incrémente frameX donc change de frame
-			if (NframeX > 1) NframeX = 0;
-			NPCrect.left = NframeX * NPCrect.width;				// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
-			NPCrect.top = 0 * NPCrect.height;					// Même chose pour la position haute
-			sfSprite_setTextureRect(NPC, NPCrect);
-																// Application sur la texture du sprite de ce rectangle
-			NPCanimTime = 0.0f;									// Reset animTime
+			if (NPCanimTime > 0.08)
+			{
+				NframeX++;											// Incrémente frameX donc change de frame
+				if (NframeX > 1) NframeX = 0;
+				NPCrect.left = NframeX * NPCrect.width;				// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
+				NPCrect.top = 0 * NPCrect.height;					// Même chose pour la position haute
+				sfSprite_setTextureRect(NPC, NPCrect);
+				// Application sur la texture du sprite de ce rectangle
+				NPCanimTime = 0.0f;									// Reset animTime
+			}
 		}
-	}
 }
+
 
 void DisplayNPC(sfRenderWindow* _window)
 {
 	sfSprite_setPosition(NPC, NPCpos);
 	sfRenderWindow_drawSprite(_window, NPC, NULL);
 }
+

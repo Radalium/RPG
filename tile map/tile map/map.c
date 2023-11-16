@@ -175,6 +175,7 @@ void Openchest()
 			if (chestrect.left == 64)
 			{
 				blocage = 1;
+				coffre = 0;
 			}
 			chestrect.left += 32;
 			sfSprite_setTextureRect(chest, chestrect);
