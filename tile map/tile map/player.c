@@ -37,7 +37,7 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 
 	isMoving = sfFalse;
-	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >0 && Pposition.y >32)
+	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >10)
 	{	// Mouvement vers le haut
 		frameY = HAUT;
 		if(!collision(playerfrect, HAUT , vitesse ))
@@ -51,7 +51,7 @@ void updatePlayer(sfRenderWindow* _window)
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y > 0)
+	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y < 1890)
 	{	// Mouvement vers le bas
 
 		frameY = BAS;
@@ -67,7 +67,7 @@ void updatePlayer(sfRenderWindow* _window)
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyQ) && Pposition.y > 0)
+	else if (sfKeyboard_isKeyPressed(sfKeyQ) && Pposition.x > 10)
 	{	// Mouvement vers la gauche
 
 		frameY = GAUCHE;
@@ -82,7 +82,7 @@ void updatePlayer(sfRenderWindow* _window)
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyD) && Pposition.y > 0)
+	else if (sfKeyboard_isKeyPressed(sfKeyD) && Pposition.x < 6390)
 	{	// Mouvement vers la droite
 
 		frameY = DROITE;
