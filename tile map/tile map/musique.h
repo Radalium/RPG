@@ -12,4 +12,10 @@ sfSound* pas;
 sfSound* placement;
 sfSound* princesse;
 
+sfSoundBuffer* coffrebuf;
+sfSoundBuffer* menubuf;
+sfSoundBuffer* pasbuf;
+sfSoundBuffer* placementbuf;
+sfSoundBuffer* princessebuf;
+
 void initMusique();

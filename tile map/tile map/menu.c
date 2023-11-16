@@ -39,9 +39,15 @@ sfTexture* Background_Texture;
 
 sfView* menucam;
 sfVector2f menurectcam = { 800.f ,600.f };
+float timermusique,timermusique1,timermusique2 = 0.f;
+
+
+
 
 void initMenu()
 {
+	
+
 	// Initialisation de la view
 	menucam = sfView_create();
 	sfView_setSize(menucam, menurectcam);
@@ -95,9 +101,8 @@ void initMenu()
 }
 float direction_logo = 1.f;
 void updateMenu(sfRenderWindow* _window)
-{
+{	
 	// Mouvement du logo
-	
 	poslogo.y += direction_logo;
 	if (poslogo.y > -105.0f ) direction_logo = -0.002f ;
 	if (poslogo.y < -115.0f) direction_logo = 0.002f;
@@ -110,10 +115,16 @@ void updateMenu(sfRenderWindow* _window)
 	// Detection si la souris est sur le bloc
 	if (sfFloatRect_contains(&rectjouer, mousepos.x, mousepos.y))
 	{	
-		sfSound_play(menu2);
+		if (timermusique > 0.15f)
+		{
+			sfSound_play(menu2);
+			timermusique = 0.f;
+		}
+		
 		sfSprite_setColor(Bouton_Jouer, sfColor_fromRGBA(255, 255, 255, 200));
 		if (sfMouse_isButtonPressed(sfMouseLeft))
 		{
+			
 			// Changement du statut de jeu
 			actualState = JOUER;
 			GameMod_cam();
@@ -122,12 +133,19 @@ void updateMenu(sfRenderWindow* _window)
 	}
 	else
 	{
+		timermusique += GetDeltaTime();
 		sfSprite_setColor(Bouton_Jouer, sfColor_fromRGBA(255, 255, 255, 255));
 	}
 
 	// Detection si la souris est sur le bloc
 	if (sfFloatRect_contains(&rectedit, mousepos.x, mousepos.y))
 	{
+		if (timermusique1 > 0.15f)
+		{
+			sfSound_play(menu2);
+			timermusique1 = 0.f;
+		}
+
 		sfSprite_setColor(Bouton_Editeur, sfColor_fromRGBA(255, 255, 255, 200));
 		if (sfMouse_isButtonPressed(sfMouseLeft))
 		{
@@ -139,12 +157,19 @@ void updateMenu(sfRenderWindow* _window)
 	}
 	else
 	{
+		timermusique1 += GetDeltaTime();
 		sfSprite_setColor(Bouton_Editeur, sfColor_fromRGBA(255, 255, 255, 255));
 	}
 
 	// Detection si la souris est sur le bloc
 	if (sfFloatRect_contains(&rectquitter, mousepos.x, mousepos.y))
 	{
+		if (timermusique2 > 0.15f)
+		{
+			sfSound_play(menu2);
+			timermusique2 = 0.f;
+		}
+
 		sfSprite_setColor(Bouton_Quitter, sfColor_fromRGBA(255, 255, 255, 200));
 		if (sfMouse_isButtonPressed(sfMouseLeft))
 		{
@@ -154,6 +179,7 @@ void updateMenu(sfRenderWindow* _window)
 	}
 	else
 	{
+		timermusique2 += GetDeltaTime();
 		sfSprite_setColor(Bouton_Quitter, sfColor_fromRGBA(255, 255, 255, 255));
 	}
 

@@ -8,6 +8,7 @@
 #include "player.h"
 #include "menu.h"
 #include "NPC.h"
+#include "musique.h"
 
 
 #define TEXTURE_PATH "../Ressources/Textures/"
@@ -29,12 +30,13 @@ int main()
 	actualState = MENU;
 
 	sfEvent event;
+	initMusique();
 	initMap();
 	initPlayer();
 	initCam();
 	initMenu();
    	initNPC();
-
+	
 	float timer = 0.0f;
 
 	//boucle de jeu
@@ -54,12 +56,14 @@ int main()
 		}
 		if (actualState == MENU)
 		{
+			sfMusic_stop(editeur);
 			updateMenu(window);
 
 		}
 		else if (actualState == JOUER)
 		{
-
+			sfMusic_stop(menu);
+			sfMusic_stop(editeur);
 			updateNPC(window);
 
 			iModeDeJeu = 0;
@@ -71,6 +75,7 @@ int main()
 		}
 		else if (actualState == EDITEUR)
 		{	iModeDeJeu = 1;
+			sfMusic_stop(menu);
 			EditorMod_player();
 			updateMap(window, cam);
 			updatePlayer(window);
