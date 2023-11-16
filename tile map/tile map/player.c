@@ -12,7 +12,7 @@ int frameX = 0;
 int frameY = 0;
 sfBool isMoving = sfFalse;
 sfVector2f Pposition = { 340.0f, 340.0f };
-sfVector2f vitesse = { 200.0f, 200.0f };
+sfVector2f vitesse = { 75.0f, 75.0f };
 
 void initPlayer()
 {
@@ -30,6 +30,12 @@ void updatePlayer(sfRenderWindow* _window)
 	// Update du joueur
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(player);
 
+	if (sfKeyboard_isKeyPressed(sfKeyEscape))
+	{
+	
+		actualState = MENU;
+	}
+
 	isMoving = sfFalse;
 	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >0 && Pposition.y >32)
 	{	// Mouvement vers le haut
@@ -45,13 +51,6 @@ void updatePlayer(sfRenderWindow* _window)
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-
-	if (sfKeyboard_isKeyPressed(sfKeyEscape))
-	{
-	
-		actualState = MENU;
-	}
-
 	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y > 0)
 	{	// Mouvement vers le bas
 
@@ -137,8 +136,8 @@ void EditorMod_player()
 {	// Editeur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode 
 	scale.x = 0.0f;
 	scale.y = 0.0f;
-	vitesse.x = 2000;
-	vitesse.y = 2000;
+	vitesse.x = 2000.f;
+	vitesse.y = 2000.f;
 	sfSprite_setScale(player, scale);
 }
 
@@ -146,10 +145,26 @@ void GameMod_player()
 {	// Joueur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode
 	scale.x = 0.8f;
 	scale.y = 0.8f;
-	vitesse.x = 200;
-	vitesse.y = 200;
+	vitesse.x = 75.f;
+	vitesse.y = 75.f;
 	sfSprite_setScale(player, scale);
 }
 
+void Vplus()
+{
+	if (vitesse.x < 4000)
+	{
+		vitesse.x = vitesse.x * 1.1f;
+		vitesse.y = vitesse.y * 1.1f;
+	}
+}
 
+void Vmoins()
+{
+	if (vitesse.x < 75)
+	{
+		vitesse.x = vitesse.x * 0.9f;
+		vitesse.y = vitesse.y * 0.9f;
+	}
+}
 

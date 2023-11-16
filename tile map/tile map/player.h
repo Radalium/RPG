@@ -23,3 +23,5 @@ void updatePlayer(sfRenderWindow* _window);
 void displayPlayer(sfRenderWindow* _window);
 void EditorMod_player();
 void GameMod_player();
+void Vplus();
+void Vmoins();
