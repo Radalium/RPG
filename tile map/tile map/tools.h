@@ -5,6 +5,7 @@
 #include <time.h>
 #include <math.h>
 #include"cam.h"
+#include "SFML/Audio.h"
 
 
 // Enum pour les statues du jeu
