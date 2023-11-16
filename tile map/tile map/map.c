@@ -19,7 +19,7 @@ FILE* fichier;
 
 char map[60][200];
 
-int iModeDeJeu = 0;
+
 
 
 
@@ -72,25 +72,11 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	mousePosition = sfMouse_getPosition(_window);
 
 	// A REVOIR | Gestion du changement de mode de jeu
-	if (sfKeyboard_isKeyPressed(sfKeySpace) && timer2 > 0.3f)
-	{
-		timer2 = 0;
-		iModeDeJeu++;
-		if (iModeDeJeu > 1)
-			iModeDeJeu = 0;
-		if (iModeDeJeu == 1)
-		{
+	
+	
+		
 
-			EditorMod_player();
-			EditorMod_cam();
-		}
-		if (iModeDeJeu == 0)
-		{
-			GameMod_player();
-			GameMod_cam();
-		}
 
-	}
 
 
 	Tposition.x = (float)worldPos.x / 32;

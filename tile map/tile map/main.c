@@ -54,16 +54,26 @@ int main()
 		if (actualState == MENU)
 		{
 			updateMenu(window);
-			updateMenu(window);
+
 		}
 		else if (actualState == JOUER)
 		{
+
 			updateNPC(window);
+
+			iModeDeJeu = 0;
+			GameMod_player();
+
 			updatePlayer(window);
 			updateMap(window, cam);
+
 		}
 		else if (actualState == EDITEUR)
+		{	iModeDeJeu = 1;
+			EditorMod_player();
 			updateMap(window, cam);
+			updatePlayer(window);
+		}
 
 		else if (actualState == QUITTER)
 			sfRenderWindow_close(window);

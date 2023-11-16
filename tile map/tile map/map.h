@@ -7,7 +7,7 @@ sfSprite* chest;
 sfTexture* chesttexture;
 sfIntRect chestrect;
 sfVector2f chestpos;
-
+int iModeDeJeu;
 
 void initMap();
 void updateMap(sfRenderWindow* _window, sfView* _cam);
