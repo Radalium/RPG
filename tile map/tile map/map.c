@@ -5,7 +5,20 @@
 
 
 sfIntRect chestrect = { 0,0,32,32 };
-sfVector2f chestpos = { 0.0f ,0.0f };
+typedef struct Cchest Cchest;
+struct Cchest
+{
+	sfVector2f chestpos;
+	int ChestState;
+};
+Cchest op[3] ;
+int NChest=0;
+
+
+sfSprite* chest;
+sfTexture* chesttexture;
+sfIntRect chestrect;
+
 
 sfSprite* tileSprite;
 sfTexture* tileTexture;
@@ -30,7 +43,6 @@ void initMap()
 	fichier = fopen("MAP.bin", "r");
 	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
-
 
  	// Initialisation coffre 
 	chesttexture = sfTexture_createFromFile(TEXTURE_PATH"coffre32.png", NULL);
@@ -249,11 +261,15 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
 			case 5:
-				chestpos.x = x * 32;
-				chestpos.y = y * 32;
-				sfSprite_setPosition(chest, chestpos);
+				// iciccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(chest, position);
 				sfSprite_setTextureRect(chest, chestrect);
 				sfRenderWindow_drawSprite(_window, chest, NULL);
+				NChest++;
 				break;
 			case 6:
 				tileRect.left = 32 * 7;
