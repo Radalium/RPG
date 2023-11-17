@@ -49,7 +49,7 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, HAUT, vitesse) == 2)
 		{
-			Pposition.y -= (vitesse.y - 100) * GetDeltaTime();
+			Pposition.y -= (vitesse.y - 37.5f) * GetDeltaTime();
 		}
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
@@ -64,7 +64,7 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, BAS, vitesse) == 2)
 		{
-			Pposition.y += (vitesse.y-100) * GetDeltaTime();
+			Pposition.y += (vitesse.y-37.5f) * GetDeltaTime();
 		}
 		
 		animTime += GetDeltaTime();
@@ -80,7 +80,7 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, GAUCHE, vitesse) == 2)
 		{
-			Pposition.x -= (vitesse.y - 100) * GetDeltaTime();
+			Pposition.x -= (vitesse.y - 37.5f) * GetDeltaTime();
 		}
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
@@ -95,7 +95,7 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, DROITE, vitesse) == 2)
 		{
-			Pposition.x += (vitesse.y - 100) * GetDeltaTime();
+			Pposition.x += (vitesse.y - 37.5f) * GetDeltaTime();
 		}
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
