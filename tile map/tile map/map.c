@@ -5,8 +5,22 @@
 #define TEXTURE_PATH "../Ressources/Textures/"
 
 
-sfIntRect chestrect = { 0,0,32,32 };
-sfVector2f chestpos = { 0.0f ,0.0f };
+
+typedef struct Cchest Cchest;
+struct Cchest
+{	
+	sfSprite* chest;
+	sfTexture* chesttexture;
+	sfIntRect chestrect;
+	sfVector2f chestpos;
+	int ChestState;
+};
+Cchest ch[3];
+int NChest=0;
+float CRayon = 16;
+
+
+
 
 sfSprite* tileSprite;
 sfTexture* tileTexture;
@@ -27,7 +41,6 @@ sfIntRect chestrect;
 sfVector2f chestpos;
 
 
-
 void initMap()
 {
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
@@ -37,11 +50,22 @@ void initMap()
 
 
  	// Initialisation coffre 
-	chesttexture = sfTexture_createFromFile(TEXTURE_PATH"coffre32.png", NULL);
-	chest = sfSprite_create();
-	sfSprite_setTexture(chest, chesttexture, sfTrue);
-	sfSprite_setTextureRect(chest, chestrect);
-
+	
+	for (int i = 0; i < 3; i++)
+	{
+	ch[i].chesttexture = sfTexture_createFromFile(TEXTURE_PATH"coffre32.png", NULL);
+	ch[i].chest = sfSprite_create();
+	sfSprite_setTexture(ch[i].chest, ch[i].chesttexture, sfTrue);
+	sfSprite_setTextureRect(ch[i].chest, ch[i].chestrect);
+	}
+	for (int y = 0; y < 3; y++)
+	{
+		ch[y].chestrect.left = 0;
+		ch[y].chestrect.top = 0;
+		ch[y].chestrect.width = 32;
+		ch[y].chestrect.height = 32;
+	}
+	
 
 	// Initialisation tileset
 	tileTexture = sfTexture_createFromFile(TEXTURE_PATH"tileset.png", NULL);
@@ -56,6 +80,8 @@ void initMap()
 }
 
 
+int blocage = 0;
+int numerochest;
 int coffre = 0;
 float timer2 = 0.0f;
 float timer = 0.0f;
@@ -81,16 +107,15 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 
 
-
 	Tposition.x = (float)worldPos.x / 32;
 	Tposition.y = (float)worldPos.y / 32;
 	timer += GetDeltaTime();
 
-	// Gestion de l'édition de la map
+	// Gestion de l'Ã©dition de la map
 	if (iModeDeJeu == 1)
 	{
 		
-		// Affichage du mode édition pour la map 
+		// Affichage du mode Ã©dition pour la map 
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
 			// Si le bouton gauche de la souris est presser alors on change la case de la mapdddd
@@ -116,7 +141,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			}
 		}
 
-		// Si le bouton droit de la souris est pressée alors on change ntile 
+		// Si le bouton droit de la souris est pressÃ©e alors on change ntile 
 		if (sfMouse_isButtonPressed(sfMouseRight) && timer > 0.3f)
 		{
 			timer = 0.0f;
@@ -125,17 +150,16 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 				ntile = 0;
 		}
 
-		// Si la touche I est pressée alors on change la taille du pinceau
+		// Si la touche I est pressÃ©e alors on change la taille du pinceau
 		if (sfKeyboard_isKeyPressed(sfKeyI) && timer > 0.3f)
 		{
 			timer = 0.0f;
 			TailleBrush = (1 + TailleBrush) % 2;
 		}
 
-		// Si la touche M est pressée alors on sauvegarde la map
+		// Si la touche M est pressÃ©e alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.3f)
 		{
-
 			fichier = fopen("MAP.bin", "w");
 			fwrite(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
@@ -146,46 +170,42 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 	if (iModeDeJeu == 0)
 	{
-		if (sfKeyboard_isKeyPressed(sfKeyO))
+		if (sfKeyboard_isKeyPressed(sfKeyE) && timer > 0.3f)
 		{
-
-			coffre = 1;
-			
-		}
-
-		if (coffre == 1)
-		{
-			Openchest();
-		}
-		
-
-		
-	}
-
-	
-}
-
-int blocage = 0;
-
-void Openchest()
-{
-	
-	if (timer_c >= 0.8f)
-	{
-		timer_c = 0;
-		if (blocage ==0)
-		{
-			if (chestrect.left == 64)
+			for (int i = 0; i < 3; i++)
 			{
-				blocage = 1;
-				coffre = 0;
+				if (CalculD(ch[i].chestpos, CRayon) && ch[i].ChestState==0)
+				{
+					sfSound_play(coffre);
+					ch[i].ChestState = 1;
+					blocage = 1;
+					numerochest = i;
+					
+				}
 			}
-			chestrect.left += 32;
-			sfSprite_setTextureRect(chest, chestrect);
-			
 		}
 	}
+	if (blocage ==1)
+	{ 
+		couv(1);
+		if (timer_c >= 3.3f)
+		{
+			timer_c = 0;
+			if (ch[numerochest].chestrect.left == 96)
+			{
+				blocage = 0;
+				couv(0);
+				ch[numerochest].chestrect.left -= 32;
+			}
+			ch[numerochest].chestrect.left += 32;
+			sfSprite_setTextureRect(ch[numerochest].chest, ch[numerochest].chestrect);
+		}
+	
+	}
 }
+
+
+
 
 
 
@@ -252,11 +272,21 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
 			case 5:
-				chestpos.x = x * 32;
-				chestpos.y = y * 32;
-				sfSprite_setPosition(chest, chestpos);
-				sfSprite_setTextureRect(chest, chestrect);
-				sfRenderWindow_drawSprite(_window, chest, NULL);
+				position.x = x * 32;
+				position.y = y * 32;
+				ch[NChest].chestpos.x = position.x;
+				ch[NChest].chestpos.y = position.y;
+				sfSprite_setPosition(ch[NChest].chest, position);
+				sfSprite_setTextureRect(ch[NChest].chest, ch[NChest].chestrect);
+				sfRenderWindow_drawSprite(_window, ch[NChest].chest, NULL);
+				if (NChest == 2)
+				{
+					NChest = 0;
+				}
+				else
+				{
+					NChest++;
+				}
 				break;
 			case 6:
 				tileRect.left = 32 * 7;
@@ -345,7 +375,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 	// Affichage de la selection du pinceau
 
 	if (iModeDeJeu == 1)
-	{	// Si le mode de jeu est en mode édition alors on affiche la selection du pinceau
+	{	// Si le mode de jeu est en mode Ã©dition alors on affiche la selection du pinceau
 		switch (ntile)
 		{
 		case 0:
@@ -497,10 +527,10 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 	{ // Quand le mode de jeu est en gameplay | Gestions des collisions
 		switch (_direction)
 		{
-			// Gestions des déplacements du personnage en fonction de la direction
+			// Gestions des dÃ©placements du personnage en fonction de la direction
 
 		case HAUT:
-			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
+			// Calcul des coordonnÃ©es de la case dans laquelle le personnage va se dÃ©placer
 			fpos.y = (_sprite.top - 2 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top - 2 + _vitesse.y * GetDeltaTime()) / 32;
@@ -519,7 +549,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			else return sfFalse;
 			break;
 		case BAS:
-			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
+			// Calcul des coordonnÃ©es de la case dans laquelle le personnage va se dÃ©placer
 			fpos.y = (_sprite.top + _sprite.height + 2 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + _sprite.height + 2 + _vitesse.y * GetDeltaTime()) / 32;
@@ -538,7 +568,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			else return sfFalse;
 			break;
 		case DROITE:
-			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
+			// Calcul des coordonnÃ©es de la case dans laquelle le personnage va se dÃ©placer
 			fpos.y = (_sprite.top + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
@@ -558,7 +588,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 
 			break;
 		case GAUCHE:
-			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
+			// Calcul des coordonnÃ©es de la case dans laquelle le personnage va se dÃ©placer
 			fpos.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + _vitesse.y * GetDeltaTime()) / 32;
@@ -580,7 +610,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 	
 	}
 	if (iModeDeJeu == 1)
-	{ // Quand le mode de jeu est en mode édition de map | pas de collisions
+	{ // Quand le mode de jeu est en mode Ã©dition de map | pas de collisions
 		return sfFalse;
 	}
 

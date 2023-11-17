@@ -19,7 +19,7 @@ sfVector2f vitesse = { 75.0f, 75.0f };
 float letemps = 0.0f;
 
 float rayon1;
-
+int chestouverture=0;
 void initPlayer()
 {
 	
@@ -47,7 +47,7 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 
 	isMoving = sfFalse;
-	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >10)
+	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >10 && chestouverture == 0)
 	{	// Mouvement vers le haut
 		frameY = HAUT;
 		
@@ -57,12 +57,12 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, HAUT, vitesse) == 2)
 		{
-			Pposition.y -= (vitesse.y - 100) * GetDeltaTime();
+			Pposition.y -= (vitesse.y - 37.5f) * GetDeltaTime();
 		}
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y < 1890)
+	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y < 1890 && chestouverture == 0)
 	{	// Mouvement vers le bas
 		
 		frameY = BAS;
@@ -72,13 +72,13 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, BAS, vitesse) == 2)
 		{
-			Pposition.y += (vitesse.y-100) * GetDeltaTime();
+			Pposition.y += (vitesse.y-37.5f) * GetDeltaTime();
 		}
 		
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyQ) && Pposition.x > 10)
+	else if (sfKeyboard_isKeyPressed(sfKeyQ) && Pposition.x > 10 && chestouverture == 0)
 	{	// Mouvement vers la gauche
 		
 		frameY = GAUCHE;
@@ -88,12 +88,12 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, GAUCHE, vitesse) == 2)
 		{
-			Pposition.x -= (vitesse.y - 100) * GetDeltaTime();
+			Pposition.x -= (vitesse.y - 37.5f) * GetDeltaTime();
 		}
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyD) && Pposition.x < 6390)
+	else if (sfKeyboard_isKeyPressed(sfKeyD) && Pposition.x < 6390 && chestouverture == 0)
 	{	// Mouvement vers la droite
 		
 		frameY = DROITE;
@@ -103,7 +103,7 @@ void updatePlayer(sfRenderWindow* _window)
 		}
 		else if (collision(playerfrect, DROITE, vitesse) == 2)
 		{
-			Pposition.x += (vitesse.y - 100) * GetDeltaTime();
+			Pposition.x += (vitesse.y - 37.5f) * GetDeltaTime();
 		}
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
@@ -206,4 +206,16 @@ sfBool CalculD(sfVector2f _pos1, float _rayon2)
 			return sfTrue;
 		}
 		else return sfFalse;	
+}
+
+void couv(int _chestouvert)
+{
+	if (_chestouvert == 0)
+	{
+		chestouverture = 0;
+	}
+	else
+	{
+		chestouverture = 1;
+	}
 }
