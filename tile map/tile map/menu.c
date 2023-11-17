@@ -99,7 +99,9 @@ void initMenu()
 	rectquitter = sfSprite_getGlobalBounds(Bouton_Quitter);
 	sfMusic_play(menu);
 }
+
 float direction_logo = 1.f;
+
 void updateMenu(sfRenderWindow* _window)
 {	
 	// Mouvement du logo
@@ -110,6 +112,7 @@ void updateMenu(sfRenderWindow* _window)
 
 	// Récupération de la position de la souris
 	mousepos = sfMouse_getPositionRenderWindow(_window);
+	
 
 	
 	// Detection si la souris est sur le bloc
@@ -153,6 +156,7 @@ void updateMenu(sfRenderWindow* _window)
 			actualState = EDITEUR;
 			EditorMod_cam();
 			EditorMod_player();
+			sfMusic_play(editeur);
 		}
 	}
 	else

@@ -15,6 +15,9 @@ sfVector2f NPCpos = { 320.0f, 320.0f };
 int parle = 0;
 float rayonNPC;
 
+//sfFont* Font;
+//sfText* Text;
+
 void initNPC()
 {
 	// Initialisation du NPC
@@ -23,6 +26,12 @@ void initNPC()
 	sfSprite_setTexture(NPC, NPCTexture, sfTrue);
 	sfSprite_setScale(NPC, NPCscale);
 	sfSprite_setTextureRect(NPC, NPCrect);
+
+	//Font = sfFont_createFromFile("..\\Ressources\\Font\\3Dventure.ttf");
+	//Text = "Vous devez recuperer toutes les clées";
+	//sfText_setFont(Text, Font);
+	//sfText_setColor;
+	//sfRectangleShape_setFillColor;
 }
 
 void updateNPC(sfRenderWindow* _window)

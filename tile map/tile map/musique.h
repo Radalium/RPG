@@ -6,7 +6,7 @@ sfMusic* porte;
 sfMusic* menu;
 sfMusic* editeur;
 
-sfSound* coffre;
+sfSound* coffre2;
 sfSound* menu2;
 sfSound* pas;
 sfSound* placement;

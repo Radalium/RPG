@@ -14,7 +14,7 @@ void initMusique()
 	menu = sfMusic_createFromFile(MUSIQUE_PATH"musiquemenu.ogg");
 	editeur = sfMusic_createFromFile(MUSIQUE_PATH"musiqueediteur.ogg");
 
-	coffre = sfSound_create();
+	coffre2 = sfSound_create();
 	menu2 = sfSound_create(); 
 	pas = sfSound_create(); 
 	placement = sfSound_create();
@@ -26,7 +26,7 @@ void initMusique()
 	placementbuf = sfSoundBuffer_createFromFile(SOUND_PATH"placement.ogg");
 	princessebuf = sfSoundBuffer_createFromFile(SOUND_PATH"princesseparle.ogg");
 
-	sfSound_setBuffer(coffre, coffrebuf);
+	sfSound_setBuffer(coffre2, coffrebuf);
 	sfSound_setBuffer(menu2, menubuf);
 	sfSound_setBuffer(pas, pasbuf);
 	sfSound_setBuffer(placement, placementbuf);
@@ -36,7 +36,7 @@ void initMusique()
 	sfMusic_setLoop(menu, sfTrue);
 	sfMusic_setLoop(editeur, sfTrue);
 
-	sfSound_setLoop(coffre, sfFalse);
+	sfSound_setLoop(coffre2, sfFalse);
 	sfSound_setLoop(menu2, sfFalse);
 	sfSound_setLoop(pas, sfFalse);
 	sfSound_setLoop(placement, sfFalse);
@@ -44,11 +44,11 @@ void initMusique()
 
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, 10);
-	sfMusic_setVolume(editeur, volume);
+	sfMusic_setVolume(editeur, 10);
 
-	sfSound_setVolume(coffre, volume);
+	sfSound_setVolume(coffre2, volume);
 	sfSound_setVolume(menu2, 12);
-	sfSound_setVolume(pas, volume);
+	sfSound_setVolume(pas, 5);
 	sfSound_setVolume(placement, volume);
 	sfSound_setVolume(princesse, volume);
 }
