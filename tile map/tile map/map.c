@@ -1,6 +1,7 @@
 #include "map.h"
 #include "tools.h"
 #include "player.h"
+#include "musique.h"
 #define TEXTURE_PATH "../Ressources/Textures/"
 
 
@@ -76,6 +77,8 @@ void initMap()
 }
 
 
+int blocage = 0;
+int numerochest;
 float timer2 = 0.0f;
 float timer = 0.0f;
 int TailleBrush = 0;
@@ -97,7 +100,6 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	
 	
 		
-
 
 
 
@@ -170,35 +172,36 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			{
 				if (CalculD(ch[i].chestpos, CRayon) && ch[i].ChestState==0)
 				{
+					sfSound_play(coffre);
 					ch[i].ChestState = 1;
-					Openchest(i);
+					blocage = 1;
+					numerochest = i;
+					
 				}
 			}
 		}
 	}
-}
-
-int blocage = 0;
-
-void Openchest(int _Nombre)
-{
-	while (blocage == 0)
-	{
-		if (timer_c >= 0.8f)
+	if (blocage ==1)
+	{ 
+		couv(1);
+		if (timer_c >= 3.3f)
 		{
 			timer_c = 0;
-			if (blocage == 0)
+			if (ch[numerochest].chestrect.left == 96)
 			{
-				if (ch[_Nombre].chestrect.left == 64)
-				{
-					blocage = 1;
-				}
-				ch[_Nombre].chestrect.left += 32;
-				sfSprite_setTextureRect(ch[_Nombre].chest, ch[_Nombre].chestrect);
+				blocage = 0;
+				couv(0);
+				ch[numerochest].chestrect.left -= 32;
 			}
+			ch[numerochest].chestrect.left += 32;
+			sfSprite_setTextureRect(ch[numerochest].chest, ch[numerochest].chestrect);
 		}
+	
 	}
 }
+
+
+
 
 
 
@@ -265,7 +268,6 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
 			case 5:
-				// ici
 				position.x = x * 32;
 				position.y = y * 32;
 				ch[NChest].chestpos.x = position.x;

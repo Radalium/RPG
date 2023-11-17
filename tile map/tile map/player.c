@@ -15,7 +15,7 @@ sfBool isMoving = sfFalse;
 sfVector2f Pposition = { 340.0f, 340.0f };
 sfVector2f vitesse = { 75.0f, 75.0f };
 float rayon1;
-
+int chestouverture=0;
 void initPlayer()
 {
 	// Initialisation du joueur
@@ -40,7 +40,7 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 
 	isMoving = sfFalse;
-	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >10)
+	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >10 && chestouverture == 0)
 	{	// Mouvement vers le haut
 		frameY = HAUT;
 		if(!collision(playerfrect, HAUT , vitesse ))
@@ -54,7 +54,7 @@ void updatePlayer(sfRenderWindow* _window)
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y < 1890)
+	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y < 1890 && chestouverture == 0)
 	{	// Mouvement vers le bas
 
 		frameY = BAS;
@@ -70,7 +70,7 @@ void updatePlayer(sfRenderWindow* _window)
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyQ) && Pposition.x > 10)
+	else if (sfKeyboard_isKeyPressed(sfKeyQ) && Pposition.x > 10 && chestouverture == 0)
 	{	// Mouvement vers la gauche
 
 		frameY = GAUCHE;
@@ -85,7 +85,7 @@ void updatePlayer(sfRenderWindow* _window)
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
-	else if (sfKeyboard_isKeyPressed(sfKeyD) && Pposition.x < 6390)
+	else if (sfKeyboard_isKeyPressed(sfKeyD) && Pposition.x < 6390 && chestouverture == 0)
 	{	// Mouvement vers la droite
 
 		frameY = DROITE;
@@ -179,4 +179,16 @@ sfBool CalculD(sfVector2f _pos1, float _rayon2)
 			return sfTrue;
 		}
 		else return sfFalse;	
+}
+
+void couv(int _chestouvert)
+{
+	if (_chestouvert == 0)
+	{
+		chestouverture = 0;
+	}
+	else
+	{
+		chestouverture = 1;
+	}
 }
