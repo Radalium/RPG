@@ -176,7 +176,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			{
 				if (CalculD(ch[i].chestpos, CRayon) && ch[i].ChestState==0)
 				{
-					sfSound_play(coffre);
+					sfSound_play(coffre2);
 					ch[i].ChestState = 1;
 					blocage = 1;
 					numerochest = i;
