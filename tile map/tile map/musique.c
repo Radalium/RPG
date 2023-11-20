@@ -55,12 +55,12 @@ void initMusique()
 void updateMusique()
 {
 	sfMusic_setVolume(porte, volume);
-	sfMusic_setVolume(menu, volume);
-	sfMusic_setVolume(editeur, volume);
+	sfMusic_setVolume(menu, 1);
+	sfMusic_setVolume(editeur, 1);
 
-	sfSound_setVolume(coffre2, volume);
-	sfSound_setVolume(menu2, volume);
-	sfSound_setVolume(pas, volume);
+	sfSound_setVolume(coffre2, 1);
+	sfSound_setVolume(menu2, 1);
+	sfSound_setVolume(pas, 1);
 	sfSound_setVolume(placement, volume);
 	sfSound_setVolume(princesse, volume);
 }
