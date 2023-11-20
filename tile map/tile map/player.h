@@ -25,6 +25,10 @@ void EditorMod_player();
 void GameMod_player();
 void Vplus();
 void Vmoins();
+
+sfBool CalculD(sfVector2f _obj, float _rayon2);
+
 sfBool CalculD(sfVector2f _obj, float _rayon2);
 void couv(int _chestouvert);
 void animpcoffre();
+

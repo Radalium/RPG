@@ -36,8 +36,10 @@ int main()
 	initPlayer();
 	initCam();
 	initMenu();
-   	initNPC();
+
+   	initNPC(window);
 	initUI();
+
 	
 	sfBool isEdit;
 	float timer = 0.0f;
