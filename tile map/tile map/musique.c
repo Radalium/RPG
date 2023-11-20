@@ -3,13 +3,11 @@
 
 #define MUSIQUE_PATH "../Ressources/Musics/"
 #define SOUND_PATH "../Ressources/SoundsFX/"
-int volume = 100;
-
-
 
 
 void initMusique()
 {
+	volume = 100;
 	porte = sfMusic_createFromFile(MUSIQUE_PATH"ouvertureporte.ogg");
 	menu = sfMusic_createFromFile(MUSIQUE_PATH"musiquemenu.ogg");
 	editeur = sfMusic_createFromFile(MUSIQUE_PATH"musiqueediteur.ogg");
@@ -43,13 +41,26 @@ void initMusique()
 	sfSound_setLoop(princesse, sfFalse);
 
 	sfMusic_setVolume(porte, volume);
-	sfMusic_setVolume(menu, 10);
-	sfMusic_setVolume(editeur, 10);
+	sfMusic_setVolume(menu, volume);
+	sfMusic_setVolume(editeur, volume);
 
 	sfSound_setVolume(coffre2, volume);
-	sfSound_setVolume(menu2, 12);
-	sfSound_setVolume(pas, 5);
+	sfSound_setVolume(menu2, volume);
+	sfSound_setVolume(pas, volume);
 	sfSound_setVolume(placement, volume);
 	sfSound_setVolume(princesse, volume);
 }
 
+
+void updateMusique()
+{
+	sfMusic_setVolume(porte, volume);
+	sfMusic_setVolume(menu, volume);
+	sfMusic_setVolume(editeur, volume);
+
+	sfSound_setVolume(coffre2, volume);
+	sfSound_setVolume(menu2, volume);
+	sfSound_setVolume(pas, volume);
+	sfSound_setVolume(placement, volume);
+	sfSound_setVolume(princesse, volume);
+}

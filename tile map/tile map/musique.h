@@ -17,5 +17,8 @@ sfSoundBuffer* menubuf;
 sfSoundBuffer* pasbuf;
 sfSoundBuffer* placementbuf;
 sfSoundBuffer* princessebuf;
+int volume;
 
 void initMusique();
+
+void updateMusique();
