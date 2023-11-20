@@ -39,6 +39,7 @@ int main()
    	initNPC();
 	initUI();
 	
+	sfBool isEdit;
 	float timer = 0.0f;
 
 	//boucle de jeu
@@ -108,6 +109,7 @@ int main()
 		}
 		else if (actualState == EDITEUR)
 		{
+			isEdit = sfTrue;
 			displayMap(window, cam);
 			displayCam(window);
 		}
