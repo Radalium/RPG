@@ -92,6 +92,7 @@ int main()
 		if (actualState == MENU)
 		{
 			DisplayMenu(window);
+			updateMusique();
 		}
 		else if (actualState == JOUER)
 		{
