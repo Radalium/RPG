@@ -19,6 +19,10 @@ Cchest ch[3];
 int NChest=0;
 float CRayon = 16;
 
+sfSprite* FragmentedOrb;
+sfTexture* FragmentedOrbTexture;
+sfIntRect FragmentedOrbrect = {0,0,22,22};
+sfVector2f FragmentedOrbPos;
 
 
 
@@ -29,6 +33,7 @@ sfVector2f position = { 0.0f ,0.0f };
 sfVector2i Tposition = { 0 ,0 };
 int ntile = 0;
 float timer_c = 0.0f;
+float timer_c2 = 0.0f;
 
 FILE* fichier;
 
@@ -48,7 +53,15 @@ void initMap()
 	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
 
+	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
+	FragmentedOrb = sfSprite_create();
+	sfSprite_setTexture(FragmentedOrb, FragmentedOrbTexture, sfTrue);
 
+
+	tileRect.left = 32;
+	tileRect.top = 0;
+	tileRect.width = 32;
+	tileRect.height = 32;
  	// Initialisation coffre 
 	
 	for (int i = 0; i < 3; i++)
@@ -79,7 +92,7 @@ void initMap()
 	tileRect.height = 32;
 }
 
-
+int compteur=0;
 int blocage = 0;
 int numerochest;
 int coffre = 0;
@@ -167,6 +180,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	}
 
 	timer_c += GetDeltaTime();
+	timer_c2 += GetDeltaTime();
 
 	if (iModeDeJeu == 0)
 	{
@@ -176,11 +190,11 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			{
 				if (CalculD(ch[i].chestpos, CRayon) && ch[i].ChestState==0)
 				{
-					sfSound_play(coffre);
+					sfSound_play(coffre2);
 					ch[i].ChestState = 1;
 					blocage = 1;
 					numerochest = i;
-					
+					timer_c2 = 0;
 				}
 			}
 		}
@@ -188,19 +202,34 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	if (blocage ==1)
 	{ 
 		couv(1);
-		if (timer_c >= 3.3f)
+		if (timer_c >= 3.4f)
 		{
 			timer_c = 0;
-			if (ch[numerochest].chestrect.left == 96)
+			if (ch[numerochest].chestrect.left == 64)
 			{
-				blocage = 0;
-				couv(0);
-				ch[numerochest].chestrect.left -= 32;
+				blocage = 2;
+				compteur = 0;
 			}
 			ch[numerochest].chestrect.left += 32;
 			sfSprite_setTextureRect(ch[numerochest].chest, ch[numerochest].chestrect);
 		}
-	
+	}
+	if (blocage == 2)
+	{
+		if (timer_c >= 0.8f)
+		{
+			if (timer_c2>=11.f)
+			{
+				blocage = 0;
+				couv(0);
+				animpcoffre(0);
+			}
+			else
+			{
+				compteur++;
+				animpcoffre(4);
+			}
+		}
 	}
 }
 

@@ -34,6 +34,10 @@ void initPlayer()
 	sfSprite_setTextureRect(player, irect);
 }
 
+void animpcoffre(i)
+{
+	frameY = i;
+}
 void updatePlayer(sfRenderWindow* _window)
 {
 	
@@ -127,10 +131,11 @@ void updatePlayer(sfRenderWindow* _window)
 			animTime = 0.0f;									// Reset animTime
 		}
 	}
-	else													// si on ne bouge pas
+	else											// si on ne bouge pas
 	{
 		frameX = 0;											// On remet l'animation à la première frame
-		irect.left = frameX * irect.width;					// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
+		irect.left = frameX * irect.width;	
+		irect.top = frameY * irect.height;					// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
 		sfSprite_setTextureRect(player, irect);				// Application sur la texture du sprite de ce rectangle
 	}
 	updateCam(Pposition);
