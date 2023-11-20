@@ -29,13 +29,12 @@ int deroulement = 1;
 int blocage2 = 0;
 
 
-void initNPC(sfRenderWindow* _window)
+
 
 //sfFont* Font;
 //sfText* Text;
 
 void initNPC()
-
 {
 	// Initialisation du NPC
 	NPCTexture = sfTexture_createFromFile(TEXTURE_PATH"princesse.png", NULL);
