@@ -35,7 +35,7 @@ int main()
 	initPlayer();
 	initCam();
 	initMenu();
-   	initNPC();
+   	initNPC(window);
 	
 	float timer = 0.0f;
 

@@ -25,4 +25,4 @@ void EditorMod_player();
 void GameMod_player();
 void Vplus();
 void Vmoins();
-sfBool CalculD(sfVector2f _obj);
+sfBool CalculD(sfVector2f _obj, float _rayon2);
