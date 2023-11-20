@@ -101,6 +101,7 @@ float timer = 0.0f;
 int TailleBrush = 0;
 
 
+
 void updateMap(sfRenderWindow* _window, sfView* _cam)
 {
 	// Initatisation des variables
@@ -132,8 +133,9 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
 			// Si le bouton gauche de la souris est presser alors on change la case de la mapdddd
-			if (sfMouse_isButtonPressed(sfMouseLeft))
+			if (sfMouse_isButtonPressed(sfMouseLeft) && timer > 0.1f)
 			{
+				timer = 0.f;
 				if (TailleBrush == 0)
 				{
 					// Gestion de la taille du pinceau 1x1
@@ -171,7 +173,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 
 		// Si la touche M est pressée alors on sauvegarde la map
-		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.3f)
+		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
 			fichier = fopen("MAP.bin", "w");
 			fwrite(map, sizeof(char), 12000, fichier);
@@ -565,7 +567,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.y = (_sprite.top - 2 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.width + _sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 			
-			// Si la case est 5 4 3 9 alors, on renvoie vrai || A REVOIR
+			// Si la case est 5 4 3 9 alors, on renvoie vrai
 			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >2) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9))
 			{
 				return sfTrue;

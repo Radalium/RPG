@@ -226,12 +226,13 @@ void updateMenu(sfRenderWindow* _window)
 			sfSound_play(menu2);
 			timermusique3 = 0.f;
 		}
-		
 		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 200));
 		if (sfMouse_isButtonPressed(sfMouseLeft) && volume < 100)
 		{
-			if (timermusique5 > 0.05f)
-			{
+			
+			if (timermusique5 > 0.1f)
+			{	
+				
 				volume += 10;
 				timermusique5 = 0.f;
 			}
@@ -239,11 +240,11 @@ void updateMenu(sfRenderWindow* _window)
 	}
 	else
 	{
-		timermusique3 += GetDeltaTime();
-		timermusique5 += GetDeltaTime();
+	timermusique3 += GetDeltaTime();
 		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 255));
 	}
-
+	
+	timermusique5 += GetDeltaTime();
 
 	if (sfFloatRect_contains(&rectsonmoins, mousepos.x, mousepos.y))
 	{
@@ -266,10 +267,10 @@ void updateMenu(sfRenderWindow* _window)
 	else
 	{
 		timermusique4 += GetDeltaTime();
-		timermusique6 += GetDeltaTime();
+		
 		sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 255));
 	}
-
+timermusique6 += GetDeltaTime();
 
 	sfView_setCenter(menucam,vector2f(400.f,300.f));
 

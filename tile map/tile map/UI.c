@@ -23,6 +23,7 @@ sfVector2f Cle2scale = { 0.80f,0.80f };
 sfVector2f Cle3scale = { 0.80f,0.80f };
 	
 int nmcle = 0;
+float temps;
 
 void initUI()
 {
@@ -59,9 +60,17 @@ void initUI()
 
 }
 
-
+temps = 0;
 void updateUI(sfVector2f _playerpos)
 {
+
+	temps += GetDeltaTime();
+	if (sfKeyboard_isKeyPressed(sfKeyY) && temps > 0.1f)
+	{
+		nmcle++;
+		temps = 0.f;
+	}
+
 	if (nmcle == 0)
 	{
 		Cle0pos.x = _playerpos.x - 97.f;
