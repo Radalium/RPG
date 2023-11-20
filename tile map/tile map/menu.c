@@ -8,8 +8,6 @@
 // Initalisation des variables globales
 
 
-sonstat StatueSons;
-
 sfVector2f poslogo = { 200.f, -105.0f };
 sfVector2f posjouer = { 400.f, 310.f };
 sfVector2f posedit = { 450.f, 460.f };
