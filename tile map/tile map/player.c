@@ -4,6 +4,8 @@
 #include"map.h"
 #include "musique.h"
 #include "cam.h"
+#include "UI.h"
+
 
 sfSprite* player;
 sfTexture* playertexture;
@@ -34,6 +36,8 @@ void initPlayer()
 
 void updatePlayer(sfRenderWindow* _window)
 {
+	
+
 	// Update du joueur
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(player);
 	rayon1 = playerfrect.width*3;
@@ -141,6 +145,8 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 	letemps += GetDeltaTime();
 	
+
+	updateUI(Pposition);
 }
 
 
