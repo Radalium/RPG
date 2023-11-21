@@ -16,5 +16,6 @@ void displayMap(sfRenderWindow* _window, sfView* _cam);
 void Openchest(int i);
 
 
-void onestsurquelcase(sfFloatRect _sprite);
+int onestsurquelcase(sfFloatRect _sprite);
+
 

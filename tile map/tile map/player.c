@@ -19,15 +19,20 @@ sfVector2f Pposition = { 340.0f, 340.0f };
 sfVector2f actualposJ  = { 340.0f, 340.0f };
 sfVector2f vitesse = { 75.0f, 75.0f };
 float letemps = 0.0f;
+
 int blocage3 = 0;
 
+int backtile = 0;
+
+
 float rayon1;
+
 int chestouverture=0;
 void initPlayer()
 {
 	
 	// Initialisation du joueur
-
+	int backtile = 0;
 	playertexture = sfTexture_createFromFile(TEXTURE_PATH"player.png", NULL);
 	player = sfSprite_create();
 	sfSprite_setTexture(player, playertexture, sfTrue);
@@ -149,11 +154,78 @@ void updatePlayer()
 
 	if (isMoving == sfTrue && actualState == JOUER)
 	{
-		if (letemps > 0.4f )
+		if (letemps > 0.5f)
+		backtile = onestsurquelcase(playerfrect);
+
+		if (letemps > 0.5f)
 		{
+			sfMusic_stop(pasplanche);
+			sfMusic_stop(pasterre);
+			sfMusic_stop(passable);
+			sfSound_stop(paspierre);
+
+		}
+
+		if (letemps > 0.5f && onestsurquelcase != backtile)
+		{
+
 			//onestsurquelcase(player);
+
+			if (onestsurquelcase(playerfrect) == 0)
+			{
+				sfMusic_play(pasplanche);
+			}
+			else if (onestsurquelcase(playerfrect) == 1)
+			{
+				sfMusic_play(pasterre);
+			}
+			else if (onestsurquelcase(playerfrect) == 2)
+			{
+				sfMusic_play(passable);
+			}
+			else if (onestsurquelcase(playerfrect) == 3)
+			{
+				/*sfMusic_play(pasbois);*/
+			}
+			else if (onestsurquelcase(playerfrect) == 4)
+			{
+				sfSound_play(paspierre);
+			}
+			/*
+			else if (onestsurquelcase(playerfrect) == 5)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 6)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 7)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 8)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 9)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 10)
+			{
+				sfMusic_play(pasbois);
+			}*/
+
 			letemps = 0.0f;
 		}
+	}
+	else
+	{
+		sfMusic_stop(pasplanche);
+		sfMusic_stop(pasterre);
+		sfMusic_stop(passable);
+		sfSound_stop(paspierre);	
 	}
 	letemps += GetDeltaTime();
 	

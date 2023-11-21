@@ -62,12 +62,14 @@ int main()
 		if (actualState == MENU)
 		{
 			sfMusic_stop(editeur);
+			sfMusic_stop(forest);
 			updateMenu(window);
 
 		}
 		else if (actualState == JOUER)
 		{
-			updateUI(camrect);
+
+			updateUI(camrect)
 			sfMusic_stop(menu);
 			sfMusic_stop(editeur);
 			updateNPC(window);
@@ -81,6 +83,7 @@ int main()
 		else if (actualState == EDITEUR)
 		{	iModeDeJeu = 1;
 			sfMusic_stop(menu);
+			sfMusic_stop(forest);
 			EditorMod_player();
 			updateMap(window, cam);
 			updatePlayer(window);

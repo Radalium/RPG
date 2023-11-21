@@ -546,34 +546,32 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 
 }
 
-void onestsurquelcase(sfFloatRect _sprite)
+int onestsurquelcase(sfFloatRect _sprite)
 {
-	sfVector2i fpos;
-	sfVector2i fpos2;
+	sfVector2i fretpos;
 
-	fpos.y = (_sprite.top + _sprite.height);
-	fpos.x = (_sprite.left);
-	fpos2.y = (_sprite.top + _sprite.height);
-	fpos2.x = (_sprite.left + _sprite.width);
-		if (map[fpos.y][fpos.x] == 0 || map[fpos2.y][fpos2.x] == 0)
+	fretpos.y = (_sprite.top + _sprite.height) / 32;
+	fretpos.x = ((_sprite.left + _sprite.left + _sprite.width) / 2) / 32;
+	
+		if (map[fretpos.y][fretpos.x] == 0)
 		{
-			// son planche
+			return 0;
 		}
-		if (map[fpos.y][fpos.x] == 1 || map[fpos2.y][fpos2.x] == 1)
+		if (map[fretpos.y][fretpos.x] == 1)
 		{
-			// son planche
+			return 1;
 		}
-		if (map[fpos.y][fpos.x] == 7 || map[fpos2.y][fpos2.x] == 7 || map[fpos.y][fpos.x] == 12 || map[fpos2.y][fpos2.x] == 12 || map[fpos.y][fpos.x] == 13 || map[fpos2.y][fpos2.x] == 13 || map[fpos.y][fpos.x] == 14 || map[fpos2.y][fpos2.x] == 14 || map[fpos.y][fpos.x] == 15 || map[fpos2.y][fpos2.x] == 15)
+		if (map[fretpos.y][fretpos.x] == 6 || map[fretpos.y][fretpos.x] == 12 ||  map[fretpos.y][fretpos.x] == 13 ||  map[fretpos.y][fretpos.x] == 14 | map[fretpos.y][fretpos.x] == 15)
 		{
-			// son grass
+			return 2;
 		}
-		if (map[fpos.y][fpos.x] == 16 || map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 17 || map[fpos2.y][fpos2.x] == 17 || map[fpos.y][fpos.x] == 18 || map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 19 || map[fpos2.y][fpos2.x] == 19)
+		if (map[fretpos.y][fretpos.x] == 16 || map[fretpos.y][fretpos.x] == 17 ||  map[fretpos.y][fretpos.x] == 18 ||  map[fretpos.y][fretpos.x] == 19)
 		{
-			// son pierre
+			return 3;
 		}
-		if (map[fpos.y][fpos.x] == 12 || map[fpos2.y][fpos2.x] == 12)
+		if (map[fretpos.y][fretpos.x] == 1)
 		{
-			// son boue
+			return 4;
 		}
 }
 
