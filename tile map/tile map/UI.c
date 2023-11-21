@@ -22,11 +22,12 @@ sfVector2f Cle1scale = { 0.80f,0.80f };
 sfVector2f Cle2scale = { 0.80f,0.80f };
 sfVector2f Cle3scale = { 0.80f,0.80f };
 	
-int nmcle = 0;
+
 float temps;
 
 void initUI()
 { // Initialisation des sprites et textures
+		nmcle = 0;
 		Cle0 = sfSprite_create();
 		Cle1 = sfSprite_create();
 		Cle2 = sfSprite_create();

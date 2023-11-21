@@ -274,7 +274,7 @@ void updateMenu(sfRenderWindow* _window)
 	}
 	timermusique6 += GetDeltaTime();
 
-	// 
+
 	sfView_setCenter(menucam,vector2f(400.f,300.f));
 
 }

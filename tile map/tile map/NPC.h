@@ -5,9 +5,9 @@
 
 
 
-void initNPC(sfRenderWindow* window);
+void initNPC();
 
-void updateNPC(sfRenderWindow* _window);
+void updateNPC();
 
 void DisplayNPC(sfRenderWindow* _window);
 

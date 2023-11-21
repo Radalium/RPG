@@ -1,7 +1,7 @@
 #pragma once
 #include "SFML/Graphics.h"
 
-
+int nmcle;
 
 void initUI();
 
