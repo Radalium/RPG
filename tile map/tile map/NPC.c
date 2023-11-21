@@ -11,7 +11,7 @@ sfVector2f NPCscale = { 0.8f,0.8f };
 float NPCanimTime = 0.0f;
 int NframeX = 0;
 sfBool isTalking = sfFalse;
-sfVector2f NPCpos = { 320.0f, 320.0f };
+sfVector2f NPCpos = { 320.0f, 120.0f };
 int parle = 0;
 float rayonNPC;
 float NPCtimer = 0.f;
@@ -19,16 +19,21 @@ sfFont* Font;
 sfText* Text;
 sfRectangleShape* rectangle;
 float thickness = 1.0f;
+char* clear = "";
 char* un = "          Link,     \n       te voila !";
 char* deux = "     J'ai besoin   \n    de ton aide !  ";
 char* trois = "   Un grand mal \nest venu s'installer";
-char* quatre = "    Tu te dois de \n    retrouver les\nmorceaux de l'orbes ";
+char* quatre = "    Tu te dois de \n    retrouver les\nmorceaux de l'orbe ";
 char* cinq = "    Elle seule te \npermettra d'ouvrir\n  la porte divine";
 char* six = "    Pour trouver\n  l'excalibur qui\n  pourra trancher\n         le mal !";
-int deroulement = 1;
+char* unun = "          Link,     \n     depeche toi !";
+char* deuxdeux = " Arrete de me\n        gaver";
+char* temple1 = "      Dirige toi\n      vers l'EST";
+int deroulement = 2;
+int spam = 0;
 int blocage2 = 0;
 
-void initNPC(sfRenderWindow* _window)
+void initNPC()
 {
 	// Initialisation du NPC
 	NPCTexture = sfTexture_createFromFile(TEXTURE_PATH"princesse.png", NULL);
@@ -55,7 +60,7 @@ void initNPC(sfRenderWindow* _window)
 }
 
 
-void updateNPC(sfRenderWindow* _window)
+void updateNPC()
 {
 
 	// Update du NPC
@@ -68,6 +73,7 @@ void updateNPC(sfRenderWindow* _window)
 		// elle parle
 
 		isTalking = sfTrue;
+		//coov(1);
 
 	}
 
@@ -75,35 +81,30 @@ void updateNPC(sfRenderWindow* _window)
 		{
 			NPCtimer += GetDeltaTime();
 			if(blocage2==0)sfText_setString(Text, un);
-			if (NPCtimer > 5.f)
+			if (NPCtimer > 5.f && spam==0)
 			{
 				switch (deroulement)
 				{
-				case 1:
-					blocage2 = 1;
-					sfText_setString(Text, deux);
-					deroulement += 1;
-					NPCtimer = 0;
-					break;
 				case 2:
 					sfText_setString(Text, deux);
 					deroulement += 1;
-					NPCtimer = -1;
+					NPCtimer = -0;
+					blocage2 = 1;
 					break;
 				case 3:
 					sfText_setString(Text, trois);
 					deroulement += 1;
-					NPCtimer = -1;
+					NPCtimer = -0;
 					break;
 				case 4:
 					sfText_setString(Text, quatre);
 					deroulement += 1;
-					NPCtimer = -1;
+					NPCtimer = -0;
 					break;
 				case 5:
 					sfText_setString(Text, cinq);
 					deroulement += 1;
-					NPCtimer = -1;
+					NPCtimer = -0;
 					break;
 				case 6:
 					sfText_setString(Text, six);
@@ -111,13 +112,35 @@ void updateNPC(sfRenderWindow* _window)
 					NPCtimer = 0;
 					break;
 				case 7:
+					sfText_setString(Text, unun);
 					isTalking = sfFalse;
-					NPCtimer + 0;
-					deroulement = 1;
-					blocage2 = 0;
+					NPCtimer = 0;
+					deroulement = 0;
+					spam = 1;
+					//coov(2);
 					break;
 				}
 			}
+			if (NPCtimer > 5.f && spam == 1)
+			{
+				sfText_setString(Text, unun);
+
+					isTalking = sfFalse;
+					spam = 2;
+					NPCtimer = 0;
+					sfText_setString(Text, temple1);
+
+
+			}
+			if (NPCtimer > 5.f && spam == 2)
+			{
+
+					isTalking = sfFalse;
+					NPCtimer = 0;
+
+
+			}
+
 				NPCanimTime += GetDeltaTime();
 			
 
