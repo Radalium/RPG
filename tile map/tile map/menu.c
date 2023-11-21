@@ -164,6 +164,7 @@ void updateMenu(sfRenderWindow* _window)
 			actualState = JOUER;
 			GameMod_cam();
 			GameMod_player();
+			sfMusic_play(forest);
 		}
 	}
 	else
