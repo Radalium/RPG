@@ -277,29 +277,35 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	}
 }
 
+float statcoffretime = 0.f;
+int statueappartition = 0;
 
 void appararitionObjet()
 {
+	
 	if (coffstat == BLEU)
 	{
-		posorbebleu.x = Pposition.x - 10.f;
-		posorbebleu.y = Pposition.y - 10.f;
+		posorbebleu.x = Pposition.x + 6.f;
+		posorbebleu.y = Pposition.y - 1.f;
 
 		sfSprite_setPosition(orbebleu, posorbebleu);
+		statueappartition = 1; 
 	}
 	if (coffstat == VERTE)
 	{
-		posorbeverte.x = Pposition.x - 10.f;
-		posorbeverte.y = Pposition.y - 10.f;
+		posorbeverte.x = Pposition.x - 1.f;
+		posorbeverte.y = Pposition.y - 1.f;
 
 		sfSprite_setPosition(orbeverte, posorbeverte);
+		statueappartition = 2;
 	}
 	if (coffstat == ROUGE)
 	{
-		posorberouge.x = Pposition.x - 10.f;
-		posorberouge.y = Pposition.y - 10.f;
+		posorberouge.x = Pposition.x - 1.f;
+		posorberouge.y = Pposition.y - 1.f;
 
 		sfSprite_setPosition(orberouge, posorberouge);
+		statueappartition = 3;
 	}
 	
 
@@ -310,9 +316,9 @@ void appararitionObjet()
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
 {
-	sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+	/*sfRenderWindow_drawSprite(_window, orbebleu, NULL);
 	sfRenderWindow_drawSprite(_window, orbeverte, NULL);
-	sfRenderWindow_drawSprite(_window, orberouge, NULL);
+	sfRenderWindow_drawSprite(_window, orberouge, NULL);*/
 
 
 	sfVector2i mousePosition;
@@ -610,9 +616,45 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			break;
 		}
 	}
-	sfRenderWindow_drawSprite(_window, orbebleu, NULL);
-	sfRenderWindow_drawSprite(_window, orbeverte, NULL);
-	sfRenderWindow_drawSprite(_window, orberouge, NULL);
+
+	statcoffretime += GetDeltaTime();
+	if (statueappartition == 1)
+	{
+		if (statcoffretime > 1.f)
+		{
+			sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+			statcoffretime = 0.f;
+		}
+		else
+		{
+			sfSprite_destroy(orbebleu);
+		}
+	}
+	if (statueappartition == 2)
+	{
+		if (statcoffretime > 1.f)
+		{
+			sfRenderWindow_drawSprite(_window, orbeverte, NULL);
+			statcoffretime = 0.f;
+		}
+		else
+		{
+			sfSprite_destroy(orbeverte);
+		}
+	}
+	if (statueappartition == 3)
+	{
+		if (statcoffretime > 1.f)
+		{
+			sfRenderWindow_drawSprite(_window, orberouge, NULL);
+			statcoffretime = 0.f;
+		}
+		else
+		{
+			sfSprite_destroy(orberouge);
+		}
+		
+	}
 
 
 
