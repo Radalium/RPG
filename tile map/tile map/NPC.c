@@ -2,7 +2,8 @@
 #define TEXTURE_PATH "../Ressources/Textures/"
 #include"tools.h"
 #include"map.h"
-
+#include "musique.h"
+#include "UI.h"
 
 sfSprite* NPC;
 sfTexture* NPCTexture;
@@ -64,7 +65,7 @@ void initNPC()
 
 
 }
-
+float timeprincesse = 0.f;
 
 void updateNPC()
 {
@@ -83,24 +84,37 @@ void updateNPC()
 
 	}
 
-		if (isTalking== sfTrue) 
+	
+
+
+	if (isTalking == sfTrue)
+	{
+		
+		if (timeprincesse > 0.5f)
 		{
+			sfSound_play(princesse);
+			timeprincesse = 0.f;
+		}
+		
+
+		
 			NPCtimer += GetDeltaTime();
 			if(blocage2==0)sfText_setString(Text, un);
-			if (NPCtimer > 5.f && spam==0)
+
+			if (NPCtimer > 2.95f)
 			{
 				switch (deroulement)
 				{
 				case 2:
 					sfText_setString(Text, deux);
 					deroulement += 1;
-					NPCtimer = -0;
 					blocage2 = 1;
+					NPCtimer = 0;
 					break;
 				case 3:
 					sfText_setString(Text, trois);
 					deroulement += 1;
-					NPCtimer = -0;
+					NPCtimer = 0;
 					break;
 				case 4:
 					sfText_setString(Text, quatre);
@@ -115,13 +129,16 @@ void updateNPC()
 				case 6:
 					sfText_setString(Text, six);
 					deroulement += 1;
-					NPCtimer = 0;
+					NPCtimer = -1;
 					break;
 				case 7:
 					sfText_setString(Text, unun);
 					isTalking = sfFalse;
 					NPCtimer = 0;
+
 					deroulement = 0;
+					blocage2 = 0;
+					nmcle = 1;
 					spam = 1;
 					//coov(2);
 					break;
@@ -149,7 +166,8 @@ void updateNPC()
 
 				NPCanimTime += GetDeltaTime();
 			
-
+				
+	
 			if (NPCanimTime > 0.08)
 			{
 				NframeX++;											// Incrémente frameX donc change de frame
@@ -160,7 +178,14 @@ void updateNPC()
 				// Application sur la texture du sprite de ce rectangle
 				NPCanimTime = 0.0f;									// Reset animTime
 			}
-		}
+	}
+	else
+	{
+		timeprincesse += GetDeltaTime();
+	}
+	
+
+
 }
 
 void DisplayNPC(sfRenderWindow* _window)
@@ -174,4 +199,6 @@ void DisplayNPC(sfRenderWindow* _window)
 	}
 	
 }
+
+
 
