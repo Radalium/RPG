@@ -3,10 +3,7 @@
 #include"tools.h"
 #include"player.h"
 
-sfSprite* chest;
-sfTexture* chesttexture;
-sfIntRect chestrect;
-sfVector2f chestpos;
+
 int iModeDeJeu;
 
 void initMap();
@@ -16,5 +13,5 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 
 void displayMap(sfRenderWindow* _window, sfView* _cam);
 
-void Openchest();
+void Openchest(int i);
 

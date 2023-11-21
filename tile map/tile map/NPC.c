@@ -33,6 +33,8 @@ int deroulement = 2;
 int spam = 0;
 int blocage2 = 0;
 
+
+
 void initNPC()
 {
 	// Initialisation du NPC
@@ -41,6 +43,7 @@ void initNPC()
 	sfSprite_setTexture(NPC, NPCTexture, sfTrue);
 	sfSprite_setScale(NPC, NPCscale);
 	sfSprite_setTextureRect(NPC, NPCrect);
+
 
 	Font = sfFont_createFromFile("..\\Ressources\\Fonts\\FinkHeavy.ttf");
 	Text = sfText_create();
@@ -57,6 +60,8 @@ void initNPC()
 	sfRectangleShape_setSize(rectangle, vector2f(50.0f, 30.0f));
 	sfRectangleShape_setOutlineThickness(rectangle,thickness);
 	sfRectangleShape_setOutlineColor(rectangle, sfBlack);
+
+
 }
 
 
@@ -146,10 +151,10 @@ void updateNPC()
 
 			if (NPCanimTime > 0.08)
 			{
-				NframeX++;											// Incrémente frameX donc change de frame
+				NframeX++;											// IncrÃ©mente frameX donc change de frame
 				if (NframeX > 1) NframeX = 0;
-				NPCrect.left = NframeX * NPCrect.width;				// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
-				NPCrect.top = 0 * NPCrect.height;					// Même chose pour la position haute
+				NPCrect.left = NframeX * NPCrect.width;				// On recalcul la position Ã  gauche du rectangle par rapport Ã  la nouvelle frame
+				NPCrect.top = 0 * NPCrect.height;					// MÃªme chose pour la position haute
 				sfSprite_setTextureRect(NPC, NPCrect);
 				// Application sur la texture du sprite de ce rectangle
 				NPCanimTime = 0.0f;									// Reset animTime
