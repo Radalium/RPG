@@ -67,14 +67,15 @@ int main()
 		}
 		else if (actualState == JOUER)
 		{
+			updateUI(camrect);
 			sfMusic_stop(menu);
 			sfMusic_stop(editeur);
 			updateNPC(window);
 			iModeDeJeu = 0;
 			GameMod_player();
-
 			updatePlayer(window);
 			updateMap(window, cam);
+			blocage3 = 1;
 
 		}
 		else if (actualState == EDITEUR)
@@ -83,6 +84,7 @@ int main()
 			EditorMod_player();
 			updateMap(window, cam);
 			updatePlayer(window);
+			blocage3 = 2;
 		}
 
 		else if (actualState == QUITTER)
@@ -100,12 +102,12 @@ int main()
 		}
 		else if (actualState == JOUER)
 		{
-			
 			displayMap(window, cam);
+			displayUI(window, cam);
 			displayCam(window);
 			displayPlayer(window);
 			DisplayNPC(window);
-			displayUI(window, cam);
+			
 			
 			
 		}

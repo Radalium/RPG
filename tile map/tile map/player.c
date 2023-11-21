@@ -16,9 +16,10 @@ int frameX = 0;
 int frameY = 0;
 sfBool isMoving = sfFalse;
 sfVector2f Pposition = { 340.0f, 340.0f };
+sfVector2f actualposJ  = { 340.0f, 340.0f };
 sfVector2f vitesse = { 75.0f, 75.0f };
-
 float letemps = 0.0f;
+int blocage3 = 0;
 
 float rayon1;
 int chestouverture=0;
@@ -34,11 +35,11 @@ void initPlayer()
 	sfSprite_setTextureRect(player, irect);
 }
 
-void animpcoffre(i)
+void animpcoffre(int i)
 {
 	frameY = i;
 }
-void updatePlayer(sfRenderWindow* _window)
+void updatePlayer()
 {
 	
 
@@ -52,6 +53,12 @@ void updatePlayer(sfRenderWindow* _window)
 		iModeDeJeu = 0;
 		actualState = MENU;
 		sfMusic_play(menu);
+
+		if (blocage3 == 1)
+		{
+			actualposJ.x = Pposition.x;
+			actualposJ.y = Pposition.y;
+		}
 	}
 
 	isMoving = sfFalse;
@@ -144,14 +151,14 @@ void updatePlayer(sfRenderWindow* _window)
 	{
 		if (letemps > 0.4f )
 		{
-			onestsurquelcase(player);
+			//onestsurquelcase(player);
 			letemps = 0.0f;
 		}
 	}
 	letemps += GetDeltaTime();
 	
 
-	updateUI(Pposition);
+	
 }
 
 
@@ -184,6 +191,7 @@ void GameMod_player()
 	
 
 	// Joueur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode
+
 	scale.x = 0.8f;
 	scale.y = 0.8f;
 	vitesse.x = 75.f;

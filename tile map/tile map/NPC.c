@@ -30,6 +30,7 @@ char* six = "    Pour trouver\n  l'excalibur qui\n  pourra trancher\n         le
 char* unun = "          Link,     \n     depeche toi !";
 char* deuxdeux = " Arrete de me\n        gaver";
 char* temple1 = "      Dirige toi\n      vers l'EST";
+char* easter = "    Je vais te\n      MANGER";
 int deroulement = 2;
 int spam = 0;
 int blocage2 = 0;
@@ -80,7 +81,7 @@ void updateNPC()
 		// elle parle
 
 		isTalking = sfTrue;
-		//coov(1);
+		couv(1);
 
 	}
 
@@ -137,10 +138,9 @@ void updateNPC()
 					NPCtimer = 0;
 
 					deroulement = 0;
-					blocage2 = 0;
 					nmcle = 1;
 					spam = 1;
-					//coov(2);
+					couv(0);
 					break;
 				}
 			}
@@ -152,14 +152,28 @@ void updateNPC()
 					spam = 2;
 					NPCtimer = 0;
 					sfText_setString(Text, temple1);
-
+					couv(0);
 
 			}
 			if (NPCtimer > 5.f && spam == 2)
 			{
 
 					isTalking = sfFalse;
+					spam = 3;
 					NPCtimer = 0;
+					couv(0);
+					sfText_setString(Text, easter);
+
+
+			}
+			if (NPCtimer > 5.f && spam == 3)
+			{
+
+				isTalking = sfFalse;
+				spam = 3;
+				NPCtimer = 0;
+				couv(0);
+
 
 
 			}

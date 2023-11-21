@@ -593,9 +593,9 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 
 		case HAUT:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
-			fpos.y = (_sprite.top - 2 + _vitesse.y * GetDeltaTime()) / 32;
+			fpos.y = (_sprite.top + 8 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _vitesse.x * GetDeltaTime()) / 32;
-			fpos2.y = (_sprite.top - 2 + _vitesse.y * GetDeltaTime()) / 32;
+			fpos2.y = (_sprite.top + 8 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.width + _sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 			
 			// Si la case est 5 4 3 9 alors, on renvoie vrai
@@ -632,7 +632,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			break;
 		case DROITE:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
-			fpos.y = (_sprite.top + _vitesse.y * GetDeltaTime()) / 32;
+			fpos.y = (_sprite.top +10+ _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
@@ -654,7 +654,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
 			fpos.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
-			fpos2.y = (_sprite.top + _vitesse.y * GetDeltaTime()) / 32;
+			fpos2.y = (_sprite.top +10 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 8 alors, on renvoie vrai

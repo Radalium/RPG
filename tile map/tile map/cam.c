@@ -4,8 +4,8 @@
 #include "map.h"
 
 int Editor = 0;
-sfVector2f camrect = {200.f ,150.f };
 
+sfVector2f camrect = { 200.f , 150.f };
 
 void initCam()
 {
@@ -39,6 +39,7 @@ void updateCam(sfVector2f _playerpos)
 		camrect.y = sicam.y;
 		sfView_setSize(cam, camrect);
 	}
+
 
 	// Update de la view
 
