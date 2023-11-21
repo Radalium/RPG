@@ -1,12 +1,15 @@
 #include "musique.h"
 #include "tools.h"
 
+// Initialisation des variables et define pour les chemins
+
 #define MUSIQUE_PATH "../Ressources/Musics/"
 #define SOUND_PATH "../Ressources/SoundsFX/"
 
 
 void initMusique()
-{
+{	
+	// Initialisation des musiques et des sons
 	volume = 100;
 	porte = sfMusic_createFromFile(MUSIQUE_PATH"ouvertureporte.ogg");
 	menu = sfMusic_createFromFile(MUSIQUE_PATH"musiquemenu.ogg");
@@ -40,7 +43,6 @@ void initMusique()
 	sfSound_setLoop(placement, sfFalse);
 	sfSound_setLoop(princesse, sfFalse);
 
-
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
@@ -54,7 +56,7 @@ void initMusique()
 
 
 void updateMusique()
-{
+{ // Update des musiques et des sons
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
