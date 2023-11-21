@@ -546,6 +546,37 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 
 }
 
+void onestsurquelcase(sfFloatRect _sprite)
+{
+	sfVector2i fpos;
+	sfVector2i fpos2;
+
+	fpos.y = (_sprite.top + _sprite.height);
+	fpos.x = (_sprite.left);
+	fpos2.y = (_sprite.top + _sprite.height);
+	fpos2.x = (_sprite.left + _sprite.width);
+		if (map[fpos.y][fpos.x] == 0 || map[fpos2.y][fpos2.x] == 0)
+		{
+			// son planche
+		}
+		if (map[fpos.y][fpos.x] == 1 || map[fpos2.y][fpos2.x] == 1)
+		{
+			// son planche
+		}
+		if (map[fpos.y][fpos.x] == 7 || map[fpos2.y][fpos2.x] == 7 || map[fpos.y][fpos.x] == 12 || map[fpos2.y][fpos2.x] == 12 || map[fpos.y][fpos.x] == 13 || map[fpos2.y][fpos2.x] == 13 || map[fpos.y][fpos.x] == 14 || map[fpos2.y][fpos2.x] == 14 || map[fpos.y][fpos.x] == 15 || map[fpos2.y][fpos2.x] == 15)
+		{
+			// son grass
+		}
+		if (map[fpos.y][fpos.x] == 16 || map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 17 || map[fpos2.y][fpos2.x] == 17 || map[fpos.y][fpos.x] == 18 || map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 19 || map[fpos2.y][fpos2.x] == 19)
+		{
+			// son pierre
+		}
+		if (map[fpos.y][fpos.x] == 12 || map[fpos2.y][fpos2.x] == 12)
+		{
+			// son boue
+		}
+}
+
 
 sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 {
@@ -578,6 +609,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 				return sfTrue + 1;
 			}
 			else return sfFalse;
+			
 			break;
 		case BAS:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer

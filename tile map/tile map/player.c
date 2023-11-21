@@ -144,7 +144,7 @@ void updatePlayer(sfRenderWindow* _window)
 	{
 		if (letemps > 0.4f )
 		{
-			sfSound_play(pas);
+			onestsurquelcase(player);
 			letemps = 0.0f;
 		}
 	}
