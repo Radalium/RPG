@@ -23,7 +23,7 @@ sfSprite* FragmentedOrb;
 sfTexture* FragmentedOrbTexture;
 sfIntRect FragmentedOrbrect = {0,0,22,22};
 sfVector2f FragmentedOrbPos;
-
+int frameY1=0;
 
 
 sfSprite* tileSprite;
@@ -50,7 +50,7 @@ void initMap()
 {
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
 	fichier = fopen("MAP.bin", "r");
-	fread(map, sizeof(char), 12000, fichier);
+	fread(map, sizeof(char), 15000, fichier);
 	fclose(fichier);
 
 	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
@@ -157,14 +157,20 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 
 		// Si le bouton droit de la souris est pressée alors on change ntile 
-		if (sfMouse_isButtonPressed(sfMouseRight) && timer > 0.3f)
+		if (sfMouse_isButtonPressed(sfMouseRight) && timer > 0.5f)
 		{
 			timer = 0.0f;
 			ntile++;
-			if (ntile > 15)
+			if (ntile > 35)
 				ntile = 0;
 		}
-
+		if (sfKeyboard_isKeyPressed(sfKeySpace) && timer > 0.5f)
+		{
+			timer = 0.0f;
+			ntile--;
+			if (ntile < 0)
+				ntile = 35;
+		}
 		// Si la touche I est pressée alors on change la taille du pinceau
 		if (sfKeyboard_isKeyPressed(sfKeyI) && timer > 0.3f)
 		{
@@ -399,6 +405,166 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfSprite_setTextureRect(tileSprite, tileRect);
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
+			case 16:
+				tileRect.left = 32 * 17;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 17 :
+				tileRect.left = 32 * 18;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;	
+			case 18:
+				tileRect.left = 32 * 19;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 19:
+				tileRect.left = 32 * 20;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 20:
+				tileRect.left = 32 * 21;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 21:
+				tileRect.left = 32 * 22;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 22:
+				tileRect.left = 32 * 23;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 23:
+				tileRect.left = 32 * 24;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 24:
+				tileRect.left = 32 * 25;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 25:
+				tileRect.left = 32 * 26;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 26:
+				tileRect.left = 32 * 27;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 27:
+				tileRect.left = 32 * 28;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 28:
+				tileRect.left = 32 * 29;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 29:
+				tileRect.left = 32 * 30;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 30:
+				tileRect.left = 32 * 31;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 31:
+				tileRect.left = 32 * 32;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case  32:
+				tileRect.left = 32 * 33;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 33:
+				tileRect.left = 32 * 34;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 34:
+				tileRect.left = 32 * 35;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 35:
+				tileRect.left = 32 * 36;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
 			}
 		}
 	}
@@ -407,6 +573,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 
 	if (iModeDeJeu == 1)
 	{	// Si le mode de jeu est en mode édition alors on affiche la selection du pinceau
+	
 		switch (ntile)
 		{
 		case 0:
@@ -537,13 +704,168 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			sfSprite_setTextureRect(tileSprite, tileRect);
 			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 			break;
+		case 16 :
+			tileRect.left = 32 * 17;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 17:
+			tileRect.left = 32 * 18;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 18:
+			tileRect.left = 32 * 19;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 19:
+			tileRect.left = 32 * 20;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 20:
+			tileRect.left = 32 * 21;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 21:	
+			tileRect.left = 32 * 22;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+			case 22:
+			tileRect.left = 32 * 23;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 23:
+			tileRect.left = 32 * 24;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 24:
+			tileRect.left = 32 * 25;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 25:
+			tileRect.left = 32 * 26;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 26:
+			tileRect.left = 32 * 27;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;	
+		case 27:
+			tileRect.left = 32 * 28;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 28:
+			tileRect.left = 32 * 29;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 29:
+			tileRect.left = 32 * 30;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case  30:
+			tileRect.left = 32 * 31;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 31:
+			tileRect.left = 32 * 32;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 32:
+			tileRect.left = 32 * 33;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 33:
+			tileRect.left = 32 * 34;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 34:
+			tileRect.left = 32 * 35;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 35:
+			tileRect.left = 32 * 36;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
 		}
 	}
-
-
-
-
-
 }
 
 
