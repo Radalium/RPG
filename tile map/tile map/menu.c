@@ -219,17 +219,18 @@ void updateMenu(sfRenderWindow* _window)
 		sfSprite_setColor(Bouton_Quitter, sfColor_fromRGBA(255, 255, 255, 255));
 	}
 
+	// Detection si la souris est sur le bloc
 	if (sfFloatRect_contains(&rectsonplus, mousepos.x, mousepos.y))
 	{
 		if (timermusique3 > 0.15f)
-		{
+		{ // Joue le son menu2
 			sfSound_play(menu2);
 			timermusique3 = 0.f;
 		}
 		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 200));
 		if (sfMouse_isButtonPressed(sfMouseLeft) && volume < 100)
 		{
-			
+			// Si le bouton gauche de la souris est preser et que le volume est inferieur a 100 cela augmente le volume
 			if (timermusique5 > 0.1f)
 			{	
 				
@@ -240,23 +241,24 @@ void updateMenu(sfRenderWindow* _window)
 	}
 	else
 	{
-	timermusique3 += GetDeltaTime();
+		timermusique3 += GetDeltaTime();
 		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 255));
 	}
 	
 	timermusique5 += GetDeltaTime();
 
+	// Detection si la souris est sur le bloc
 	if (sfFloatRect_contains(&rectsonmoins, mousepos.x, mousepos.y))
 	{
 		if (timermusique4 > 0.15f)
-		{
+		{ // Joue le son menu2
 			sfSound_play(menu2);
 			timermusique4 = 0.f;
 		}
 
 		sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 200));
 		if (sfMouse_isButtonPressed(sfMouseLeft) && volume > 0)
-		{
+		{// Si le bouton gauche de la souris est preser et que le volume est superieur a 0 cela diminue le volume
 			if (timermusique6 > 0.05f)
 			{
 				volume -= 10;
@@ -270,8 +272,9 @@ void updateMenu(sfRenderWindow* _window)
 		
 		sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 255));
 	}
-timermusique6 += GetDeltaTime();
+	timermusique6 += GetDeltaTime();
 
+	// 
 	sfView_setCenter(menucam,vector2f(400.f,300.f));
 
 }
