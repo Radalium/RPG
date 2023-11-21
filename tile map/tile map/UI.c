@@ -1,7 +1,7 @@
 #include "UI.h"
 #include "tools.h"
 
-
+// Initialisation des variables
 sfSprite* Cle0;
 sfSprite* Cle1;
 sfSprite* Cle2;
@@ -26,7 +26,7 @@ int nmcle = 0;
 float temps;
 
 void initUI()
-{
+{ // Initialisation des sprites et textures
 		Cle0 = sfSprite_create();
 		Cle1 = sfSprite_create();
 		Cle2 = sfSprite_create();
@@ -59,11 +59,11 @@ void initUI()
 	
 
 }
-
+// Fonction qui permet de mettre a jour les sprites
 temps = 0;
 void updateUI(sfVector2f _playerpos)
 {
-
+	// Update des sprites en fonction du nombre de cle
 	temps += GetDeltaTime();
 	if (sfKeyboard_isKeyPressed(sfKeyY) && temps > 0.1f)
 	{
@@ -103,20 +103,20 @@ void updateUI(sfVector2f _playerpos)
 
 
 void displayUI(sfRenderWindow* _window, sfView* _cam)
-{
-	if (nmcle == 0)
+{	// Affichage des sprites en fonction du nombre de cle
+	if (nmcle == 1)
 	{
 		sfRenderWindow_drawSprite(_window, Cle0, NULL);
 	}
-	if (nmcle == 1)
+	if (nmcle == 2)
 	{
 		sfRenderWindow_drawSprite(_window, Cle1, NULL);
 	}
-	if (nmcle == 2)
+	if (nmcle == 3)
 	{
 		sfRenderWindow_drawSprite(_window, Cle2, NULL);
 	}
-	if (nmcle == 3)
+	if (nmcle == 4)
 	{
 		sfRenderWindow_drawSprite(_window, Cle3, NULL);
 	}

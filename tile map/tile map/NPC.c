@@ -35,6 +35,7 @@ int blocage2 = 0;
 
 
 
+
 void initNPC()
 {
 	// Initialisation du NPC
