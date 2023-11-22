@@ -20,9 +20,11 @@ sfVector2f actualposJ  = { 340.0f, 340.0f };
 sfVector2f vitesse = { 75.0f, 75.0f };
 float letemps = 0.0f;
 
+int backtile;
+int actualTile;
+
 int blocage3 = 0;
 
-int backtile = 0;
 
 
 float rayon1;
@@ -153,42 +155,38 @@ void updatePlayer()
 	}
 	updateCam(Pposition);
 
-	if (isMoving == sfTrue && actualState == JOUER)
+if (isMoving == sfTrue && actualState == JOUER)
+{
+	
+	//if (letemps > 0.5f)
+	//backtile = onestsurquelcase(playerfrect);
+
+	if (letemps > 0.5f)
 	{
-		if (letemps > 0.5f)
-		backtile = onestsurquelcase(playerfrect);
-
-		if (letemps > 0.5f)
+		actualTile = onestsurquelcase(playerfrect);
+		if (actualTile != backtile)
 		{
-			sfMusic_stop(pasplanche);
-			sfMusic_stop(pasterre);
-			sfMusic_stop(passable);
+			sfSound_stop(pasplanche);
+			sfSound_stop(pasterre);
+			sfSound_stop(passable);
 			sfSound_stop(paspierre);
-
-		}
-
-		if (letemps > 0.5f && onestsurquelcase != backtile)
-		{
-
-			//onestsurquelcase(player);
-
-			if (onestsurquelcase(playerfrect) == 0)
+			if (actualTile == 0)
 			{
-				sfMusic_play(pasplanche);
+				sfSound_play(pasplanche);
 			}
-			else if (onestsurquelcase(playerfrect) == 1)
+			else if (actualTile == 1)
 			{
-				sfMusic_play(pasterre);
+				sfSound_play(pasterre);
 			}
-			else if (onestsurquelcase(playerfrect) == 2)
+			else if (actualTile == 2)
 			{
-				sfMusic_play(passable);
+				sfSound_play(passable);
 			}
-			else if (onestsurquelcase(playerfrect) == 3)
+			else if (actualTile == 3)
 			{
 				/*sfMusic_play(pasbois);*/
 			}
-			else if (onestsurquelcase(playerfrect) == 4)
+			else if (actualTile == 4)
 			{
 				sfSound_play(paspierre);
 			}
@@ -217,21 +215,20 @@ void updatePlayer()
 			{
 				sfMusic_play(pasbois);
 			}*/
-
 			letemps = 0.0f;
 		}
 	}
-	else
-	{
-		sfMusic_stop(pasplanche);
-		sfMusic_stop(pasterre);
-		sfMusic_stop(passable);
-		sfSound_stop(paspierre);	
-	}
-	letemps += GetDeltaTime();
-	
-
-	
+}
+  else
+  {
+    sfSound_stop(pasplanche);
+    sfSound_stop(pasterre);
+    sfSound_stop(passable);
+    sfSound_stop(paspierre);
+  }
+  letemps += GetDeltaTime();
+  backtile = actualTile;
+  updateUI(Pposition);
 }
 
 

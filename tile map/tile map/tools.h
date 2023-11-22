@@ -16,7 +16,8 @@ typedef enum state
 	MENU = 0,
 	JOUER,
 	EDITEUR,
-	QUITTER
+	QUITTER,
+	TOUCHES
 } state;
 
 state actualState;

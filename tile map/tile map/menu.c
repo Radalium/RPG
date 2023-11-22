@@ -15,6 +15,8 @@ sfVector2f posquit = { 400.f, 550.f };
 sfVector2f possonplus = { 350.f, 630.f };
 sfVector2f possonmoins = { 250.f, 630.f };
 sfVector2f posbackground = { -150.0f,0.0f };
+sfVector2f posspointintero = { 750.f,560.f };
+sfVector2f possfondtouche = { 400.f,300.f };
 
 sfVector2f scalejouer = { 0.5f,0.5f };
 sfVector2f scaleback = { 0.2f,0.2f };
@@ -23,13 +25,15 @@ sfVector2f scaleedit = { 0.75f,0.75f };
 sfVector2f scalequit = { 0.5f,0.5f };
 sfVector2f scalsonplus = { 1.f,1.f };
 sfVector2f scalsonmoins = { 1.f,1.f };
-
+sfVector2f scalepointintero = { 0.25f,0.25f };
+sfVector2f scalefondtouche = { 1.f,1.f };
 
 sfFloatRect rectjouer;
 sfFloatRect rectedit;
 sfFloatRect rectquitter;
 sfFloatRect rectsonplus;
 sfFloatRect rectsonmoins;
+sfFloatRect rectpointintero;
 
 sfVector2i mousepos;
 
@@ -41,6 +45,8 @@ sfSprite* Bouton_Quitter;
 sfSprite* Sonplus;
 sfSprite* Sonmoins;
 sfSprite* Soncouper;
+sfSprite* pointintero;
+sfSprite* fondtouche;
 
 sfTexture* LogoTexture;
 sfTexture* Bouton_JouerTexture;
@@ -50,10 +56,14 @@ sfTexture* Background_Texture;
 sfTexture* SonplusTexture;
 sfTexture* SonmoinsTexture;
 sfTexture* SoncouperTexture;
+sfTexture* pointinteroTexture;
+sfTexture* fondtoucheTexture;
+
+int demandetouches = 0; 
 
 sfView* menucam;
 sfVector2f menurectcam = { 800.f ,600.f };
-float timermusique, timermusique1, timermusique2, timermusique3, timermusique4, timermusique5, timermusique6 = 0.f;
+float timermusique, timermusique1, timermusique2, timermusique3, timermusique4, timermusique5, timermusique6, timermusique7, timermusique8 = 0.f;
 
 
 
@@ -75,6 +85,8 @@ void initMenu()
 	Sonplus = sfSprite_create();
 	Sonmoins = sfSprite_create();
 	Soncouper = sfSprite_create();
+	pointintero = sfSprite_create();
+	fondtouche = sfSprite_create();
 
 
 	// initialisation des textures
@@ -86,6 +98,8 @@ void initMenu()
 	SonplusTexture = sfTexture_createFromFile(TEXTURE_PATH"sonplus.png", NULL);
 	SonmoinsTexture = sfTexture_createFromFile(TEXTURE_PATH"sonmoins.png", NULL);
 	SoncouperTexture = sfTexture_createFromFile(TEXTURE_PATH"soncouper.png", NULL);
+	pointinteroTexture = sfTexture_createFromFile(TEXTURE_PATH"pointintero.png", NULL);
+	fondtoucheTexture = sfTexture_createFromFile(TEXTURE_PATH"touche.png", NULL);
 
 	// Application des textures aux sprites
 	sfSprite_setTexture(Logo, LogoTexture, sfTrue);
@@ -96,6 +110,8 @@ void initMenu()
 	sfSprite_setTexture(Sonmoins, SonmoinsTexture, sfTrue);
 	sfSprite_setTexture(Sonplus, SonplusTexture, sfTrue);
 	sfSprite_setTexture(Soncouper, SoncouperTexture, sfTrue);
+	sfSprite_setTexture(pointintero, pointinteroTexture, sfTrue);
+	sfSprite_setTexture(fondtouche, fondtoucheTexture, sfTrue);
 
 	// Placement du point d'origine des sprites
 	sfSprite_setOrigin(Logo, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
@@ -106,6 +122,8 @@ void initMenu()
 	sfSprite_setOrigin(Sonmoins, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
 	sfSprite_setOrigin(Sonplus, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
 	sfSprite_setOrigin(Soncouper, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
+	sfSprite_setOrigin(pointintero, vector2f(sfSprite_getGlobalBounds(pointintero).width / 2, sfSprite_getGlobalBounds(pointintero).height / 2));
+	sfSprite_setOrigin(fondtouche, vector2f(sfSprite_getGlobalBounds(fondtouche).width / 2, sfSprite_getGlobalBounds(fondtouche).height / 2));
 
 	// Placement des sprites
 	sfSprite_setPosition(Bouton_Jouer, posjouer);
@@ -114,6 +132,8 @@ void initMenu()
 	sfSprite_setPosition(Background, posbackground);
 	sfSprite_setPosition(Sonplus, possonplus);
 	sfSprite_setPosition(Sonmoins, possonmoins);
+	sfSprite_setPosition(pointintero, posspointintero);
+	sfSprite_setPosition(fondtouche, possfondtouche);
 
 	// Mise à l'échelle des sprites
 	sfSprite_setScale(Background, scaleback);
@@ -122,6 +142,8 @@ void initMenu()
 	sfSprite_setScale(Bouton_Quitter, scalequit);
 	sfSprite_setScale(Sonplus, scalsonplus);
 	sfSprite_setScale(Sonmoins, scalsonmoins);
+	sfSprite_setScale(pointintero, scalepointintero);
+
 
 	// Récupération des rectangles de collision
 	rectjouer = sfSprite_getGlobalBounds(Bouton_Jouer);
@@ -129,6 +151,7 @@ void initMenu()
 	rectquitter = sfSprite_getGlobalBounds(Bouton_Quitter);
 	rectsonplus = sfSprite_getGlobalBounds(Sonplus);
 	rectsonmoins = sfSprite_getGlobalBounds(Sonmoins);
+	rectpointintero = sfSprite_getGlobalBounds(pointintero);
 	sfMusic_play(menu);
 }
 
@@ -250,6 +273,31 @@ void updateMenu(sfRenderWindow* _window)
 	
 	timermusique5 += GetDeltaTime();
 
+	if (sfFloatRect_contains(&rectpointintero, mousepos.x, mousepos.y))
+	{
+		if (timermusique7 > 0.15f)
+		{ // Joue le son menu2
+			sfSound_play(menu2);
+			timermusique7 = 0.f;
+		}
+		sfSprite_setColor(pointintero, sfColor_fromRGBA(255, 255, 255, 200));
+	
+		if (sfMouse_isButtonPressed(sfMouseLeft))
+		{
+			if (timermusique8 > 0.15f)
+			{
+				demandetouches = 1;
+				timermusique8 = 0.f;
+			}
+		}
+	}
+	else
+	{
+		timermusique7 += GetDeltaTime();
+		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 255));
+	}
+	timermusique8 += GetDeltaTime();
+
 	// Detection si la souris est sur le bloc
 	if (sfFloatRect_contains(&rectsonmoins, mousepos.x, mousepos.y))
 	{
@@ -277,6 +325,10 @@ void updateMenu(sfRenderWindow* _window)
 	}
 	timermusique6 += GetDeltaTime();
 
+	if (sfKeyboard_isKeyPressed(sfKeyEscape))
+	{
+		demandetouches = 0;
+	}
 
 	sfView_setCenter(menucam,vector2f(400.f,300.f));
 
@@ -285,6 +337,9 @@ void updateMenu(sfRenderWindow* _window)
 void DisplayMenu(sfRenderWindow* _window)
 {
 	// Affichage des boutons / logo / background
+	if (demandetouches == 0)
+	{
+	
 	sfRenderWindow_drawSprite(_window, Background, NULL);
 	sfRenderWindow_drawSprite(_window, Logo, NULL);
 	sfRenderWindow_drawSprite(_window, Bouton_Jouer, NULL);
@@ -292,6 +347,12 @@ void DisplayMenu(sfRenderWindow* _window)
 	sfRenderWindow_drawSprite(_window, Bouton_Quitter, NULL);
 	sfRenderWindow_drawSprite(_window, Sonplus, NULL);
 	sfRenderWindow_drawSprite(_window, Sonmoins, NULL);
+	sfRenderWindow_drawSprite(_window, pointintero, NULL);
+	}
+	if (demandetouches == 1)
+	{
+		sfRenderWindow_drawSprite(_window, fondtouche, NULL);
+	}
 	sfRenderWindow_setView(_window, menucam);
 	
 

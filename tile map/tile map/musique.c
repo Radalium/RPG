@@ -14,9 +14,7 @@ void initMusique()
 	porte = sfMusic_createFromFile(MUSIQUE_PATH"ouvertureporte.ogg");
 	menu = sfMusic_createFromFile(MUSIQUE_PATH"musiquemenu.ogg");
 	editeur = sfMusic_createFromFile(MUSIQUE_PATH"musiqueediteur.ogg");
-	pasplanche = sfMusic_createFromFile(MUSIQUE_PATH"pasplanche.ogg");
-	passable = sfMusic_createFromFile(MUSIQUE_PATH"passable.ogg");
-	pasterre = sfMusic_createFromFile(MUSIQUE_PATH"pasterre.ogg");
+
 	forest = sfMusic_createFromFile(MUSIQUE_PATH"forest.ogg");
 
 	coffre2 = sfSound_create();
@@ -26,6 +24,11 @@ void initMusique()
 	princesse = sfSound_create();
 	paspierre = sfSound_create();
 	pasdalle = sfSound_create();
+	pasplanche = sfSound_create();
+	pasterre = sfSound_create();
+	passable = sfSound_create();
+	
+
 
 
 	coffrebuf = sfSoundBuffer_createFromFile(SOUND_PATH"coffreouverture.ogg");
@@ -35,6 +38,9 @@ void initMusique()
 	princessebuf = sfSoundBuffer_createFromFile(SOUND_PATH"princesseparle.ogg");
 	paspierrebuf = sfSoundBuffer_createFromFile(SOUND_PATH"paspierre.ogg");
 	pasdallebuf = sfSoundBuffer_createFromFile(SOUND_PATH"pasdalle.ogg");
+	pasplanchebuf = sfSoundBuffer_createFromFile(SOUND_PATH"pasplanche.ogg");
+	passablebuf = sfSoundBuffer_createFromFile(SOUND_PATH"passable.ogg");
+	pasterrebuf = sfSoundBuffer_createFromFile(SOUND_PATH"pasterre.ogg");
 
 	sfSound_setBuffer(coffre2, coffrebuf);
 	sfSound_setBuffer(menu2, menubuf);
@@ -43,13 +49,13 @@ void initMusique()
 	sfSound_setBuffer(princesse, princessebuf);
 	sfSound_setBuffer(paspierre, paspierrebuf);
 	sfSound_setBuffer(pasdalle, pasdallebuf);
+	sfSound_setBuffer(pasplanche, pasplanchebuf);
+	sfSound_setBuffer(passable, passablebuf);
+	sfSound_setBuffer(pasterre, pasterrebuf);
 
 	sfMusic_setLoop(porte, sfFalse);
 	sfMusic_setLoop(menu, sfTrue);
 	sfMusic_setLoop(editeur, sfTrue);
-	sfMusic_setLoop(pasplanche, sfTrue);
-	sfMusic_setLoop(passable, sfTrue);
-	sfMusic_setLoop(pasterre, sfTrue);
 	sfMusic_setLoop(forest, sfTrue);
 
 
@@ -65,9 +71,7 @@ void initMusique()
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
-	sfMusic_setVolume(pasplanche, volume);
-	sfMusic_setVolume(passable, volume);
-	sfMusic_setVolume(pasterre, volume);
+	
 	sfMusic_setVolume(forest, volume);
 
 
@@ -78,6 +82,9 @@ void initMusique()
 	sfSound_setVolume(princesse, volume);
 	sfSound_setVolume(paspierre, volume);
 	sfSound_setVolume(pasdalle, volume);
+	sfSound_setVolume(pasplanche, volume);
+	sfSound_setVolume(passable, volume);
+	sfSound_setVolume(pasterre, volume);
 
 	
 }
@@ -86,11 +93,8 @@ void initMusique()
 void updateMusique()
 { // Update des musiques et des sons pour la musique et les sons
 	sfMusic_setVolume(porte, volume);
-	sfMusic_setVolume(menu, volume);
+	sfMusic_setVolume(menu, 1);
 	sfMusic_setVolume(editeur, volume);
-	sfMusic_setVolume(pasplanche, volume);
-	sfMusic_setVolume(passable, volume);
-	sfMusic_setVolume(pasterre, volume);
 	sfMusic_setVolume(forest, volume);
 
 	sfSound_setVolume(coffre2, volume);
@@ -100,5 +104,8 @@ void updateMusique()
 	sfSound_setVolume(princesse, volume);
 	sfSound_setVolume(paspierre, volume);
 	sfSound_setVolume(pasdalle, volume);
+	sfSound_setVolume(pasplanche, volume);
+	sfSound_setVolume(passable, volume);
+	sfSound_setVolume(pasterre, volume);
 
 }

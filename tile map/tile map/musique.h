@@ -5,9 +5,6 @@
 sfMusic* porte;
 sfMusic* menu;
 sfMusic* editeur;
-sfMusic* pasplanche;
-sfMusic* passable;
-sfMusic* pasterre;
 sfMusic* forest;
 
 sfSound* coffre2;
@@ -17,6 +14,10 @@ sfSound* placement;
 sfSound* princesse;
 sfSound* paspierre;
 sfSound* pasdalle;
+sfSound* pasplanche;
+sfSound* passable;
+sfSound* pasterre;
+
 
 sfSoundBuffer* coffrebuf;
 sfSoundBuffer* menubuf;
@@ -25,6 +26,9 @@ sfSoundBuffer* placementbuf;
 sfSoundBuffer* princessebuf;
 sfSoundBuffer* paspierrebuf;
 sfSoundBuffer* pasdallebuf;
+sfSoundBuffer* pasplanchebuf;
+sfSoundBuffer* passablebuf;
+sfSoundBuffer* pasterrebuf;
 
 int volume;
 
