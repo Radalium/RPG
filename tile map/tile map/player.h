@@ -19,8 +19,9 @@ enum  Direction
 Direction direction;
 
 sfVector2f Pposition;
-
-void updatePlayer(sfRenderWindow* _window);
+sfVector2f actualposJ;
+void updatePlayer();
+int blocage3;
 
 void displayPlayer(sfRenderWindow* _window);
 void EditorMod_player();
@@ -32,5 +33,7 @@ sfBool CalculD(sfVector2f _obj, float _rayon2);
 
 sfBool CalculD(sfVector2f _obj, float _rayon2);
 void couv(int _chestouvert);
+
 void animpcoffre(int _i);
+
 

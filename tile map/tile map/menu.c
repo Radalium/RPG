@@ -162,6 +162,8 @@ void updateMenu(sfRenderWindow* _window)
 			
 			// Changement du statut de jeu
 			actualState = JOUER;
+			Pposition.x = actualposJ.x;
+			Pposition.y = actualposJ.y;
 			GameMod_cam();
 			GameMod_player();
 			sfMusic_play(forest);
