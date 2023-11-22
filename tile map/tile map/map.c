@@ -26,9 +26,13 @@ struct Cchest
 	int ChestState;
 };
 Cchest ch[3];
+int blocage_coffre = 0;
+int nombrecoffre;
 int NChest=0;
 float CRayon = 16;
 
+int nombre_NPC = 0;
+int nombre_joueur = 0;
 sfSprite* FragmentedOrb;
 sfTexture* FragmentedOrbTexture;
 sfIntRect FragmentedOrbrect = {0,0,22,22};
@@ -50,10 +54,10 @@ FILE* fichier;
 char map[60][200];
 
 
-sfSprite* chest;
-sfTexture* chesttexture;
-sfIntRect chestrect;
-sfVector2f chestpos;
+//sfSprite* chest;
+//sfTexture* chesttexture;
+//sfIntRect chestrect;
+//sfVector2f chestpos;
 
 
 sfVector2f posorbebleu = { 0.0f,0.0f };
@@ -133,15 +137,51 @@ void initMap()
 	tileRect.height = 32;
 }
 
-int compteur=0;
+
 int blocage = 0;
 int numerochest;
 int coffre = 0;
 float timer2 = 0.0f;
 float timer = 0.0f;
 int TailleBrush = 0;
+float timer_coffre = 0.f;
 
-
+int combien_de_coffre()
+{
+		nombrecoffre = 0;
+		for (int y = 0; y < 60; y++)
+		{
+			for (int x = 0; x < 200; x++)
+			{
+				if (map[y][x] == 5) nombrecoffre++;
+			}
+		}
+		return nombrecoffre;
+}
+int combien_de_PNJ()
+{
+	nombre_NPC = 0;
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 7) nombre_NPC++;
+		}
+	}
+	return nombre_NPC;
+}
+int combien_de_joueur()
+{
+	nombre_joueur = 0;
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 9) nombre_joueur++;
+		}
+	}
+	return nombre_joueur;
+}
 
 void updateMap(sfRenderWindow* _window, sfView* _cam)
 {
@@ -169,30 +209,44 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	// Gestion de l'édition de la map
 	if (iModeDeJeu == 1)
 	{
-		
+		blocage_coffre = 0;
 		// Affichage du mode édition pour la map 
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
-			// Si le bouton gauche de la souris est presser alors on change la case de la mapdddd
+			// Si le bouton gauche de la souris est presser alors on change la case de la map
 			if (sfMouse_isButtonPressed(sfMouseLeft) && timer > 0.1f)
 			{
+				// Gestion de la taille du pinceau 1x1
 				timer = 0.f;
-				if (TailleBrush == 0)
+				if (TailleBrush == 0 )
 				{
-					// Gestion de la taille du pinceau 1x1
-					map[Tposition.y][Tposition.x] = ntile;
+					if (ntile == 5)
+					{
+						if(combien_de_coffre() <3)map[Tposition.y][Tposition.x] = ntile;
+					}
+					else if (ntile == 7)
+					{
+						if(combien_de_PNJ() < 1 )map[Tposition.y][Tposition.x] = ntile;
+					}
+					else if (ntile == 9)
+					{
+						if (combien_de_joueur() < 1)map[Tposition.y][Tposition.x] = ntile;
+					}
+					else map[Tposition.y][Tposition.x] = ntile;
 				}
-				if (TailleBrush == 1)
-				{	// Gestion de la taille du pinceau 3x3
-					map[Tposition.y + 1][Tposition.x] = ntile;
-					map[Tposition.y - 1][Tposition.x] = ntile;
-					map[Tposition.y][Tposition.x + 1] = ntile;
-					map[Tposition.y][Tposition.x - 1] = ntile;
-					map[Tposition.y + 1][Tposition.x + 1] = ntile;
-					map[Tposition.y + 1][Tposition.x - 1] = ntile;
-					map[Tposition.y - 1][Tposition.x + 1] = ntile;
-					map[Tposition.y - 1][Tposition.x - 1] = ntile;
-					map[Tposition.y][Tposition.x] = ntile;
+				if (TailleBrush == 1 && ntile != 5)
+				{	
+						// Gestion de la taille du pinceau 3x3
+						map[Tposition.y + 1][Tposition.x] = ntile;
+						map[Tposition.y - 1][Tposition.x] = ntile;
+						map[Tposition.y][Tposition.x + 1] = ntile;
+						map[Tposition.y][Tposition.x - 1] = ntile;
+						map[Tposition.y + 1][Tposition.x + 1] = ntile;
+						map[Tposition.y + 1][Tposition.x - 1] = ntile;
+						map[Tposition.y - 1][Tposition.x + 1] = ntile;
+						map[Tposition.y - 1][Tposition.x - 1] = ntile;
+						map[Tposition.y][Tposition.x] = ntile;
+					
 				}
 			}
 		}
@@ -239,6 +293,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					numerochest = i;
 					timer_c2 = 0;
 					coffstat++;
+					nmcle++;
 				}
 			}
 		}
@@ -252,7 +307,6 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			if (ch[numerochest].chestrect.left == 64)
 			{
 				blocage = 2;
-				compteur = 0;
 			}
 			ch[numerochest].chestrect.left += 32;
 			sfSprite_setTextureRect(ch[numerochest].chest, ch[numerochest].chestrect);
@@ -270,7 +324,6 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			}
 			else
 			{
-				compteur++;
 				appararitionObjet();
 				animpcoffre(4);
 			}
@@ -386,6 +439,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
 			case 5:
+				
 				position.x = x * 32;
 				position.y = y * 32;
 				ch[NChest].chestpos.x = position.x;
@@ -485,7 +539,6 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			}
 		}
 	}
-
 	// Affichage de la selection du pinceau
 
 	if (iModeDeJeu == 1)
@@ -793,3 +846,37 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 }
 
 
+void Position_joueur()
+{
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 9)
+			{
+				Pposition.x = x*32 +9;
+				Pposition.y = y*32 +6;
+			}
+		}
+	}
+	
+}
+void Position_NPC()
+{
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 7)
+			{
+				NPCpos.x = x * 32 +9;
+				NPCpos.y = y * 32 +6;
+				sfText_setPosition(Text, vector2f(NPCpos.x + 8.0f, NPCpos.y - 25.0f));
+				sfRectangleShape_setPosition(rectangle, vector2f(NPCpos.x + 8.0f, NPCpos.y - 30.0f));
+			}
+		}
+	}
+	
+
+
+}

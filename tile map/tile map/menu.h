@@ -1,5 +1,6 @@
 #pragma once
 #include "tools.h"
+#include "map.h"
 #include <SFML/Graphics.h>
 
 

@@ -69,7 +69,7 @@ int main()
 		else if (actualState == JOUER)
 		{
 
-			updateUI(camrect)
+			updateUI(camrect);
 			sfMusic_stop(menu);
 			sfMusic_stop(editeur);
 			updateNPC(window);
