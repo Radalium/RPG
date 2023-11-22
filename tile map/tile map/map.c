@@ -4,6 +4,9 @@
 #include "musique.h"
 #define TEXTURE_PATH "../Ressources/Textures/"
 
+sfSprite* background1;
+sfTexture* backtexture1;
+sfVector2f backpos;
 
 
 typedef struct Cchest Cchest;
@@ -49,8 +52,8 @@ sfVector2f chestpos;
 void initMap()
 {
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
-	fichier = fopen("MAP.bin", "r");
-	fread(map, sizeof(char), 15000, fichier);
+	fichier = fopen("MAPBonus.bin", "r");
+	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
 
 	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
@@ -86,6 +89,11 @@ void initMap()
 	sfSprite_setTexture(tileSprite, tileTexture, sfTrue);
 
 	
+	backtexture1 = sfTexture_createFromFile(TEXTURE_PATH"backgroundmine.png", NULL);
+	background1 = sfSprite_create();
+	sfSprite_setTexture(background1, backtexture1, sfTrue);
+
+
 	tileRect.left = 32;
 	tileRect.top = 0;
 	tileRect.width = 32;
@@ -153,6 +161,35 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					map[Tposition.y - 1][Tposition.x - 1] = ntile;
 					map[Tposition.y][Tposition.x] = ntile;
 				}
+				if (TailleBrush == 2)
+				{	// Gestion de la taille du pinceau 3x3
+					map[Tposition.y + 1][Tposition.x] = ntile;
+					map[Tposition.y - 1][Tposition.x] = ntile;
+					map[Tposition.y][Tposition.x + 1] = ntile;
+					map[Tposition.y][Tposition.x - 1] = ntile;
+					map[Tposition.y + 1][Tposition.x + 1] = ntile;
+					map[Tposition.y + 1][Tposition.x - 1] = ntile;
+					map[Tposition.y - 1][Tposition.x + 1] = ntile;
+					map[Tposition.y - 1][Tposition.x - 1] = ntile;
+					map[Tposition.y][Tposition.x] = ntile;
+					map [Tposition.y+2][Tposition.x] = ntile;
+					map[Tposition.y - 2][Tposition.x] = ntile;
+					map[Tposition.y][Tposition.x + 2] = ntile;
+					map[Tposition.y][Tposition.x - 2] = ntile;
+					map[Tposition.y + 2][Tposition.x + 2] = ntile;
+					map[Tposition.y + 2][Tposition.x - 2] = ntile;
+					map[Tposition.y - 2][Tposition.x + 2] = ntile;
+					map[Tposition.y - 2][Tposition.x - 2] = ntile;
+					map[Tposition.y+2][Tposition.x+1] = ntile;
+					map[Tposition.y+2][Tposition.x-1] = ntile;
+					map[Tposition.y-2][Tposition.x+1] = ntile;
+					map[Tposition.y-2][Tposition.x-1] = ntile;
+					map[Tposition.y+1][Tposition.x+2] = ntile;
+					map[Tposition.y+1][Tposition.x-2] = ntile;
+					map[Tposition.y-1][Tposition.x+2] = ntile;
+					map[Tposition.y-1][Tposition.x-2] = ntile;
+
+				}
 			}
 		}
 
@@ -161,7 +198,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		{
 			timer = 0.0f;
 			ntile++;
-			if (ntile > 35)
+			if (ntile > 39)
 				ntile = 0;
 		}
 		if (sfKeyboard_isKeyPressed(sfKeySpace) && timer > 0.5f)
@@ -169,20 +206,57 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			timer = 0.0f;
 			ntile--;
 			if (ntile < 0)
-				ntile = 35;
+				ntile = 39;
 		}
 		// Si la touche I est pressée alors on change la taille du pinceau
 		if (sfKeyboard_isKeyPressed(sfKeyI) && timer > 0.3f)
 		{
 			timer = 0.0f;
-			TailleBrush = (1 + TailleBrush) % 2;
+			TailleBrush = (1 + TailleBrush) % 3;
 		}
 
 		// Si la touche M est pressée alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
-			fichier = fopen("MAP.bin", "w");
-			fwrite(map, sizeof(char), 12000, fichier);
+			fichier = fopen("MAPBonus.bin", "w");
+			fwrite(map, sizeof(char), 15000, fichier);
+			fclose(fichier);
+		}
+
+		if (sfKeyboard_isKeyPressed(sfKeyNum1) && timer > 0.8f)
+		{
+			fichier = fopen("MAP1.bin", "r");
+			fread(map, sizeof(char), 15000, fichier);
+			fclose(fichier);
+		}
+		if (sfKeyboard_isKeyPressed(sfKeyNum2)&& timer >0.8f)
+		{
+			fichier = fopen("MAP2.bin", "r");
+			fread(map, sizeof(char), 15000, fichier);
+			fclose(fichier);
+		}
+		if (sfKeyboard_isKeyPressed(sfKeyNum3) && timer > 0.8f)
+		{
+			fichier = fopen("MAP3.bin", "r");
+			fread(map, sizeof(char), 15000, fichier);
+			fclose(fichier);
+		}
+		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
+		{
+			fichier = fopen("MAPbonus.bin", "r");
+			fread(map, sizeof(char), 15000, fichier);
+			fclose(fichier);
+		}
+		if (sfKeyboard_isKeyPressed(sfKeyNum5) && timer > 0.8f)
+		{
+			fichier = fopen("Dungeon2.bin", "r");
+			fread(map, sizeof(char), 15000, fichier);
+			fclose(fichier);
+		}
+		if (sfKeyboard_isKeyPressed(sfKeyNum6) && timer > 0.8f)
+		{
+			fichier = fopen("Dungeon3.bin", "r");
+			fread(map, sizeof(char), 15000, fichier);
 			fclose(fichier);
 		}
 	}
@@ -248,7 +322,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
 {
-	
+	sfRenderWindow_drawSprite(_window, background1, NULL);
 
 	sfVector2i mousePosition;
 	sfVector2i pixelPos = sfMouse_getPositionRenderWindow(_window);
@@ -565,6 +639,38 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfSprite_setTextureRect(tileSprite,tileRect);
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
+			case 36:
+				tileRect.left = 32 * 37;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 37:
+				tileRect.left = 32 * 38;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 38:
+				tileRect.left = 32 * 39;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 39:
+				tileRect.left = 32 * 40;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
 			}
 		}
 	}
@@ -864,6 +970,38 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			sfSprite_setTextureRect(tileSprite,tileRect);
 			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 			break;
+		case 36:
+			tileRect.left = 32 * 37;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 37:
+			tileRect.left = 32 * 38;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 38:
+			tileRect.left = 32 * 39;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 39:
+			tileRect.left = 32 * 40;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
 		}
 	}
 }
@@ -884,9 +1022,9 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 
 		case HAUT:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
-			fpos.y = (_sprite.top - 2 + _vitesse.y * GetDeltaTime()) / 32;
+			fpos.y = (_sprite.top + 8 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _vitesse.x * GetDeltaTime()) / 32;
-			fpos2.y = (_sprite.top - 2 + _vitesse.y * GetDeltaTime()) / 32;
+			fpos2.y = (_sprite.top + 8 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.width + _sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 			
 			// Si la case est 5 4 3 9 alors, on renvoie vrai
@@ -922,7 +1060,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			break;
 		case DROITE:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
-			fpos.y = (_sprite.top + _vitesse.y * GetDeltaTime()) / 32;
+			fpos.y = (_sprite.top + 10 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
@@ -944,7 +1082,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
 			fpos.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
-			fpos2.y = (_sprite.top + _vitesse.y * GetDeltaTime()) / 32;
+			fpos2.y = (_sprite.top + 10 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 8 alors, on renvoie vrai
