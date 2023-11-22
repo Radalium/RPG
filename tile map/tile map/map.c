@@ -2,7 +2,7 @@
 #include "tools.h"
 #include "player.h"
 #include "musique.h"
-
+#include "UI.h"
 
 #define TEXTURE_PATH "../Ressources/Textures/"
 
@@ -239,6 +239,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					numerochest = i;
 					timer_c2 = 0;
 					coffstat++;
+					nmcle++;
 				}
 			}
 		}
@@ -273,6 +274,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 				compteur++;
 				appararitionObjet();
 				animpcoffre(4);
+				
 			}
 		}
 	}
