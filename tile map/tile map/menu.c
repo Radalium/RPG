@@ -198,8 +198,8 @@ void updateMenu(sfRenderWindow* _window)
 			
 			// Changement du statut de jeu
 			actualState = JOUER;
-			Pposition.x = actualposJ.x;
-			Pposition.y = actualposJ.y;
+			Position_joueur();
+			Position_NPC();
 			GameMod_cam();
 			GameMod_player();
 			sfMusic_play(forest);
@@ -375,3 +375,5 @@ void DisplayMenu(sfRenderWindow* _window)
 	
 
 }
+
+
