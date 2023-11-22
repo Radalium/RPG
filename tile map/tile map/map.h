@@ -2,6 +2,21 @@
 #include"SFML/Graphics.h"
 #include"tools.h"
 #include"player.h"
+#include "UI.h"
+#include "NPC.h"
+
+
+sfSprite* orberouge;
+sfSprite* orbebleu;
+sfSprite* orbeverte;
+sfSprite* porteanim;
+sfSprite* portedefin;
+
+sfTexture* textureorberouge;
+sfTexture* textureorbebleu;
+sfTexture* textureorbeverte;
+sfTexture* textureporteanim;
+sfTexture* textureportedefin;
 
 
 int iModeDeJeu;
@@ -13,5 +28,20 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 
 void displayMap(sfRenderWindow* _window, sfView* _cam);
 
-void Openchest(int i);
+//char map;
+
+int combien_de_coffre();
+int combien_de_PNJ();
+int combien_de_joueur();
+
+void Position_joueur();
+void Position_NPC();
+
+int onestsurquelcase(sfFloatRect _sprite);
+void appararitionObjet();
+
+
+void ouvertureporte();
+
+
 

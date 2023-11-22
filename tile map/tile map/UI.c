@@ -1,7 +1,7 @@
 #include "UI.h"
 #include "tools.h"
 
-
+// Initialisation des variables
 sfSprite* Cle0;
 sfSprite* Cle1;
 sfSprite* Cle2;
@@ -22,11 +22,12 @@ sfVector2f Cle1scale = { 0.80f,0.80f };
 sfVector2f Cle2scale = { 0.80f,0.80f };
 sfVector2f Cle3scale = { 0.80f,0.80f };
 	
-int nmcle = 0;
+
 float temps;
 
 void initUI()
-{
+{ // Initialisation des sprites et textures
+		nmcle = 0;
 		Cle0 = sfSprite_create();
 		Cle1 = sfSprite_create();
 		Cle2 = sfSprite_create();
@@ -59,11 +60,11 @@ void initUI()
 	
 
 }
-
+// Fonction qui permet de mettre a jour les sprites
 temps = 0;
-void updateUI(sfVector2f _playerpos)
+void updateUI(sfVector2f _camrect)
 {
-
+	// Update des sprites en fonction du nombre de cle
 	temps += GetDeltaTime();
 	if (sfKeyboard_isKeyPressed(sfKeyY) && temps > 0.1f)
 	{
@@ -71,52 +72,52 @@ void updateUI(sfVector2f _playerpos)
 		temps = 0.f;
 	}
 
-	if (nmcle == 0)
+	if (nmcle == 1)
 	{
-		Cle0pos.x = _playerpos.x - 97.f;
-		Cle0pos.y = _playerpos.y - 72.f;
+		Cle0pos.x = _camrect.x - 97.f;
+		Cle0pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle0, Cle0pos);
 	}
-	if (nmcle == 1)
+	if (nmcle == 2)
 	{
-		Cle1pos.x = _playerpos.x - 97.f;
-		Cle1pos.y = _playerpos.y - 72.f;
+		Cle1pos.x = _camrect.x - 97.f;
+		Cle1pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle1, Cle1pos);
 	}
-	if (nmcle == 2)
+	if (nmcle == 3)
 	{
-		Cle2pos.x = _playerpos.x - 97.f;
-		Cle2pos.y = _playerpos.y - 72.f;
+		Cle2pos.x = _camrect.x - 97.f;
+		Cle2pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle2, Cle2pos);
 	}
-	if (nmcle == 3)
+	if (nmcle == 4)
 	{
-		Cle3pos.x = _playerpos.x - 97.f; 
-		Cle3pos.y = _playerpos.y - 72.f;
+		Cle3pos.x = _camrect.x - 97.f;
+		Cle3pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle3, Cle3pos);
 	}
 }
 
 
-void displayUI(sfRenderWindow* _window, sfView* _cam)
-{
-	if (nmcle == 0)
+void displayUI(sfRenderWindow* _window)
+{	// Affichage des sprites en fonction du nombre de cle
+	if (nmcle == 1)
 	{
 		sfRenderWindow_drawSprite(_window, Cle0, NULL);
 	}
-	if (nmcle == 1)
+	if (nmcle == 2)
 	{
 		sfRenderWindow_drawSprite(_window, Cle1, NULL);
 	}
-	if (nmcle == 2)
+	if (nmcle == 3)
 	{
 		sfRenderWindow_drawSprite(_window, Cle2, NULL);
 	}
-	if (nmcle == 3)
+	if (nmcle == 4)
 	{
 		sfRenderWindow_drawSprite(_window, Cle3, NULL);
 	}

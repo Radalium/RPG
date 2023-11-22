@@ -1,13 +1,16 @@
 #include "tools.h"
+#include "map.h"
 #include <SFML/Graphics.h>
 
 
 
+sfVector2f NPCpos;
+sfText* Text;
+sfRectangleShape* rectangle;
 
+void initNPC();
 
-void initNPC(sfRenderWindow* window);
-
-void updateNPC(sfRenderWindow* _window);
+void updateNPC();
 
 void DisplayNPC(sfRenderWindow* _window);
 

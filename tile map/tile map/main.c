@@ -62,27 +62,32 @@ int main()
 		if (actualState == MENU)
 		{
 			sfMusic_stop(editeur);
+			sfMusic_stop(forest);
 			updateMenu(window);
 
 		}
 		else if (actualState == JOUER)
 		{
+
+			updateUI(camrect);
 			sfMusic_stop(menu);
 			sfMusic_stop(editeur);
 			updateNPC(window);
 			iModeDeJeu = 0;
 			GameMod_player();
-
 			updatePlayer(window);
 			updateMap(window, cam);
+			blocage3 = 1;
 
 		}
 		else if (actualState == EDITEUR)
 		{	iModeDeJeu = 1;
 			sfMusic_stop(menu);
+			sfMusic_stop(forest);
 			EditorMod_player();
 			updateMap(window, cam);
 			updatePlayer(window);
+			blocage3 = 2;
 		}
 
 		else if (actualState == QUITTER)
@@ -100,12 +105,12 @@ int main()
 		}
 		else if (actualState == JOUER)
 		{
-			
 			displayMap(window, cam);
+			displayUI(window, cam);
 			displayCam(window);
 			displayPlayer(window);
 			DisplayNPC(window);
-			displayUI(window, cam);
+			
 			
 			
 		}

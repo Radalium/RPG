@@ -2,12 +2,32 @@
 #include "tools.h"
 #include "player.h"
 #include "musique.h"
+#include "UI.h"
+
 #define TEXTURE_PATH "../Ressources/Textures/"
 
 sfSprite* background1;
 sfTexture* backtexture1;
 sfVector2f backpos;
 
+typedef enum coffre
+{
+	BLEU,
+	VERTE,
+	ROUGE
+}statuecoffre;
+
+
+statuecoffre coffstat = -1;
+
+typedef enum portefin
+{
+	FERMEE,
+	PLACEMENTORBE,
+	OUVERTE
+};
+
+sfIntRect irectporte = { 0,0, 32,32 };
 
 typedef struct Cchest Cchest;
 struct Cchest
@@ -19,9 +39,13 @@ struct Cchest
 	int ChestState;
 };
 Cchest ch[3];
+int blocage_coffre = 0;
+int nombrecoffre;
 int NChest=0;
 float CRayon = 16;
 
+int nombre_NPC = 0;
+int nombre_joueur = 0;
 sfSprite* FragmentedOrb;
 sfTexture* FragmentedOrbTexture;
 sfIntRect FragmentedOrbrect = {0,0,22,22};
@@ -43,18 +67,59 @@ FILE* fichier;
 char map[60][200];
 
 
-sfSprite* chest;
-sfTexture* chesttexture;
-sfIntRect chestrect;
-sfVector2f chestpos;
+//sfSprite* chest;
+//sfTexture* chesttexture;
+//sfIntRect chestrect;
+//sfVector2f chestpos;
+
+
+sfVector2f posorbebleu = { 0.0f,0.0f };
+sfVector2f posorberouge = { 0.0f,0.0f };
+sfVector2f posorbeverte = { 0.0f,0.0f };
+
+sfVector2f scaleorbebleu = { 0.5f,0.5f };
+sfVector2f scaleorberouge = { 0.5f,0.5f };
+sfVector2f scaleorbeverte = { 0.5f,0.5f };
 
 
 void initMap()
 {
+	orbebleu = sfSprite_create();
+	orberouge = sfSprite_create();
+	orbeverte = sfSprite_create();
+	porteanim = sfSprite_create();
+	portedefin = sfSprite_create();
+
+	textureorbebleu = sfTexture_createFromFile(TEXTURE_PATH"orbebleu.png", NULL);
+	textureorberouge = sfTexture_createFromFile(TEXTURE_PATH"orberouge.png", NULL);
+	textureorbeverte = sfTexture_createFromFile(TEXTURE_PATH"orbeverte.png", NULL);
+	textureporteanim = sfTexture_createFromFile(TEXTURE_PATH"porteanim.png", NULL);
+	textureportedefin = sfTexture_createFromFile(TEXTURE_PATH"porte.png", NULL);
+
+
+	sfSprite_setTexture(orbebleu, textureorbebleu, sfTrue);
+	sfSprite_setTexture(orberouge, textureorberouge, sfTrue);
+	sfSprite_setTexture(orbeverte, textureorbeverte, sfTrue);
+	sfSprite_setTexture(porteanim, textureporteanim, sfTrue);
+	sfSprite_setTexture(portedefin, textureportedefin, sfTrue);
+
+	sfSprite_setOrigin(orbebleu, vector2f(sfSprite_getGlobalBounds(orbebleu).width / 2, sfSprite_getGlobalBounds(orbebleu).height / 2));
+	sfSprite_setOrigin(orberouge, vector2f(sfSprite_getGlobalBounds(orberouge).width / 2, sfSprite_getGlobalBounds(orberouge).height / 2));
+	sfSprite_setOrigin(orbeverte, vector2f(sfSprite_getGlobalBounds(orbeverte).width / 2, sfSprite_getGlobalBounds(orbeverte).height / 2));
+	sfSprite_setOrigin(porteanim, vector2f(sfSprite_getGlobalBounds(porteanim).width / 2, sfSprite_getGlobalBounds(porteanim).height / 2));
+	sfSprite_setOrigin(porte, vector2f(sfSprite_getGlobalBounds(porte).width / 2, sfSprite_getGlobalBounds(porte).height / 2));
+
+	sfSprite_setScale(orbebleu, scaleorbebleu);
+	sfSprite_setScale(orberouge, scaleorberouge);
+	sfSprite_setScale(orbeverte, scaleorbeverte);
+
+
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
 	fichier = fopen("MAPBonus.bin", "r");
 	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
+
+	
 
 	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
 	FragmentedOrb = sfSprite_create();
@@ -100,15 +165,51 @@ void initMap()
 	tileRect.height = 32;
 }
 
-int compteur=0;
+
 int blocage = 0;
 int numerochest;
 int coffre = 0;
 float timer2 = 0.0f;
 float timer = 0.0f;
 int TailleBrush = 0;
+float timer_coffre = 0.f;
 
-
+int combien_de_coffre()
+{
+		nombrecoffre = 0;
+		for (int y = 0; y < 60; y++)
+		{
+			for (int x = 0; x < 200; x++)
+			{
+				if (map[y][x] == 5) nombrecoffre++;
+			}
+		}
+		return nombrecoffre;
+}
+int combien_de_PNJ()
+{
+	nombre_NPC = 0;
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 7) nombre_NPC++;
+		}
+	}
+	return nombre_NPC;
+}
+int combien_de_joueur()
+{
+	nombre_joueur = 0;
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 9) nombre_joueur++;
+		}
+	}
+	return nombre_joueur;
+}
 
 void updateMap(sfRenderWindow* _window, sfView* _cam)
 {
@@ -136,30 +237,44 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	// Gestion de l'édition de la map
 	if (iModeDeJeu == 1)
 	{
-		
+		blocage_coffre = 0;
 		// Affichage du mode édition pour la map 
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
-			// Si le bouton gauche de la souris est presser alors on change la case de la mapdddd
+			// Si le bouton gauche de la souris est presser alors on change la case de la map
 			if (sfMouse_isButtonPressed(sfMouseLeft) && timer > 0.1f)
 			{
+				// Gestion de la taille du pinceau 1x1
 				timer = 0.f;
-				if (TailleBrush == 0)
+				if (TailleBrush == 0 )
 				{
-					// Gestion de la taille du pinceau 1x1
-					map[Tposition.y][Tposition.x] = ntile;
+					if (ntile == 5)
+					{
+						if(combien_de_coffre() <3)map[Tposition.y][Tposition.x] = ntile;
+					}
+					else if (ntile == 7)
+					{
+						if(combien_de_PNJ() < 1 )map[Tposition.y][Tposition.x] = ntile;
+					}
+					else if (ntile == 9)
+					{
+						if (combien_de_joueur() < 1)map[Tposition.y][Tposition.x] = ntile;
+					}
+					else map[Tposition.y][Tposition.x] = ntile;
 				}
-				if (TailleBrush == 1)
-				{	// Gestion de la taille du pinceau 3x3
-					map[Tposition.y + 1][Tposition.x] = ntile;
-					map[Tposition.y - 1][Tposition.x] = ntile;
-					map[Tposition.y][Tposition.x + 1] = ntile;
-					map[Tposition.y][Tposition.x - 1] = ntile;
-					map[Tposition.y + 1][Tposition.x + 1] = ntile;
-					map[Tposition.y + 1][Tposition.x - 1] = ntile;
-					map[Tposition.y - 1][Tposition.x + 1] = ntile;
-					map[Tposition.y - 1][Tposition.x - 1] = ntile;
-					map[Tposition.y][Tposition.x] = ntile;
+				if (TailleBrush == 1 && ntile != 5)
+				{	
+						// Gestion de la taille du pinceau 3x3
+						map[Tposition.y + 1][Tposition.x] = ntile;
+						map[Tposition.y - 1][Tposition.x] = ntile;
+						map[Tposition.y][Tposition.x + 1] = ntile;
+						map[Tposition.y][Tposition.x - 1] = ntile;
+						map[Tposition.y + 1][Tposition.x + 1] = ntile;
+						map[Tposition.y + 1][Tposition.x - 1] = ntile;
+						map[Tposition.y - 1][Tposition.x + 1] = ntile;
+						map[Tposition.y - 1][Tposition.x - 1] = ntile;
+						map[Tposition.y][Tposition.x] = ntile;
+					
 				}
 				if (TailleBrush == 2)
 				{	// Gestion de la taille du pinceau 3x3
@@ -277,6 +392,8 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					blocage = 1;
 					numerochest = i;
 					timer_c2 = 0;
+					coffstat++;
+					nmcle++;
 				}
 			}
 		}
@@ -290,7 +407,6 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			if (ch[numerochest].chestrect.left == 64)
 			{
 				blocage = 2;
-				compteur = 0;
 			}
 			ch[numerochest].chestrect.left += 32;
 			sfSprite_setTextureRect(ch[numerochest].chest, ch[numerochest].chestrect);
@@ -308,21 +424,80 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			}
 			else
 			{
-				compteur++;
+				appararitionObjet();
 				animpcoffre(4);
+				
 			}
 		}
 	}
 }
 
+float statcoffretime = 0.f;
+int statueappartition = 0;
+
+void appararitionObjet()
+{
+	if (coffstat == ROUGE)
+	{
+		posorberouge.x = Pposition.x - 6.f;
+		posorberouge.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orberouge, posorberouge);
+		statueappartition = 3;
+		statcoffretime = 0.f;
+	}
+
+	if (coffstat == VERTE)
+	{
+		posorbeverte.x = Pposition.x - 6.f;
+		posorbeverte.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orbeverte, posorbeverte);
+		statueappartition = 2;
+		statcoffretime = 0.f;
+		
+	}
+
+	if (coffstat == BLEU)
+	{
+		posorbebleu.x = Pposition.x + 6.f;
+		posorbebleu.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orbebleu, posorbebleu);
+		statueappartition = 1;
+		statcoffretime = 0.f;
+	
+	}
 
 
+}
 
+float timeouverture = 0.f;
+int affichelouverture = 0;
+void ouvertureporte()
+{
+	// 0 à 15 images pour l'animation de la porte
+	timeouverture += GetDeltaTime();
+	if (nmcle == 3 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f)
+	{
+		irectporte.left += 32;
+		sfSprite_setTextureRect(porteanim, irectporte);
+		timeouverture = 0.f;
+		affichelouverture = 1;
+	}
+
+}
 
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
 {
+
 	sfRenderWindow_drawSprite(_window, background1, NULL);
+
+	/*sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+	sfRenderWindow_drawSprite(_window, orbeverte, NULL);
+	sfRenderWindow_drawSprite(_window, orberouge, NULL);*/
+
 
 	sfVector2i mousePosition;
 	sfVector2i pixelPos = sfMouse_getPositionRenderWindow(_window);
@@ -383,6 +558,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
 			case 5:
+				
 				position.x = x * 32;
 				position.y = y * 32;
 				ch[NChest].chestpos.x = position.x;
@@ -674,7 +850,6 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			}
 		}
 	}
-
 	// Affichage de la selection du pinceau
 
 	if (iModeDeJeu == 1)
@@ -1004,6 +1179,79 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			break;
 		}
 	}
+
+	if (statueappartition == 1)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+					
+		}
+		
+	}
+	if (statueappartition == 2)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orbeverte, NULL);
+			
+		}
+		
+	}
+	if (statueappartition == 3)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orberouge, NULL);
+			
+		}
+		
+		
+	}
+
+
+	if (affichelouverture == 1)
+	{
+		sfRenderWindow_drawSprite(_window, porteanim, NULL);
+		if (irectporte.left == 32 * 15)
+		{
+			affichelouverture = 0;
+		}
+	}
+
+}
+
+int onestsurquelcase(sfFloatRect _sprite)
+{
+	sfVector2i fretpos;
+
+	fretpos.y = (_sprite.top + _sprite.height) / 32;
+	fretpos.x = ((_sprite.left + _sprite.left + _sprite.width) / 2) / 32;
+	
+		if (map[fretpos.y][fretpos.x] == 0)
+		{
+			return 0;
+		}
+		if (map[fretpos.y][fretpos.x] == 1)
+		{
+			return 1;
+		}
+		if (map[fretpos.y][fretpos.x] == 6 || map[fretpos.y][fretpos.x] == 12 ||  map[fretpos.y][fretpos.x] == 13 ||  map[fretpos.y][fretpos.x] == 14 | map[fretpos.y][fretpos.x] == 15)
+		{
+			return 2;
+		}
+		if (map[fretpos.y][fretpos.x] == 16 || map[fretpos.y][fretpos.x] == 17 ||  map[fretpos.y][fretpos.x] == 18 ||  map[fretpos.y][fretpos.x] == 19)
+		{
+			return 3;
+		}
+		if (map[fretpos.y][fretpos.x] == 1)
+		{
+			return 4;
+		}
+
 }
 
 
@@ -1038,6 +1286,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 				return sfTrue + 1;
 			}
 			else return sfFalse;
+			
 			break;
 		case BAS:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
@@ -1060,6 +1309,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			break;
 		case DROITE:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
+
 			fpos.y = (_sprite.top + 10 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
@@ -1082,7 +1332,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
 			fpos.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
-			fpos2.y = (_sprite.top + 10 + _vitesse.y * GetDeltaTime()) / 32;
+			fpos2.y = (_sprite.top +10 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 8 alors, on renvoie vrai
@@ -1108,3 +1358,37 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 }
 
 
+void Position_joueur()
+{
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 9)
+			{
+				Pposition.x = x*32 +9;
+				Pposition.y = y*32 +6;
+			}
+		}
+	}
+	
+}
+void Position_NPC()
+{
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 7)
+			{
+				NPCpos.x = x * 32 +9;
+				NPCpos.y = y * 32 +6;
+				sfText_setPosition(Text, vector2f(NPCpos.x + 8.0f, NPCpos.y - 25.0f));
+				sfRectangleShape_setPosition(rectangle, vector2f(NPCpos.x + 8.0f, NPCpos.y - 30.0f));
+			}
+		}
+	}
+	
+
+
+}
