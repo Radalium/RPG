@@ -118,8 +118,13 @@ void initMap()
 	fichier = fopen("MAPBonus.bin", "r");
 	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
+	fichier = fopen("MAP2.bin", "r");
+	fclose(fichier);
+	fichier = fopen("MAP3.bin", "r");
+	fclose(fichier);
+	fichier = fopen("MAP1.bin", "r");
+	fclose(fichier);
 
-	
 
 	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
 	FragmentedOrb = sfSprite_create();
@@ -164,6 +169,7 @@ void initMap()
 	tileRect.width = 32;
 	tileRect.height = 32;
 }
+
 
 
 int blocage = 0;
@@ -358,22 +364,11 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
 		{
-			fichier = fopen("MAPbonus.bin", "r");
+			fichier = fopen("dungeon1.bin", "r");
 			fread(map, sizeof(char), 15000, fichier);
 			fclose(fichier);
 		}
-		if (sfKeyboard_isKeyPressed(sfKeyNum5) && timer > 0.8f)
-		{
-			fichier = fopen("Dungeon2.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
-			fclose(fichier);
-		}
-		if (sfKeyboard_isKeyPressed(sfKeyNum6) && timer > 0.8f)
-		{
-			fichier = fopen("Dungeon3.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
-			fclose(fichier);
-		}
+
 	}
 
 	timer_c += GetDeltaTime();
@@ -470,6 +465,43 @@ void appararitionObjet()
 	}
 
 
+}
+
+float timemap = 0.f;
+int changement = 0;
+void changementMap(int _nb, int _tmp)
+{
+	
+	changement += _tmp;
+	if (changement>1) changement = 0;
+	if (_nb==23 && changement==0 && nmcle ==1)
+	{
+		
+		fichier = fopen("MAP1.bin", "r");
+		fread(map, sizeof(char), 15000, fichier);
+		fclose(fichier);
+	}
+	if (_nb == 23 || _nb==20 && changement == 1)
+	{
+		
+		fichier = fopen("MAPBonus.bin", "r");
+		fread(map, sizeof(char), 12000, fichier);
+		fclose(fichier);
+	}
+	if (_nb == 23 && changement == 0 && nmcle == 2)
+	{
+
+		fichier = fopen("MAP2.bin", "r");
+		fread(map, sizeof(char), 15000, fichier);
+		fclose(fichier);
+	}
+	if (_nb == 20 && changement == 0 && nmcle == 3)
+	{
+
+		fichier = fopen("MAP3.bin", "r");
+		fread(map, sizeof(char), 15000, fichier);
+		fclose(fichier);
+	}
 }
 
 float timeouverture = 0.f;
@@ -1250,6 +1282,10 @@ int onestsurquelcase(sfFloatRect _sprite)
 		if (map[fretpos.y][fretpos.x] == 1)
 		{
 			return 4;
+		}
+		if (map[fretpos.y][fretpos.x] == 23)
+		{
+			return 23;
 		}
 
 }

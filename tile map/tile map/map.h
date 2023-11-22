@@ -39,7 +39,7 @@ void Position_NPC();
 
 int onestsurquelcase(sfFloatRect _sprite);
 void appararitionObjet();
-
+void changementMap(int _nb, int _tmp);
 
 void ouvertureporte();
 
