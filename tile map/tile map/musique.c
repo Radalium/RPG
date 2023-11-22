@@ -93,7 +93,7 @@ void initMusique()
 void updateMusique()
 { // Update des musiques et des sons pour la musique et les sons
 	sfMusic_setVolume(porte, volume);
-	sfMusic_setVolume(menu, 1);
+	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
 	sfMusic_setVolume(forest, volume);
 

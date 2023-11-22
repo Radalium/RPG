@@ -14,7 +14,17 @@ typedef enum coffre
 	ROUGE
 }statuecoffre;
 
+
 statuecoffre coffstat = -1;
+
+typedef enum portefin
+{
+	FERMEE,
+	PLACEMENTORBE,
+	OUVERTE
+};
+
+sfIntRect irectporte = { 0,0, 32,32 };
 
 typedef struct Cchest Cchest;
 struct Cchest
@@ -70,22 +80,32 @@ void initMap()
 	orbebleu = sfSprite_create();
 	orberouge = sfSprite_create();
 	orbeverte = sfSprite_create();
+	porteanim = sfSprite_create();
+	portedefin = sfSprite_create();
 
 	textureorbebleu = sfTexture_createFromFile(TEXTURE_PATH"orbebleu.png", NULL);
 	textureorberouge = sfTexture_createFromFile(TEXTURE_PATH"orberouge.png", NULL);
 	textureorbeverte = sfTexture_createFromFile(TEXTURE_PATH"orbeverte.png", NULL);
+	textureporteanim = sfTexture_createFromFile(TEXTURE_PATH"porteanim.png", NULL);
+	textureportedefin = sfTexture_createFromFile(TEXTURE_PATH"porte.png", NULL);
+
 
 	sfSprite_setTexture(orbebleu, textureorbebleu, sfTrue);
 	sfSprite_setTexture(orberouge, textureorberouge, sfTrue);
 	sfSprite_setTexture(orbeverte, textureorbeverte, sfTrue);
+	sfSprite_setTexture(porteanim, textureporteanim, sfTrue);
+	sfSprite_setTexture(portedefin, textureportedefin, sfTrue);
 
 	sfSprite_setOrigin(orbebleu, vector2f(sfSprite_getGlobalBounds(orbebleu).width / 2, sfSprite_getGlobalBounds(orbebleu).height / 2));
 	sfSprite_setOrigin(orberouge, vector2f(sfSprite_getGlobalBounds(orberouge).width / 2, sfSprite_getGlobalBounds(orberouge).height / 2));
 	sfSprite_setOrigin(orbeverte, vector2f(sfSprite_getGlobalBounds(orbeverte).width / 2, sfSprite_getGlobalBounds(orbeverte).height / 2));
+	sfSprite_setOrigin(porteanim, vector2f(sfSprite_getGlobalBounds(porteanim).width / 2, sfSprite_getGlobalBounds(porteanim).height / 2));
+	sfSprite_setOrigin(porte, vector2f(sfSprite_getGlobalBounds(porte).width / 2, sfSprite_getGlobalBounds(porte).height / 2));
 
 	sfSprite_setScale(orbebleu, scaleorbebleu);
 	sfSprite_setScale(orberouge, scaleorberouge);
 	sfSprite_setScale(orbeverte, scaleorbeverte);
+
 
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
 	fichier = fopen("MAP.bin", "r");
@@ -320,6 +340,21 @@ void appararitionObjet()
 
 }
 
+float timeouverture = 0.f;
+int affichelouverture = 0;
+void ouvertureporte()
+{
+	// 0 à 15 images pour l'animation de la porte
+	timeouverture += GetDeltaTime();
+	if (nmcle == 3 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f)
+	{
+		irectporte.left += 32;
+		sfSprite_setTextureRect(porteanim, irectporte);
+		timeouverture = 0.f;
+		affichelouverture = 1;
+	}
+
+}
 
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
@@ -659,7 +694,14 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 	}
 
 
-
+	if (affichelouverture == 1)
+	{
+		sfRenderWindow_drawSprite(_window, porteanim, NULL);
+		if (irectporte.left == 32 * 15)
+		{
+			affichelouverture = 0;
+		}
+	}
 
 }
 
