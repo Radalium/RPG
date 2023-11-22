@@ -7,10 +7,14 @@
 sfSprite* orberouge;
 sfSprite* orbebleu;
 sfSprite* orbeverte;
+sfSprite* porteanim;
+sfSprite* portedefin;
 
 sfTexture* textureorberouge;
 sfTexture* textureorbebleu;
 sfTexture* textureorbeverte;
+sfTexture* textureporteanim;
+sfTexture* textureportedefin;
 
 
 int iModeDeJeu;
@@ -28,6 +32,8 @@ void Openchest(int i);
 int onestsurquelcase(sfFloatRect _sprite);
 void appararitionObjet();
 
+
+void ouvertureporte();
 
 
 

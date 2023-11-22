@@ -12,11 +12,12 @@ sfVector2f poslogo = { 200.f, -105.0f };
 sfVector2f posjouer = { 400.f, 310.f };
 sfVector2f posedit = { 450.f, 460.f };
 sfVector2f posquit = { 400.f, 550.f };
-sfVector2f possonplus = { 350.f, 630.f };
+sfVector2f possonplus = { 370.f, 630.f };
 sfVector2f possonmoins = { 250.f, 630.f };
 sfVector2f posbackground = { -150.0f,0.0f };
 sfVector2f posspointintero = { 750.f,560.f };
 sfVector2f possfondtouche = { 400.f,300.f };
+sfVector2f posstexte = { 130.0f,550.f };
 
 sfVector2f scalejouer = { 0.5f,0.5f };
 sfVector2f scaleback = { 0.2f,0.2f };
@@ -58,6 +59,9 @@ sfTexture* SonmoinsTexture;
 sfTexture* SoncouperTexture;
 sfTexture* pointinteroTexture;
 sfTexture* fondtoucheTexture;
+sfText* text2;
+sfFont* font2;
+
 
 int demandetouches = 0; 
 
@@ -65,12 +69,21 @@ sfView* menucam;
 sfVector2f menurectcam = { 800.f ,600.f };
 float timermusique, timermusique1, timermusique2, timermusique3, timermusique4, timermusique5, timermusique6, timermusique7, timermusique8 = 0.f;
 
-
+char volchar[4] = "50";
 
 
 void initMenu()
 {
-	
+	// Init du texte de volume
+
+	text2 = sfText_create();
+	font2 = sfFont_createFromFile("..//Ressources//Fonts//3Dventure.ttf", NULL);
+
+	sfText_setFont(text2, font2);
+	sprintf(volchar, "%d", volume);
+	sfText_setString(text2, volchar);
+	sfText_setPosition(text2, posstexte);
+
 
 	// Initialisation de la view
 	menucam = sfView_create();
@@ -262,6 +275,8 @@ void updateMenu(sfRenderWindow* _window)
 				
 				volume += 10;
 				timermusique5 = 0.f;
+				sprintf(volchar, "%d", volume);
+				sfText_setString(text2, volchar);
 			}
 		}
 	}
@@ -310,10 +325,12 @@ void updateMenu(sfRenderWindow* _window)
 		sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 200));
 		if (sfMouse_isButtonPressed(sfMouseLeft) && volume > 0)
 		{// Si le bouton gauche de la souris est preser et que le volume est superieur a 0 cela diminue le volume
-			if (timermusique6 > 0.05f)
+			if (timermusique6 > 0.1f)
 			{
 				volume -= 10;
 				timermusique6 = 0.f;
+				sprintf(volchar, "%d", volume);
+				sfText_setString(text2, volchar);
 			}
 		}
 	}
@@ -348,6 +365,7 @@ void DisplayMenu(sfRenderWindow* _window)
 	sfRenderWindow_drawSprite(_window, Sonplus, NULL);
 	sfRenderWindow_drawSprite(_window, Sonmoins, NULL);
 	sfRenderWindow_drawSprite(_window, pointintero, NULL);
+	sfRenderWindow_drawText(_window, text2, NULL);
 	}
 	if (demandetouches == 1)
 	{
