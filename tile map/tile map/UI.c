@@ -62,7 +62,7 @@ void initUI()
 }
 // Fonction qui permet de mettre a jour les sprites
 temps = 0;
-void updateUI(sfVector2f _playerpos)
+void updateUI(sfVector2f _camrect)
 {
 	// Update des sprites en fonction du nombre de cle
 	temps += GetDeltaTime();
@@ -72,38 +72,38 @@ void updateUI(sfVector2f _playerpos)
 		temps = 0.f;
 	}
 
-	if (nmcle == 0)
+	if (nmcle == 1)
 	{
-		Cle0pos.x = _playerpos.x - 97.f;
-		Cle0pos.y = _playerpos.y - 72.f;
+		Cle0pos.x = _camrect.x - 97.f;
+		Cle0pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle0, Cle0pos);
 	}
-	if (nmcle == 1)
+	if (nmcle == 2)
 	{
-		Cle1pos.x = _playerpos.x - 97.f;
-		Cle1pos.y = _playerpos.y - 72.f;
+		Cle1pos.x = _camrect.x - 97.f;
+		Cle1pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle1, Cle1pos);
 	}
-	if (nmcle == 2)
+	if (nmcle == 3)
 	{
-		Cle2pos.x = _playerpos.x - 97.f;
-		Cle2pos.y = _playerpos.y - 72.f;
+		Cle2pos.x = _camrect.x - 97.f;
+		Cle2pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle2, Cle2pos);
 	}
-	if (nmcle == 3)
+	if (nmcle == 4)
 	{
-		Cle3pos.x = _playerpos.x - 97.f; 
-		Cle3pos.y = _playerpos.y - 72.f;
+		Cle3pos.x = _camrect.x - 97.f;
+		Cle3pos.y = _camrect.y - 72.f;
 
 		sfSprite_setPosition(Cle3, Cle3pos);
 	}
 }
 
 
-void displayUI(sfRenderWindow* _window, sfView* _cam)
+void displayUI(sfRenderWindow* _window)
 {	// Affichage des sprites en fonction du nombre de cle
 	if (nmcle == 1)
 	{

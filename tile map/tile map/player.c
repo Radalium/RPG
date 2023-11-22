@@ -16,11 +16,16 @@ int frameX = 0;
 int frameY = 0;
 sfBool isMoving = sfFalse;
 sfVector2f Pposition = { 340.0f, 340.0f };
+sfVector2f actualposJ  = { 340.0f, 340.0f };
 sfVector2f vitesse = { 75.0f, 75.0f };
-
 float letemps = 0.0f;
+
 int backtile;
 int actualTile;
+
+int blocage3 = 0;
+
+
 
 float rayon1;
 
@@ -37,11 +42,12 @@ void initPlayer()
 	sfSprite_setTextureRect(player, irect);
 }
 
+
 void animpcoffre(int _i)
 {
 	frameY = _i;
 }
-void updatePlayer(sfRenderWindow* _window)
+void updatePlayer()
 {
 	
 
@@ -55,6 +61,12 @@ void updatePlayer(sfRenderWindow* _window)
 		iModeDeJeu = 0;
 		actualState = MENU;
 		sfMusic_play(menu);
+
+		if (blocage3 == 1)
+		{
+			actualposJ.x = Pposition.x;
+			actualposJ.y = Pposition.y;
+		}
 	}
 
 	isMoving = sfFalse;
@@ -143,80 +155,80 @@ void updatePlayer(sfRenderWindow* _window)
 	}
 	updateCam(Pposition);
 
-	if (isMoving == sfTrue && actualState == JOUER)
-	{
-		
-		//if (letemps > 0.5f)
-		//backtile = onestsurquelcase(playerfrect);
+if (isMoving == sfTrue && actualState == JOUER)
+{
+	
+	//if (letemps > 0.5f)
+	//backtile = onestsurquelcase(playerfrect);
 
-		if (letemps > 0.5f)
+	if (letemps > 0.5f)
+	{
+		actualTile = onestsurquelcase(playerfrect);
+		if (actualTile != backtile)
 		{
-			actualTile = onestsurquelcase(playerfrect);
-			if (actualTile != backtile)
+			sfSound_stop(pasplanche);
+			sfSound_stop(pasterre);
+			sfSound_stop(passable);
+			sfSound_stop(paspierre);
+			if (actualTile == 0)
 			{
-				sfSound_stop(pasplanche);
-				sfSound_stop(pasterre);
-				sfSound_stop(passable);
-				sfSound_stop(paspierre);
-				if (actualTile == 0)
-				{
-					sfSound_play(pasplanche);
-				}
-				else if (actualTile == 1)
-				{
-					sfSound_play(pasterre);
-				}
-				else if (actualTile == 2)
-				{
-					sfSound_play(passable);
-				}
-				else if (actualTile == 3)
-				{
-					/*sfMusic_play(pasbois);*/
-				}
-				else if (actualTile == 4)
-				{
-					sfSound_play(paspierre);
-				}
-				/*
-				else if (onestsurquelcase(playerfrect) == 5)
-				{
-					sfMusic_play(pasbois);
-				}
-				else if (onestsurquelcase(playerfrect) == 6)
-				{
-					sfMusic_play(pasbois);
-				}
-				else if (onestsurquelcase(playerfrect) == 7)
-				{
-					sfMusic_play(pasbois);
-				}
-				else if (onestsurquelcase(playerfrect) == 8)
-				{
-					sfMusic_play(pasbois);
-				}
-				else if (onestsurquelcase(playerfrect) == 9)
-				{
-					sfMusic_play(pasbois);
-				}
-				else if (onestsurquelcase(playerfrect) == 10)
-				{
-					sfMusic_play(pasbois);
-				}*/
-				letemps = 0.0f;
+				sfSound_play(pasplanche);
 			}
+			else if (actualTile == 1)
+			{
+				sfSound_play(pasterre);
+			}
+			else if (actualTile == 2)
+			{
+				sfSound_play(passable);
+			}
+			else if (actualTile == 3)
+			{
+				/*sfMusic_play(pasbois);*/
+			}
+			else if (actualTile == 4)
+			{
+				sfSound_play(paspierre);
+			}
+			/*
+			else if (onestsurquelcase(playerfrect) == 5)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 6)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 7)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 8)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 9)
+			{
+				sfMusic_play(pasbois);
+			}
+			else if (onestsurquelcase(playerfrect) == 10)
+			{
+				sfMusic_play(pasbois);
+			}*/
+			letemps = 0.0f;
 		}
 	}
-	else
-	{
-		sfSound_stop(pasplanche);
-		sfSound_stop(pasterre);
-		sfSound_stop(passable);
-		sfSound_stop(paspierre);
-	}
-	letemps += GetDeltaTime();
-	backtile = actualTile;
-	updateUI(Pposition);
+}
+  else
+  {
+    sfSound_stop(pasplanche);
+    sfSound_stop(pasterre);
+    sfSound_stop(passable);
+    sfSound_stop(paspierre);
+  }
+  letemps += GetDeltaTime();
+  backtile = actualTile;
+  updateUI(Pposition);
 }
 
 
@@ -249,6 +261,7 @@ void GameMod_player()
 	
 
 	// Joueur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode
+
 	scale.x = 0.8f;
 	scale.y = 0.8f;
 	vitesse.x = 75.f;
