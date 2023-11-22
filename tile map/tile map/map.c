@@ -2,9 +2,19 @@
 #include "tools.h"
 #include "player.h"
 #include "musique.h"
+
+
 #define TEXTURE_PATH "../Ressources/Textures/"
 
 
+typedef enum coffre
+{
+	BLEU,
+	VERTE,
+	ROUGE
+}statuecoffre;
+
+statuecoffre coffstat = -1;
 
 typedef struct Cchest Cchest;
 struct Cchest
@@ -46,12 +56,43 @@ sfIntRect chestrect;
 sfVector2f chestpos;
 
 
+sfVector2f posorbebleu = { 0.0f,0.0f };
+sfVector2f posorberouge = { 0.0f,0.0f };
+sfVector2f posorbeverte = { 0.0f,0.0f };
+
+sfVector2f scaleorbebleu = { 0.5f,0.5f };
+sfVector2f scaleorberouge = { 0.5f,0.5f };
+sfVector2f scaleorbeverte = { 0.5f,0.5f };
+
+
 void initMap()
 {
+	orbebleu = sfSprite_create();
+	orberouge = sfSprite_create();
+	orbeverte = sfSprite_create();
+
+	textureorbebleu = sfTexture_createFromFile(TEXTURE_PATH"orbebleu.png", NULL);
+	textureorberouge = sfTexture_createFromFile(TEXTURE_PATH"orberouge.png", NULL);
+	textureorbeverte = sfTexture_createFromFile(TEXTURE_PATH"orbeverte.png", NULL);
+
+	sfSprite_setTexture(orbebleu, textureorbebleu, sfTrue);
+	sfSprite_setTexture(orberouge, textureorberouge, sfTrue);
+	sfSprite_setTexture(orbeverte, textureorbeverte, sfTrue);
+
+	sfSprite_setOrigin(orbebleu, vector2f(sfSprite_getGlobalBounds(orbebleu).width / 2, sfSprite_getGlobalBounds(orbebleu).height / 2));
+	sfSprite_setOrigin(orberouge, vector2f(sfSprite_getGlobalBounds(orberouge).width / 2, sfSprite_getGlobalBounds(orberouge).height / 2));
+	sfSprite_setOrigin(orbeverte, vector2f(sfSprite_getGlobalBounds(orbeverte).width / 2, sfSprite_getGlobalBounds(orbeverte).height / 2));
+
+	sfSprite_setScale(orbebleu, scaleorbebleu);
+	sfSprite_setScale(orberouge, scaleorberouge);
+	sfSprite_setScale(orbeverte, scaleorbeverte);
+
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
 	fichier = fopen("MAP.bin", "r");
 	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
+
+	
 
 	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
 	FragmentedOrb = sfSprite_create();
@@ -197,6 +238,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					blocage = 1;
 					numerochest = i;
 					timer_c2 = 0;
+					coffstat++;
 				}
 			}
 		}
@@ -229,20 +271,61 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			else
 			{
 				compteur++;
+				appararitionObjet();
 				animpcoffre(4);
 			}
 		}
 	}
 }
 
+float statcoffretime = 0.f;
+int statueappartition = 0;
+
+void appararitionObjet()
+{
+	if (coffstat == ROUGE)
+	{
+		posorberouge.x = Pposition.x - 6.f;
+		posorberouge.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orberouge, posorberouge);
+		statueappartition = 3;
+		statcoffretime = 0.f;
+	}
+
+	if (coffstat == VERTE)
+	{
+		posorbeverte.x = Pposition.x - 6.f;
+		posorbeverte.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orbeverte, posorbeverte);
+		statueappartition = 2;
+		statcoffretime = 0.f;
+		
+	}
+
+	if (coffstat == BLEU)
+	{
+		posorbebleu.x = Pposition.x + 6.f;
+		posorbebleu.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orbebleu, posorbebleu);
+		statueappartition = 1;
+		statcoffretime = 0.f;
+	
+	}
 
 
+}
 
 
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
 {
-	
+	/*sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+	sfRenderWindow_drawSprite(_window, orbeverte, NULL);
+	sfRenderWindow_drawSprite(_window, orberouge, NULL);*/
+
 
 	sfVector2i mousePosition;
 	sfVector2i pixelPos = sfMouse_getPositionRenderWindow(_window);
@@ -540,6 +623,38 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 		}
 	}
 
+	
+	if (statueappartition == 1)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+					
+		}
+		
+	}
+	if (statueappartition == 2)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orbeverte, NULL);
+			
+		}
+		
+	}
+	if (statueappartition == 3)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orberouge, NULL);
+			
+		}
+		
+		
+	}
 
 
 

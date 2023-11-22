@@ -40,9 +40,10 @@ void initPlayer()
 	sfSprite_setTextureRect(player, irect);
 }
 
-void animpcoffre(int i)
+
+void animpcoffre(int _i)
 {
-	frameY = i;
+	frameY = _i;
 }
 void updatePlayer()
 {

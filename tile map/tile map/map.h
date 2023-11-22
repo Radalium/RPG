@@ -4,6 +4,15 @@
 #include"player.h"
 
 
+sfSprite* orberouge;
+sfSprite* orbebleu;
+sfSprite* orbeverte;
+
+sfTexture* textureorberouge;
+sfTexture* textureorbebleu;
+sfTexture* textureorbeverte;
+
+
 int iModeDeJeu;
 
 void initMap();
@@ -17,5 +26,8 @@ void Openchest(int i);
 
 
 int onestsurquelcase(sfFloatRect _sprite);
+void appararitionObjet();
+
+
 
 

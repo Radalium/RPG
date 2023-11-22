@@ -17,6 +17,7 @@ enum  Direction
 	IDLE
 };
 Direction direction;
+
 sfVector2f Pposition;
 sfVector2f actualposJ;
 void updatePlayer();
@@ -32,5 +33,7 @@ sfBool CalculD(sfVector2f _obj, float _rayon2);
 
 sfBool CalculD(sfVector2f _obj, float _rayon2);
 void couv(int _chestouvert);
-void animpcoffre(int i);
+
+void animpcoffre(int _i);
+
 
