@@ -20,6 +20,7 @@ sfVector2f vitesse = { 75.0f, 75.0f };
 
 float letemps = 0.0f;
 int backtile;
+int actualTile;
 
 float rayon1;
 
@@ -144,78 +145,77 @@ void updatePlayer(sfRenderWindow* _window)
 
 	if (isMoving == sfTrue && actualState == JOUER)
 	{
-		if (letemps > 0.5f)
-		backtile = onestsurquelcase(playerfrect);
+		
+		//if (letemps > 0.5f)
+		//backtile = onestsurquelcase(playerfrect);
 
 		if (letemps > 0.5f)
 		{
-			sfMusic_stop(pasplanche);
-			sfMusic_stop(pasterre);
-			sfMusic_stop(passable);
-			sfSound_stop(paspierre);
-
-		}
-
-		if (letemps > 0.5f && onestsurquelcase != backtile)
-		{
-			if (onestsurquelcase(playerfrect) == 0)
+			actualTile = onestsurquelcase(playerfrect);
+			if (actualTile != backtile)
 			{
-				sfMusic_play(pasplanche);
+				sfSound_stop(pasplanche);
+				sfSound_stop(pasterre);
+				sfSound_stop(passable);
+				sfSound_stop(paspierre);
+				if (actualTile == 0)
+				{
+					sfSound_play(pasplanche);
+				}
+				else if (actualTile == 1)
+				{
+					sfSound_play(pasterre);
+				}
+				else if (actualTile == 2)
+				{
+					sfSound_play(passable);
+				}
+				else if (actualTile == 3)
+				{
+					/*sfMusic_play(pasbois);*/
+				}
+				else if (actualTile == 4)
+				{
+					sfSound_play(paspierre);
+				}
+				/*
+				else if (onestsurquelcase(playerfrect) == 5)
+				{
+					sfMusic_play(pasbois);
+				}
+				else if (onestsurquelcase(playerfrect) == 6)
+				{
+					sfMusic_play(pasbois);
+				}
+				else if (onestsurquelcase(playerfrect) == 7)
+				{
+					sfMusic_play(pasbois);
+				}
+				else if (onestsurquelcase(playerfrect) == 8)
+				{
+					sfMusic_play(pasbois);
+				}
+				else if (onestsurquelcase(playerfrect) == 9)
+				{
+					sfMusic_play(pasbois);
+				}
+				else if (onestsurquelcase(playerfrect) == 10)
+				{
+					sfMusic_play(pasbois);
+				}*/
+				letemps = 0.0f;
 			}
-			else if (onestsurquelcase(playerfrect) == 1)
-			{
-				sfMusic_play(pasterre);
-			}
-			else if (onestsurquelcase(playerfrect) == 2)
-			{
-				sfMusic_play(passable);
-			}
-			else if (onestsurquelcase(playerfrect) == 3)
-			{
-				/*sfMusic_play(pasbois);*/
-			}
-			else if (onestsurquelcase(playerfrect) == 4)
-			{
-				sfSound_play(paspierre);
-			}
-			/*
-			else if (onestsurquelcase(playerfrect) == 5)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 6)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 7)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 8)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 9)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 10)
-			{
-				sfMusic_play(pasbois);
-			}*/
-			letemps = 0.0f;
 		}
 	}
 	else
 	{
-		sfMusic_stop(pasplanche);
-		sfMusic_stop(pasterre);
-		sfMusic_stop(passable);
-		sfSound_stop(paspierre);	
+		sfSound_stop(pasplanche);
+		sfSound_stop(pasterre);
+		sfSound_stop(passable);
+		sfSound_stop(paspierre);
 	}
 	letemps += GetDeltaTime();
-	
-
+	backtile = actualTile;
 	updateUI(Pposition);
 }
 
