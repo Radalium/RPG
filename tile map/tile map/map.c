@@ -14,7 +14,7 @@ typedef enum coffre
 	ROUGE
 }statuecoffre;
 
-statuecoffre coffstat = BLEU;
+statuecoffre coffstat = -1;
 
 typedef struct Cchest Cchest;
 struct Cchest
@@ -238,6 +238,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					blocage = 1;
 					numerochest = i;
 					timer_c2 = 0;
+					coffstat++;
 				}
 			}
 		}
@@ -277,31 +278,42 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	}
 }
 
+float statcoffretime = 0.f;
+int statueappartition = 0;
 
 void appararitionObjet()
 {
-	if (coffstat == BLEU)
-	{
-		posorbebleu.x = Pposition.x - 10.f;
-		posorbebleu.y = Pposition.y - 10.f;
-
-		sfSprite_setPosition(orbebleu, posorbebleu);
-	}
-	if (coffstat == VERTE)
-	{
-		posorbeverte.x = Pposition.x - 10.f;
-		posorbeverte.y = Pposition.y - 10.f;
-
-		sfSprite_setPosition(orbeverte, posorbeverte);
-	}
 	if (coffstat == ROUGE)
 	{
-		posorberouge.x = Pposition.x - 10.f;
-		posorberouge.y = Pposition.y - 10.f;
+		posorberouge.x = Pposition.x - 6.f;
+		posorberouge.y = Pposition.y - 1.f;
 
 		sfSprite_setPosition(orberouge, posorberouge);
+		statueappartition = 3;
+		statcoffretime = 0.f;
 	}
+
+	if (coffstat == VERTE)
+	{
+		posorbeverte.x = Pposition.x - 6.f;
+		posorbeverte.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orbeverte, posorbeverte);
+		statueappartition = 2;
+		statcoffretime = 0.f;
+		
+	}
+
+	if (coffstat == BLEU)
+	{
+		posorbebleu.x = Pposition.x + 6.f;
+		posorbebleu.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orbebleu, posorbebleu);
+		statueappartition = 1;
+		statcoffretime = 0.f;
 	
+	}
 
 
 }
@@ -310,9 +322,9 @@ void appararitionObjet()
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
 {
-	sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+	/*sfRenderWindow_drawSprite(_window, orbebleu, NULL);
 	sfRenderWindow_drawSprite(_window, orbeverte, NULL);
-	sfRenderWindow_drawSprite(_window, orberouge, NULL);
+	sfRenderWindow_drawSprite(_window, orberouge, NULL);*/
 
 
 	sfVector2i mousePosition;
@@ -610,9 +622,39 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			break;
 		}
 	}
-	sfRenderWindow_drawSprite(_window, orbebleu, NULL);
-	sfRenderWindow_drawSprite(_window, orbeverte, NULL);
-	sfRenderWindow_drawSprite(_window, orberouge, NULL);
+
+	
+	if (statueappartition == 1)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orbebleu, NULL);
+					
+		}
+		
+	}
+	if (statueappartition == 2)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orbeverte, NULL);
+			
+		}
+		
+	}
+	if (statueappartition == 3)
+	{
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
+		{
+			sfRenderWindow_drawSprite(_window, orberouge, NULL);
+			
+		}
+		
+		
+	}
 
 
 
