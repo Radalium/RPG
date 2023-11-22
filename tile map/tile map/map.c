@@ -14,7 +14,7 @@ typedef enum coffre
 	ROUGE
 }statuecoffre;
 
-statuecoffre coffstat = BLEU;
+statuecoffre coffstat = -1;
 
 typedef struct Cchest Cchest;
 struct Cchest
@@ -238,6 +238,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					blocage = 1;
 					numerochest = i;
 					timer_c2 = 0;
+					coffstat++;
 				}
 			}
 		}
@@ -282,32 +283,37 @@ int statueappartition = 0;
 
 void appararitionObjet()
 {
-	
+	if (coffstat == ROUGE)
+	{
+		posorberouge.x = Pposition.x - 6.f;
+		posorberouge.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orberouge, posorberouge);
+		statueappartition = 3;
+		statcoffretime = 0.f;
+	}
+
+	if (coffstat == VERTE)
+	{
+		posorbeverte.x = Pposition.x - 6.f;
+		posorbeverte.y = Pposition.y - 1.f;
+
+		sfSprite_setPosition(orbeverte, posorbeverte);
+		statueappartition = 2;
+		statcoffretime = 0.f;
+		
+	}
+
 	if (coffstat == BLEU)
 	{
 		posorbebleu.x = Pposition.x + 6.f;
 		posorbebleu.y = Pposition.y - 1.f;
 
 		sfSprite_setPosition(orbebleu, posorbebleu);
-		statueappartition = 1; 
-	}
-	if (coffstat == VERTE)
-	{
-		posorbeverte.x = Pposition.x - 1.f;
-		posorbeverte.y = Pposition.y - 1.f;
-
-		sfSprite_setPosition(orbeverte, posorbeverte);
-		statueappartition = 2;
-	}
-	if (coffstat == ROUGE)
-	{
-		posorberouge.x = Pposition.x - 1.f;
-		posorberouge.y = Pposition.y - 1.f;
-
-		sfSprite_setPosition(orberouge, posorberouge);
-		statueappartition = 3;
-	}
+		statueappartition = 1;
+		statcoffretime = 0.f;
 	
+	}
 
 
 }
@@ -617,42 +623,36 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 		}
 	}
 
-	statcoffretime += GetDeltaTime();
+	
 	if (statueappartition == 1)
 	{
-		if (statcoffretime > 1.f)
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
 		{
 			sfRenderWindow_drawSprite(_window, orbebleu, NULL);
-			statcoffretime = 0.f;
+					
 		}
-		else
-		{
-			sfSprite_destroy(orbebleu);
-		}
+		
 	}
 	if (statueappartition == 2)
 	{
-		if (statcoffretime > 1.f)
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
 		{
 			sfRenderWindow_drawSprite(_window, orbeverte, NULL);
-			statcoffretime = 0.f;
+			
 		}
-		else
-		{
-			sfSprite_destroy(orbeverte);
-		}
+		
 	}
 	if (statueappartition == 3)
 	{
-		if (statcoffretime > 1.f)
+		statcoffretime += GetDeltaTime();
+		if (statcoffretime < 0.01f)
 		{
 			sfRenderWindow_drawSprite(_window, orberouge, NULL);
-			statcoffretime = 0.f;
+			
 		}
-		else
-		{
-			sfSprite_destroy(orberouge);
-		}
+		
 		
 	}
 
