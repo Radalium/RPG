@@ -16,6 +16,7 @@ void initMusique()
 	editeur = sfMusic_createFromFile(MUSIQUE_PATH"musiqueediteur.ogg");
 	grotte = sfMusic_createFromFile(MUSIQUE_PATH"grotte.ogg");
 	forest = sfMusic_createFromFile(MUSIQUE_PATH"forest.ogg");
+	finson = sfMusic_createFromFile(MUSIQUE_PATH"finson.ogg");
 
 	coffre2 = sfSound_create();
 	menu2 = sfSound_create(); 
@@ -56,7 +57,7 @@ void initMusique()
 	sfMusic_setLoop(editeur, sfTrue);
 	sfMusic_setLoop(forest, sfTrue);
 	sfMusic_setLoop(grotte, sfTrue);
-	
+	sfMusic_setLoop(finson, sfTrue);
 
 
 	sfSound_setLoop(coffre2, sfFalse);
@@ -73,6 +74,7 @@ void initMusique()
 	sfMusic_setVolume(editeur, volume);
 	sfMusic_setVolume(forest, volume);
 	sfMusic_setVolume(grotte, volume);
+	sfMusic_setVolume(finson, volume);
 
 
 	sfSound_setVolume(coffre2, volume);

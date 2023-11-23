@@ -17,7 +17,8 @@ typedef enum state
 	JOUER,
 	EDITEUR,
 	QUITTER,
-	TOUCHES
+	TOUCHES,
+	FIN,
 } state;
 
 state actualState;

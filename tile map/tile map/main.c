@@ -10,7 +10,7 @@
 #include "NPC.h"
 #include "musique.h"
 #include "UI.h"
-
+#include "fin.h"
 
 #define TEXTURE_PATH "../Ressources/Textures/"
 
@@ -36,6 +36,7 @@ int main()
 	initPlayer();
 	initCam();
 	initMenu();
+	initFin();
 
    	initNPC(window);
 	initUI();
@@ -120,7 +121,14 @@ int main()
 			displayMap(window, cam);
 			displayCam(window);
 		}
-
+		else if (actualState == FIN)
+		{
+			sfMusic_stop(forest);
+			sfMusic_stop(menu);
+			sfMusic_stop(grotte);
+			sfMusic_play(finson);
+			displayFin(window);
+		}
 		
 		sfRenderWindow_display(window);
 

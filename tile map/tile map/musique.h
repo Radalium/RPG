@@ -7,6 +7,7 @@ sfMusic* menu;
 sfMusic* editeur;
 sfMusic* forest;
 sfMusic* grotte;
+sfMusic* finson;
 
 sfSound* coffre2;
 sfSound* menu2;
