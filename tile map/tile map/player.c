@@ -190,12 +190,17 @@ if (isMoving == sfTrue && actualState == JOUER)
 			{
 				sfSound_play(paspierre);
 			}
-			/*
-			else if (onestsurquelcase(playerfrect) == 5)
+			
+			else if (onestsurquelcase(playerfrect) == 23)
 			{
-				sfMusic_play(pasbois);
+				changementMap(23,1);
 			}
-			else if (onestsurquelcase(playerfrect) == 6)
+
+			else if (onestsurquelcase(playerfrect) == 20)
+			{
+				changementMap(20, 1);
+			}
+			/*else if (onestsurquelcase(playerfrect) == 6)
 			{
 				sfMusic_play(pasbois);
 			}
