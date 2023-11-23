@@ -157,9 +157,8 @@ void updatePlayer()
 
 if (isMoving == sfTrue && actualState == JOUER)
 {
-	
-	//if (letemps > 0.5f)
-	//backtile = onestsurquelcase(playerfrect);
+	// Musique | Fonction qui permet de jouer le son de la case sur laquelle on est
+
 
 	if (letemps > 0.5f)
 	{
