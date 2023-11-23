@@ -83,6 +83,8 @@ sfVector2f scaleorbebleu = { 0.5f,0.5f };
 sfVector2f scaleorberouge = { 0.5f,0.5f };
 sfVector2f scaleorbeverte = { 0.5f,0.5f };
 
+
+
 sfBool isAnimated = sfFalse;
 
 void initMap()
@@ -110,7 +112,7 @@ void initMap()
 	sfSprite_setOrigin(orbebleu, vector2f(sfSprite_getGlobalBounds(orbebleu).width / 2, sfSprite_getGlobalBounds(orbebleu).height / 2));
 	sfSprite_setOrigin(orberouge, vector2f(sfSprite_getGlobalBounds(orberouge).width / 2, sfSprite_getGlobalBounds(orberouge).height / 2));
 	sfSprite_setOrigin(orbeverte, vector2f(sfSprite_getGlobalBounds(orbeverte).width / 2, sfSprite_getGlobalBounds(orbeverte).height / 2));
-	sfSprite_setOrigin(porteanim, vector2f(sfSprite_getGlobalBounds(porteanim).width / 2, sfSprite_getGlobalBounds(porteanim).height / 2));
+	//sfSprite_setOrigin(porteanim, vector2f(sfSprite_getGlobalBounds(porteanim).width / 2, sfSprite_getGlobalBounds(porteanim).height / 2));
 	sfSprite_setOrigin(porte, vector2f(sfSprite_getGlobalBounds(porte).width / 2, sfSprite_getGlobalBounds(porte).height / 2));
 
 	sfSprite_setScale(orbebleu, scaleorbebleu);
@@ -444,21 +446,20 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	timeouverture += GetDeltaTime();
 	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f && (CalculD(portedefinpos, 32)))
 	{
+		map[(int)portedefinpos.y / 32][(int)portedefinpos.x / 32] = 46;
 		ouverture = sfTrue;	
-		map[portedefinpos.y][portedefinpos.x] = 46;
-
+		sfSprite_setPosition(porteanim, portedefinpos);
 	
-		
 	}
 	if (ouverture == sfTrue && timeouverture > 1.3f)
 	{
 
-		/*irectporte.left += 32;
+		irectporte.left += 32;
 		sfSprite_setTextureRect(porteanim, irectporte);
 		isAnimated = sfTrue;
-	 	timeouverture = 0.f;*/
+	 	timeouverture = 0.f;
 	}
-	if (irectporte.left == 32 * 2)
+	if (irectporte.left == 32 * 16)
 	{
 		ouverture = sfFalse;
 
