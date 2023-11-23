@@ -115,14 +115,14 @@ void initMap()
 
 
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
-	fichier = fopen("MAPBonus.bin", "r");
-	fread(map, sizeof(char), 12000, fichier);
+	fichier = fopen("MAP1.bin", "r");
+	fread(map, sizeof(char), 15000, fichier);
 	fclose(fichier);
 	fichier = fopen("MAP2.bin", "r");
 	fclose(fichier);
 	fichier = fopen("MAP3.bin", "r");
 	fclose(fichier);
-	fichier = fopen("MAP1.bin", "r");
+	fichier = fopen("MAPBonus.bin", "r");
 	fclose(fichier);
 
 
@@ -319,7 +319,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		{
 			timer = 0.0f;
 			ntile++;
-			if (ntile > 39)
+			if (ntile > 46)
 				ntile = 0;
 		}
 		if (sfKeyboard_isKeyPressed(sfKeySpace) && timer > 0.5f)
@@ -327,7 +327,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			timer = 0.0f;
 			ntile--;
 			if (ntile < 0)
-				ntile = 39;
+				ntile = 46;
 		}
 		// Si la touche I est pressée alors on change la taille du pinceau
 		if (sfKeyboard_isKeyPressed(sfKeyI) && timer > 0.3f)
@@ -364,8 +364,8 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
 		{
-			fichier = fopen("dungeon1.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAPBonus.bin", "r");
+			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
@@ -474,33 +474,38 @@ void changementMap(int _nb, int _tmp)
 	
 	changement += _tmp;
 	if (changement>1) changement = 0;
-	if (_nb==23 && changement==0 && nmcle ==1)
+	if (_nb == 23 && changement == 0 && nmcle == 1)
 	{
-		
+
 		fichier = fopen("MAP1.bin", "r");
 		fread(map, sizeof(char), 15000, fichier);
 		fclose(fichier);
 	}
-	if (_nb == 23 || _nb==20 && changement == 1)
+	else if ((_nb == 23 || _nb == 20) && changement == 1 && nmcle >= 1)
 	{
-		
+
 		fichier = fopen("MAPBonus.bin", "r");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
-	if (_nb == 23 && changement == 0 && nmcle == 2)
+	else if (_nb == 23 && changement == 0 && nmcle == 2)
 	{
 
 		fichier = fopen("MAP2.bin", "r");
 		fread(map, sizeof(char), 15000, fichier);
 		fclose(fichier);
 	}
-	if (_nb == 20 && changement == 0 && nmcle == 3)
+	else if (_nb == 20 && changement == 0 && nmcle == 3 || nmcle == 4)
 	{
 
 		fichier = fopen("MAP3.bin", "r");
 		fread(map, sizeof(char), 15000, fichier);
 		fclose(fichier);
+	}
+	else
+	{
+		if (changement == 1) changement = 0;
+		else  changement = 1;
 	}
 }
 
@@ -879,6 +884,62 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfSprite_setTextureRect(tileSprite, tileRect);
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
+			case 40:
+				tileRect.left = 32 * 41;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 41:
+				tileRect.left = 32 * 42;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 42:
+				tileRect.left = 32 * 43;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 43:
+				tileRect.left = 32 * 44;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 44:
+				tileRect.left = 32 * 45;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 45:
+				tileRect.left = 32 * 46;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite,tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
+			case 46:
+				tileRect.left = 32 * 47;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
 			}
 		}
 	}
@@ -1203,6 +1264,62 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			break;
 		case 39:
 			tileRect.left = 32 * 40;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 40:
+			tileRect.left = 32 * 41;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 41:
+			tileRect.left = 32 * 42;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 42:
+			tileRect.left = 32 * 43;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 43:
+			tileRect.left = 32 * 44;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 44:
+			tileRect.left = 32 * 45;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 45:
+			tileRect.left = 32 * 46;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite, tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
+		case 46:
+			tileRect.left = 32 * 47;
 			position.x = worldPos.x;
 			position.y = worldPos.y;
 			sfSprite_setPosition(tileSprite, position);
