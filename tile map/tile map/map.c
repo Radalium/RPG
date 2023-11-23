@@ -116,14 +116,14 @@ void initMap()
 
 
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
+	fichier = fopen("MAPBonus.bin", "r");
+	fread(map, sizeof(char), 12000, fichier);
+	fclose(fichier);
 	fichier = fopen("MAP1.bin", "r");
-	fread(map, sizeof(char), 15000, fichier);
 	fclose(fichier);
 	fichier = fopen("MAP2.bin", "r");
 	fclose(fichier);
 	fichier = fopen("MAP3.bin", "r");
-	fclose(fichier);
-	fichier = fopen("MAPBonus.bin", "r");
 	fclose(fichier);
 
 
@@ -343,8 +343,8 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Si la touche M est pressée alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
-			fichier = fopen("MAPBonus.bin", "w");
-			fwrite(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAP3.bin", "wb");
+			fwrite(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
