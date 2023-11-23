@@ -61,6 +61,7 @@ void updatePlayer()
 		iModeDeJeu = 0;
 		actualState = MENU;
 		sfMusic_play(menu);
+		timer = 0.0f;
 
 		if (blocage3 == 1)
 		{

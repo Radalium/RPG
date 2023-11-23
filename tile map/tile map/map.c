@@ -232,17 +232,20 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 	Tposition.x = (float)worldPos.x / 32;
 	Tposition.y = (float)worldPos.y / 32;
-	timer += GetDeltaTime();
+
 
 	// Gestion de l'édition de la map
 	if (iModeDeJeu == 1)
 	{
+
+
+		timer += GetDeltaTime();
 		blocage_coffre = 0;
 		// Affichage du mode édition pour la map 
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
 			// Si le bouton gauche de la souris est presser alors on change la case de la map
-			if (sfMouse_isButtonPressed(sfMouseLeft) && timer > 0.1f)
+			if (sfMouse_isButtonPressed(sfMouseLeft) && timer > 0.2f)
 			{
 				// Gestion de la taille du pinceau 1x1
 				timer = 0.f;
@@ -1360,16 +1363,23 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 
 void Position_joueur()
 {
+	int spawn_or_not = 0;
 	for (int y = 0; y < 60; y++)
 	{
 		for (int x = 0; x < 200; x++)
 		{
 			if (map[y][x] == 9)
 			{
+				spawn_or_not++;
 				Pposition.x = x*32 +9;
 				Pposition.y = y*32 +6;
 			}
 		}
+	}
+	if (spawn_or_not == 0)
+	{
+		Pposition.x = actualposJ.x;
+		Pposition.y = actualposJ.y;
 	}
 	
 }
