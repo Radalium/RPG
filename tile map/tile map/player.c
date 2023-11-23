@@ -176,6 +176,7 @@ if (isMoving == sfTrue && actualState == JOUER)
 			}
 			else if (actualTile == 1)
 			{
+				sfSound_setLoop(pasterre, sfTrue);
 				sfSound_play(pasterre);
 			}
 			else if (actualTile == 2)

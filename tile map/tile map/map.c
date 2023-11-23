@@ -324,7 +324,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		{
 			timer = 0.0f;
 			ntile++;
-			if (ntile > 46)
+			if (ntile > 47)
 				ntile = 0;
 		}
 		if (sfKeyboard_isKeyPressed(sfKeySpace) && timer > 0.5f)
@@ -332,7 +332,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			timer = 0.0f;
 			ntile--;
 			if (ntile < 0)
-				ntile = 46;
+				ntile = 47;
 		}
 		// Si la touche I est pressée alors on change la taille du pinceau
 		if (sfKeyboard_isKeyPressed(sfKeyI) && timer > 0.3f)
@@ -443,7 +443,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f && (CalculD(portedefinpos, 32)) && dejaouvert == 0)
 	{
 		sfMusic_play(porte);
-		map[(int)portedefinpos.y /32][(int)portedefinpos.x / 32 ] = 46;
+		map[(int)portedefinpos.y /32][(int)portedefinpos.x / 32 ] = 47;
 		ouverture = sfTrue;	
 		sfSprite_setPosition(porteanim, portedefinpos);
 	
@@ -462,6 +462,13 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		ouverture = sfFalse;
 		sfMusic_stop(porte);
 		
+	}
+
+	if (onestsurquelcase == 47)
+	{
+		actualState = FIN;
+
+		// Fin du jeu
 	}
 }
 
@@ -963,6 +970,14 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				sfSprite_setTextureRect(tileSprite, tileRect);
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 				break;
+			case 47:
+				tileRect.left = 32 * 48;
+				position.x = x * 32;
+				position.y = y * 32;
+				sfSprite_setPosition(tileSprite, position);
+				sfSprite_setTextureRect(tileSprite, tileRect);
+				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+				break;
 			}
 		}
 	}
@@ -1351,6 +1366,14 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			sfSprite_setTextureRect(tileSprite, tileRect);
 			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
 			break;
+		case 47:
+			tileRect.left = 32 * 48;
+			position.x = worldPos.x;
+			position.y = worldPos.y;
+			sfSprite_setPosition(tileSprite, position);
+			sfSprite_setTextureRect(tileSprite,tileRect);
+			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
+			break;
 		}
 	}
 
@@ -1405,7 +1428,7 @@ int onestsurquelcase(sfFloatRect _sprite)
 		{
 			return 0;
 		}
-		if (map[fretpos.y][fretpos.x] == 1)
+		if (map[fretpos.y][fretpos.x] == 1 || map[fretpos.y][fretpos.x] == 15 || map[fretpos.y][fretpos.x] == 14 || map[fretpos.y][fretpos.x] == 13 || map[fretpos.y][fretpos.x] ==12 || map[fretpos.y][fretpos.x] == 26 || map[fretpos.y][fretpos.x] == 28 || map[fretpos.y][fretpos.x] == 29 || map[fretpos.y][fretpos.x] == 30 || map[fretpos.y][fretpos.x] == 31 || map[fretpos.y][fretpos.x] == 32 || map[fretpos.y][fretpos.x] == 34 || map[fretpos.y][fretpos.x] == 35)
 		{
 			return 1;
 		}
@@ -1425,7 +1448,10 @@ int onestsurquelcase(sfFloatRect _sprite)
 		{
 			return 23;
 		}
-
+		if (map[fretpos.y][fretpos.x] == 47)
+		{
+			return 47;
+		}
 }
 
 

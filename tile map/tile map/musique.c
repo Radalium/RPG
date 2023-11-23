@@ -62,7 +62,10 @@ void initMusique()
 	sfSound_setLoop(pas, sfFalse);
 	sfSound_setLoop(placement, sfFalse);
 	sfSound_setLoop(princesse, sfFalse);
-	sfSound_setLoop(paspierre, sfFalse);
+	sfSound_setLoop(paspierre, sfTrue);
+	sfSound_setLoop(pasplanche, sfTrue);
+	sfSound_setLoop(passable, sfTrue);
+	
 
 
 	sfMusic_setVolume(porte, volume);
@@ -92,7 +95,7 @@ void updateMusique()
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
-	sfMusic_setVolume(forest, volume - 20);
+	sfMusic_setVolume(forest, volume - 30);
 
 	sfSound_setVolume(coffre2, volume);
 	sfSound_setVolume(menu2, volume);
