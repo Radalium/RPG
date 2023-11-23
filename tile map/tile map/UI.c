@@ -23,7 +23,7 @@ sfVector2f Cle2scale = { 0.80f,0.80f };
 sfVector2f Cle3scale = { 0.80f,0.80f };
 	
 
-float temps;
+float temps = 0;
 
 void initUI()
 { // Initialisation des sprites et textures
@@ -61,12 +61,12 @@ void initUI()
 
 }
 // Fonction qui permet de mettre a jour les sprites
-temps = 0;
+
 void updateUI(sfVector2f _camrect)
 {
 	// Update des sprites en fonction du nombre de cle
 	temps += GetDeltaTime();
-	if (sfKeyboard_isKeyPressed(sfKeyY) && temps > 0.1f)
+	if (sfKeyboard_isKeyPressed(sfKeyY) && temps > 0.2f)
 	{
 		nmcle++;
 		temps = 0.f;
@@ -74,9 +74,8 @@ void updateUI(sfVector2f _camrect)
 
 	if (nmcle == 1)
 	{
-		Cle0pos.x = _camrect.x - 97.f;
-		Cle0pos.y = _camrect.y - 72.f;
-
+		Cle1pos.x = _camrect.x - 97.f;
+		Cle1pos.y = _camrect.y - 72.f;
 		sfSprite_setPosition(Cle0, Cle0pos);
 	}
 	else if (nmcle == 2)

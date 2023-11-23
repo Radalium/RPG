@@ -20,6 +20,7 @@ sfTexture* textureportedefin;
 
 
 int iModeDeJeu;
+float timer;
 
 void initMap();
 void updateMap(sfRenderWindow* _window, sfView* _cam);

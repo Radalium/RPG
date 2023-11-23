@@ -84,6 +84,7 @@ sfVector2f scaleorbeverte = { 0.5f,0.5f };
 
 void initMap()
 {
+	// Initialisation des variables
 	orbebleu = sfSprite_create();
 	orberouge = sfSprite_create();
 	orbeverte = sfSprite_create();
@@ -238,17 +239,20 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 	Tposition.x = (float)worldPos.x / 32;
 	Tposition.y = (float)worldPos.y / 32;
-	timer += GetDeltaTime();
+
 
 	// Gestion de l'édition de la map
 	if (iModeDeJeu == 1)
 	{
+
+
+		timer += GetDeltaTime();
 		blocage_coffre = 0;
 		// Affichage du mode édition pour la map 
 		if (mousePosition.x < 800 && mousePosition.y < 600 && mousePosition.x>0 && mousePosition.y>0)
 		{
 			// Si le bouton gauche de la souris est presser alors on change la case de la map
-			if (sfMouse_isButtonPressed(sfMouseLeft) && timer > 0.1f)
+			if (sfMouse_isButtonPressed(sfMouseLeft) && timer > 0.2f)
 			{
 				// Gestion de la taille du pinceau 1x1
 				timer = 0.f;
@@ -344,30 +348,38 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			fclose(fichier);
 		}
 
+		// Si la touche 1 est pressée alors on charge la map 1
 		if (sfKeyboard_isKeyPressed(sfKeyNum1) && timer > 0.8f)
 		{
 			fichier = fopen("MAP1.bin", "r");
 			fread(map, sizeof(char), 15000, fichier);
 			fclose(fichier);
 		}
+
+		// Si la touche 2 est pressée alors on charge la map 2
 		if (sfKeyboard_isKeyPressed(sfKeyNum2)&& timer >0.8f)
 		{
 			fichier = fopen("MAP2.bin", "r");
 			fread(map, sizeof(char), 15000, fichier);
 			fclose(fichier);
 		}
+
+		// Si la touche 3 est pressée alors on charge la map 3
 		if (sfKeyboard_isKeyPressed(sfKeyNum3) && timer > 0.8f)
 		{
 			fichier = fopen("MAP3.bin", "r");
 			fread(map, sizeof(char), 15000, fichier);
 			fclose(fichier);
 		}
+
+		// Si la touche 4 est pressée alors on charge la 4
 		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
 		{
-			fichier = fopen("MAPBonus.bin", "r");
+			fichier = fopen("MAPbonus.bin", "r");
 			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
+
 
 	}
 
@@ -432,9 +444,10 @@ int statueappartition = 0;
 
 void appararitionObjet()
 {
+	// Selon le coffre ouvert on affiche l'orbe correspondante
 	if (coffstat == ROUGE)
 	{
-		posorberouge.x = Pposition.x - 6.f;
+		posorberouge.x = Pposition.x + 6.f;
 		posorberouge.y = Pposition.y - 1.f;
 
 		sfSprite_setPosition(orberouge, posorberouge);
@@ -444,7 +457,7 @@ void appararitionObjet()
 
 	if (coffstat == VERTE)
 	{
-		posorbeverte.x = Pposition.x - 6.f;
+		posorbeverte.x = Pposition.x + 6.f;
 		posorbeverte.y = Pposition.y - 1.f;
 
 		sfSprite_setPosition(orbeverte, posorbeverte);
@@ -513,7 +526,7 @@ float timeouverture = 0.f;
 int affichelouverture = 0;
 void ouvertureporte()
 {
-	// 0 à 15 images pour l'animation de la porte
+	// 0 à 15 images pour l'animation de la porte || Fonction qui gère l'ouverture de la porte finale
 	timeouverture += GetDeltaTime();
 	if (nmcle == 3 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f)
 	{
@@ -528,23 +541,17 @@ void ouvertureporte()
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
 {
-
+	// Affichage du fond d'écran
+	
 	sfRenderWindow_drawSprite(_window, background1, NULL);
 
-	/*sfRenderWindow_drawSprite(_window, orbebleu, NULL);
-	sfRenderWindow_drawSprite(_window, orbeverte, NULL);
-	sfRenderWindow_drawSprite(_window, orberouge, NULL);*/
 
-
+	// Initatisation des variables
 	sfVector2i mousePosition;
 	sfVector2i pixelPos = sfMouse_getPositionRenderWindow(_window);
 	sfVector2f worldPos = sfRenderWindow_mapPixelToCoords(_window, pixelPos, cam);
 	mousePosition = sfMouse_getPosition(_window);
 	
-	/*if (iModeDeJeu == 0)
-	{
-		sfRenderWindow_setMouseCursorVisible(_window, sfFalse);
-	}*/
 
 	// Affichage de la map
 	for (int y = 0; y < 60; y++)
@@ -1330,7 +1337,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 	}
 
 	if (statueappartition == 1)
-	{
+	{ // Si le coffre ouvert est le bleu alors on affiche l'orbe bleu
 		statcoffretime += GetDeltaTime();
 		if (statcoffretime < 0.01f)
 		{
@@ -1340,7 +1347,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 		
 	}
 	if (statueappartition == 2)
-	{
+	{ // Si le coffre ouvert est le vert alors on affiche l'orbe verte
 		statcoffretime += GetDeltaTime();
 		if (statcoffretime < 0.01f)
 		{
@@ -1350,7 +1357,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 		
 	}
 	if (statueappartition == 3)
-	{
+	{ // Si le coffre ouvert est le rouge alors on affiche l'orbe rouge
 		statcoffretime += GetDeltaTime();
 		if (statcoffretime < 0.01f)
 		{
@@ -1363,7 +1370,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 
 
 	if (affichelouverture == 1)
-	{
+	{ // Si le joueur appuie sur E et qu'il a les 3 clés alors on affiche l'animation de la porte
 		sfRenderWindow_drawSprite(_window, porteanim, NULL);
 		if (irectporte.left == 32 * 15)
 		{
@@ -1375,6 +1382,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 
 int onestsurquelcase(sfFloatRect _sprite)
 {
+	// Fonction qui renvoie le type de la case sur laquelle le personnage se trouve
 	sfVector2i fretpos;
 
 	fretpos.y = (_sprite.top + _sprite.height) / 32;
@@ -1513,21 +1521,32 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 
 void Position_joueur()
 {
+	int spawn_or_not = 0;
+	// Fonction qui permet de récupérer la position du joueur sur la map
+
 	for (int y = 0; y < 60; y++)
 	{
 		for (int x = 0; x < 200; x++)
 		{
 			if (map[y][x] == 9)
 			{
+				spawn_or_not++;
 				Pposition.x = x*32 +9;
 				Pposition.y = y*32 +6;
 			}
 		}
 	}
+	if (spawn_or_not == 0)
+	{
+		Pposition.x = actualposJ.x;
+		Pposition.y = actualposJ.y;
+	}
 	
 }
+
+
 void Position_NPC()
-{
+{ // Fonction qui permet de récupérer la position du NPC sur la map
 	for (int y = 0; y < 60; y++)
 	{
 		for (int x = 0; x < 200; x++)
