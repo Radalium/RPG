@@ -9,6 +9,7 @@
 sfSprite* background1;
 sfTexture* backtexture1;
 sfVector2f backpos;
+sfVector2f portedefinpos;
 
 typedef enum coffre
 {
@@ -71,7 +72,8 @@ char map[60][200];
 //sfTexture* chesttexture;
 //sfIntRect chestrect;
 //sfVector2f chestpos;
-
+float timeouverture = 0.f;
+sfBool ouverture = sfFalse;
 
 sfVector2f posorbebleu = { 0.0f,0.0f };
 sfVector2f posorberouge = { 0.0f,0.0f };
@@ -81,6 +83,7 @@ sfVector2f scaleorbebleu = { 0.5f,0.5f };
 sfVector2f scaleorberouge = { 0.5f,0.5f };
 sfVector2f scaleorbeverte = { 0.5f,0.5f };
 
+sfBool isAnimated = sfFalse;
 
 void initMap()
 {
@@ -125,6 +128,8 @@ void initMap()
 	fclose(fichier);
 	fichier = fopen("MAPBonus.bin", "r");
 	fclose(fichier);
+
+
 
 
 	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
@@ -232,8 +237,6 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 	// A REVOIR | Gestion du changement de mode de jeu
 	
-	
-		
 
 
 
@@ -343,7 +346,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Si la touche M est pressée alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
-			fichier = fopen("MAPBonus.bin", "w");
+			fichier = fopen("MAP1.bin", "w");
 			fwrite(map, sizeof(char), 15000, fichier);
 			fclose(fichier);
 		}
@@ -437,6 +440,29 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			}
 		}
 	}
+	// 0 à 15 images pour l'animation de la porte || Fonction qui gère l'ouverture de la porte finale
+	timeouverture += GetDeltaTime();
+	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f && (CalculD(portedefinpos, 32)))
+	{
+		ouverture = sfTrue;	
+		map[portedefinpos.y][portedefinpos.x] = 46;
+
+	
+		
+	}
+	if (ouverture == sfTrue && timeouverture > 1.3f)
+	{
+
+		/*irectporte.left += 32;
+		sfSprite_setTextureRect(porteanim, irectporte);
+		isAnimated = sfTrue;
+	 	timeouverture = 0.f;*/
+	}
+	if (irectporte.left == 32 * 2)
+	{
+		ouverture = sfFalse;
+
+	}
 }
 
 float statcoffretime = 0.f;
@@ -522,21 +548,9 @@ void changementMap(int _nb, int _tmp)
 	}
 }
 
-float timeouverture = 0.f;
-int affichelouverture = 0;
-void ouvertureporte()
-{
-	// 0 à 15 images pour l'animation de la porte || Fonction qui gère l'ouverture de la porte finale
-	timeouverture += GetDeltaTime();
-	if (nmcle == 3 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f)
-	{
-		irectporte.left += 32;
-		sfSprite_setTextureRect(porteanim, irectporte);
-		timeouverture = 0.f;
-		affichelouverture = 1;
-	}
 
-}
+	
+
 
 
 void displayMap(sfRenderWindow* _window, sfView* _cam)
@@ -895,6 +909,8 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 				tileRect.left = 32 * 41;
 				position.x = x * 32;
 				position.y = y * 32;
+				portedefinpos.x = position.x;
+				portedefinpos.y = position.y;
 				sfSprite_setPosition(tileSprite, position);
 				sfSprite_setTextureRect(tileSprite,tileRect);
 				sfRenderWindow_drawSprite(_window, tileSprite, NULL);
@@ -1281,6 +1297,8 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 			tileRect.left = 32 * 41;
 			position.x = worldPos.x;
 			position.y = worldPos.y;
+			portedefinpos.x = position.x;
+			portedefinpos.y = position.y;
 			sfSprite_setPosition(tileSprite, position);
 			sfSprite_setTextureRect(tileSprite, tileRect);
 			sfRenderWindow_drawSprite(_window, tileSprite, NULL);
@@ -1368,14 +1386,9 @@ void displayMap(sfRenderWindow* _window, sfView* _cam)
 		
 	}
 
-
-	if (affichelouverture == 1)
-	{ // Si le joueur appuie sur E et qu'il a les 3 clés alors on affiche l'animation de la porte
+	if (isAnimated == sfTrue)
+	{
 		sfRenderWindow_drawSprite(_window, porteanim, NULL);
-		if (irectporte.left == 32 * 15)
-		{
-			affichelouverture = 0;
-		}
 	}
 
 }
