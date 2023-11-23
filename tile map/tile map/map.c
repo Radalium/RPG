@@ -370,7 +370,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
 		{
 			fichier = fopen("MAPbonus.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
+			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
