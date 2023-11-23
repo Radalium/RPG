@@ -107,10 +107,10 @@ int main()
 		else if (actualState == JOUER)
 		{
 			displayMap(window, cam);
-			displayUI(window, cam);
-			displayCam(window);
 			displayPlayer(window);
+			displayCam(window);
 			DisplayNPC(window);
+			displayUI(window, cam);
 			
 			
 			

@@ -5,6 +5,7 @@
 #include "musique.h"
 #include "UI.h"
 
+// Initialisation des variables 
 sfSprite* NPC;
 sfTexture* NPCTexture;
 sfIntRect NPCrect = { 0, 0, 16, 22 };
@@ -47,7 +48,7 @@ void initNPC()
 	sfSprite_setScale(NPC, NPCscale);
 	sfSprite_setTextureRect(NPC, NPCrect);
 
-
+	// Initialisation du texte avec sa police d'écriture et sa bulle
 	Font = sfFont_createFromFile("..\\Ressources\\Fonts\\FinkHeavy.ttf");
 	Text = sfText_create();
 
@@ -75,7 +76,6 @@ void updateNPC()
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(NPC);
 	rayonNPC = playerfrect.width ;
 
-	//isTalking = sfFalse;
 	if (sfKeyboard_isKeyPressed(sfKeyV) && CalculD(NPCpos, rayonNPC))
 	{
 		// elle parle
@@ -98,7 +98,7 @@ void updateNPC()
 		}
 		
 
-		
+		    //Update du dialogue
 			NPCtimer += GetDeltaTime();
 			if(blocage2==0)sfText_setString(Text, un);
 
@@ -144,6 +144,7 @@ void updateNPC()
 					break;
 				}
 			}
+			//Update du texte si on lui parle plusieur fois
 			if (NPCtimer > 5.f && spam == 1)
 			{
 				sfText_setString(Text, unun);
@@ -178,6 +179,7 @@ void updateNPC()
 
 			}
 
+			// L'annimation du PNJ
 				NPCanimTime += GetDeltaTime();
 			
 				
@@ -188,8 +190,7 @@ void updateNPC()
 				if (NframeX > 1) NframeX = 0;
 				NPCrect.left = NframeX * NPCrect.width;				// On recalcul la position à gauche du rectangle par rapport à la nouvelle frame
 				NPCrect.top = 0 * NPCrect.height;					// Même chose pour la position haute
-				sfSprite_setTextureRect(NPC, NPCrect);
-				// Application sur la texture du sprite de ce rectangle
+				sfSprite_setTextureRect(NPC, NPCrect);				// Application sur la texture du sprite de ce rectangle
 				NPCanimTime = 0.0f;									// Reset animTime
 			}
 	}
@@ -202,8 +203,9 @@ void updateNPC()
 
 }
 
+
 void DisplayNPC(sfRenderWindow* _window)
-{
+{	//Affichage des differents elements
 	sfSprite_setPosition(NPC, NPCpos);
 	sfRenderWindow_drawSprite(_window, NPC, NULL);
 	if (isTalking)
