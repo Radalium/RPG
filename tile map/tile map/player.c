@@ -70,6 +70,12 @@ void updatePlayer()
 		}
 	}
 
+	if (sfKeyboard_isKeyPressed(sfKeyEscape))
+	{
+	
+		actualState = MENU;
+	}
+
 	isMoving = sfFalse;
 	if (sfKeyboard_isKeyPressed(sfKeyZ) && Pposition.y >10 && chestouverture == 0)
 	{	// Mouvement vers le haut
@@ -86,6 +92,7 @@ void updatePlayer()
 		animTime += GetDeltaTime();
 		isMoving = sfTrue;
 	}
+
 	else if (sfKeyboard_isKeyPressed(sfKeyS) && Pposition.y < 1890 && chestouverture == 0)
 	{	// Mouvement vers le bas
 		
