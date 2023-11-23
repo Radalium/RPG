@@ -129,7 +129,7 @@ int main()
 			sfMusic_play(finson);
 			displayFin(window);
 		}
-		
+
 		sfRenderWindow_display(window);
 
 	}

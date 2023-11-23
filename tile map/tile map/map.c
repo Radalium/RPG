@@ -67,6 +67,7 @@ FILE* fichier;
 
 char map[60][200];
 
+int dejaouvert = 0;
 
 //sfSprite* chest;
 //sfTexture* chesttexture;
@@ -132,11 +133,6 @@ void initMap()
 	fclose(fichier);
 
 
-
-
-	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
-	FragmentedOrb = sfSprite_create();
-	sfSprite_setTexture(FragmentedOrb, FragmentedOrbTexture, sfTrue);
 
 
 	tileRect.left = 32;
@@ -444,9 +440,10 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	}
 	// 0 à 15 images pour l'animation de la porte || Fonction qui gère l'ouverture de la porte finale
 	timeouverture += GetDeltaTime();
-	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f && (CalculD(portedefinpos, 32)))
+	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f && (CalculD(portedefinpos, 32)) && dejaouvert == 0)
 	{
-		map[(int)portedefinpos.y / 32][(int)portedefinpos.x / 32] = 46;
+		sfMusic_play(porte);
+		map[(int)portedefinpos.y /32][(int)portedefinpos.x / 32 ] = 46;
 		ouverture = sfTrue;	
 		sfSprite_setPosition(porteanim, portedefinpos);
 	
@@ -461,8 +458,10 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	}
 	if (irectporte.left == 32 * 16)
 	{
+		dejaouvert = 1;  
 		ouverture = sfFalse;
-
+		sfMusic_stop(porte);
+		
 	}
 }
 
