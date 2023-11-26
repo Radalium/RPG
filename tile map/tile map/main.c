@@ -69,7 +69,7 @@ int main()
 		else if (actualState == JOUER)
 		{
 
-			updateUI(camrect);
+			
 			sfMusic_stop(menu);
 			sfMusic_stop(editeur);
 			updateNPC(window);
@@ -77,7 +77,8 @@ int main()
 			GameMod_player();
 			updatePlayer(window);
 			updateMap(window, cam);
-			blocage3 = 1;
+			blocage3 = 1; 
+			updateUI(camrect);
 
 		}
 		else if (actualState == EDITEUR)
@@ -106,10 +107,10 @@ int main()
 		else if (actualState == JOUER)
 		{
 			displayMap(window, cam);
-			displayUI(window, cam);
 			displayCam(window);
 			displayPlayer(window);
 			DisplayNPC(window);
+			displayUI(window, cam);
 			
 			
 			

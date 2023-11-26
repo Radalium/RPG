@@ -112,11 +112,6 @@ void initMap()
 	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
 
-	
-
-	FragmentedOrb = sfTexture_createFromFile(TEXTURE_PATH"Fragmented_Orb.png", NULL);
-	FragmentedOrb = sfSprite_create();
-	sfSprite_setTexture(FragmentedOrb, FragmentedOrbTexture, sfTrue);
 
 
 	tileRect.left = 32;
