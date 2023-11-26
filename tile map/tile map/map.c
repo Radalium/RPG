@@ -157,11 +157,6 @@ void initMap()
 	sfSprite_setTexture(tileSprite, tileTexture, sfTrue);
 
 
-	backtexture1 = sfTexture_createFromFile(TEXTURE_PATH"backgroundmine.png", NULL);
-	background1 = sfSprite_create();
-	sfSprite_setTexture(background1, backtexture1, sfTrue);
-
-
 	tileRect.left = 32;
 	tileRect.top = 0;
 	tileRect.width = 32;
