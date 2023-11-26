@@ -61,6 +61,7 @@ void updatePlayer()
 		iModeDeJeu = 0;
 		actualState = MENU;
 		sfMusic_play(menu);
+		timer = 0.0f;
 
 		if (blocage3 == 1)
 		{
@@ -157,9 +158,8 @@ void updatePlayer()
 
 if (isMoving == sfTrue && actualState == JOUER)
 {
-	
-	//if (letemps > 0.5f)
-	//backtile = onestsurquelcase(playerfrect);
+	// Musique | Fonction qui permet de jouer le son de la case sur laquelle on est
+
 
 	if (letemps > 0.5f)
 	{
@@ -176,6 +176,7 @@ if (isMoving == sfTrue && actualState == JOUER)
 			}
 			else if (actualTile == 1)
 			{
+				sfSound_setLoop(pasterre, sfTrue);
 				sfSound_play(pasterre);
 			}
 			else if (actualTile == 2)
@@ -190,12 +191,7 @@ if (isMoving == sfTrue && actualState == JOUER)
 			{
 				sfSound_play(paspierre);
 			}
-			/*
-			else if (onestsurquelcase(playerfrect) == 5)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 6)
+			/*else if (onestsurquelcase(playerfrect) == 6)
 			{
 				sfMusic_play(pasbois);
 			}

@@ -10,7 +10,7 @@
 #include "NPC.h"
 #include "musique.h"
 #include "UI.h"
-
+#include "fin.h"
 
 #define TEXTURE_PATH "../Ressources/Textures/"
 
@@ -39,6 +39,7 @@ int main()
 
    	initNPC(window);
 	initUI();
+	initFin();
 
 	
 	sfBool isEdit;
@@ -120,6 +121,11 @@ int main()
 			isEdit = sfTrue;
 			displayMap(window, cam);
 			displayCam(window);
+		}
+
+		else if (actualState == FIN)
+		{
+			displayFin(window);
 		}
 
 		

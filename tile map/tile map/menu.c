@@ -45,7 +45,6 @@ sfSprite* Bouton_Editeur;
 sfSprite* Bouton_Quitter;
 sfSprite* Sonplus;
 sfSprite* Sonmoins;
-sfSprite* Soncouper;
 sfSprite* pointintero;
 sfSprite* fondtouche;
 
@@ -56,7 +55,6 @@ sfTexture* Bouton_QuitterTexture;
 sfTexture* Background_Texture;
 sfTexture* SonplusTexture;
 sfTexture* SonmoinsTexture;
-sfTexture* SoncouperTexture;
 sfTexture* pointinteroTexture;
 sfTexture* fondtoucheTexture;
 sfText* text2;
@@ -97,7 +95,7 @@ void initMenu()
 	Background = sfSprite_create();
 	Sonplus = sfSprite_create();
 	Sonmoins = sfSprite_create();
-	Soncouper = sfSprite_create();
+	
 	pointintero = sfSprite_create();
 	fondtouche = sfSprite_create();
 
@@ -110,7 +108,6 @@ void initMenu()
 	Background_Texture = sfTexture_createFromFile(TEXTURE_PATH"background2.jpg", NULL);
 	SonplusTexture = sfTexture_createFromFile(TEXTURE_PATH"sonplus.png", NULL);
 	SonmoinsTexture = sfTexture_createFromFile(TEXTURE_PATH"sonmoins.png", NULL);
-	SoncouperTexture = sfTexture_createFromFile(TEXTURE_PATH"soncouper.png", NULL);
 	pointinteroTexture = sfTexture_createFromFile(TEXTURE_PATH"pointintero.png", NULL);
 	fondtoucheTexture = sfTexture_createFromFile(TEXTURE_PATH"touche.png", NULL);
 
@@ -122,7 +119,6 @@ void initMenu()
 	sfSprite_setTexture(Background, Background_Texture, sfTrue);
 	sfSprite_setTexture(Sonmoins, SonmoinsTexture, sfTrue);
 	sfSprite_setTexture(Sonplus, SonplusTexture, sfTrue);
-	sfSprite_setTexture(Soncouper, SoncouperTexture, sfTrue);
 	sfSprite_setTexture(pointintero, pointinteroTexture, sfTrue);
 	sfSprite_setTexture(fondtouche, fondtoucheTexture, sfTrue);
 
@@ -134,7 +130,6 @@ void initMenu()
 	sfSprite_setOrigin(Background, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
 	sfSprite_setOrigin(Sonmoins, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
 	sfSprite_setOrigin(Sonplus, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
-	sfSprite_setOrigin(Soncouper, vector2f(sfSprite_getGlobalBounds(Bouton_Jouer).width / 2, sfSprite_getGlobalBounds(Bouton_Jouer).height / 2));
 	sfSprite_setOrigin(pointintero, vector2f(sfSprite_getGlobalBounds(pointintero).width / 2, sfSprite_getGlobalBounds(pointintero).height / 2));
 	sfSprite_setOrigin(fondtouche, vector2f(sfSprite_getGlobalBounds(fondtouche).width / 2, sfSprite_getGlobalBounds(fondtouche).height / 2));
 
@@ -198,8 +193,8 @@ void updateMenu(sfRenderWindow* _window)
 			
 			// Changement du statut de jeu
 			actualState = JOUER;
-			Pposition.x = actualposJ.x;
-			Pposition.y = actualposJ.y;
+			Position_joueur();
+			Position_NPC();
 			GameMod_cam();
 			GameMod_player();
 			sfMusic_play(forest);
@@ -375,3 +370,5 @@ void DisplayMenu(sfRenderWindow* _window)
 	
 
 }
+
+

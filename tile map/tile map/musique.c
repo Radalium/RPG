@@ -14,8 +14,9 @@ void initMusique()
 	porte = sfMusic_createFromFile(MUSIQUE_PATH"ouvertureporte.ogg");
 	menu = sfMusic_createFromFile(MUSIQUE_PATH"musiquemenu.ogg");
 	editeur = sfMusic_createFromFile(MUSIQUE_PATH"musiqueediteur.ogg");
-
+	grotte = sfMusic_createFromFile(MUSIQUE_PATH"grotte.ogg");
 	forest = sfMusic_createFromFile(MUSIQUE_PATH"forest.ogg");
+	finson = sfMusic_createFromFile(MUSIQUE_PATH"finson.ogg");
 
 	coffre2 = sfSound_create();
 	menu2 = sfSound_create(); 
@@ -27,8 +28,6 @@ void initMusique()
 	pasterre = sfSound_create();
 	passable = sfSound_create();
 	
-
-
 
 	coffrebuf = sfSoundBuffer_createFromFile(SOUND_PATH"coffreouverture.ogg");
 	menubuf = sfSoundBuffer_createFromFile(SOUND_PATH"menu_selection.ogg");
@@ -54,6 +53,8 @@ void initMusique()
 	sfMusic_setLoop(menu, sfTrue);
 	sfMusic_setLoop(editeur, sfTrue);
 	sfMusic_setLoop(forest, sfTrue);
+	sfMusic_setLoop(grotte, sfTrue);
+	sfMusic_setLoop(finson, sfTrue);
 
 
 	sfSound_setLoop(coffre2, sfFalse);
@@ -61,14 +62,18 @@ void initMusique()
 	sfSound_setLoop(pas, sfFalse);
 	sfSound_setLoop(placement, sfFalse);
 	sfSound_setLoop(princesse, sfFalse);
-	sfSound_setLoop(paspierre, sfFalse);
+	sfSound_setLoop(paspierre, sfTrue);
+	sfSound_setLoop(pasplanche, sfTrue);
+	sfSound_setLoop(passable, sfTrue);
+	
 
 
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
-	
-	sfMusic_setVolume(forest, volume);
+	sfMusic_setVolume(forest, volume-20);
+	sfMusic_setVolume(grotte, volume);
+	sfMusic_setVolume(finson, volume);
 
 
 	sfSound_setVolume(coffre2, volume);
@@ -90,7 +95,7 @@ void updateMusique()
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
-	sfMusic_setVolume(forest, volume);
+	sfMusic_setVolume(forest, volume - 30);
 
 	sfSound_setVolume(coffre2, volume);
 	sfSound_setVolume(menu2, volume);

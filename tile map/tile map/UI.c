@@ -66,7 +66,7 @@ void updateUI(sfVector2f _camrect)
 {
 	// Update des sprites en fonction du nombre de cle
 	temps += GetDeltaTime();
-	if (sfKeyboard_isKeyPressed(sfKeyY) && temps > 0.1f)
+	if (sfKeyboard_isKeyPressed(sfKeyY) && temps > 0.2f)
 	{
 		nmcle++;
 		temps = 0.f;
