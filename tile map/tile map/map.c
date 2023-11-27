@@ -341,7 +341,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Si la touche M est pressée alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
-			fichier = fopen("MAP1.bin", "wb");
+			fichier = fopen("MAPbonus.bin", "wb");
 			fwrite(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
@@ -1460,7 +1460,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 {
 	// Gestions des collisions avec les murs
 
-	
+
 	sfVector2i fpos;
 	sfVector2i fpos2;
 	if (iModeDeJeu == 0)
@@ -1475,7 +1475,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos.x = (_sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + 8 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.width + _sprite.left + _vitesse.x * GetDeltaTime()) / 32;
-			
+
 			// Si la case est 5 4 3 9 alors, on renvoie vrai
 			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >2) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9))
 			{
@@ -1487,7 +1487,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 				return sfTrue + 1;
 			}
 			else return sfFalse;
-			
+
 			break;
 		case BAS:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
@@ -1533,7 +1533,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
 			fpos.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
-			fpos2.y = (_sprite.top +10 + _vitesse.y * GetDeltaTime()) / 32;
+			fpos2.y = (_sprite.top + 10 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 8 alors, on renvoie vrai
@@ -1549,7 +1549,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			else return sfFalse;
 			break;
 		}
-	
+
 	}
 	if (iModeDeJeu == 1)
 	{ // Quand le mode de jeu est en mode édition de map | pas de collisions
@@ -1568,7 +1568,7 @@ void Position_joueur()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 9)
+			if (map[y][x] == 41)
 			{
 				spawn_or_not++;
 				Pposition.x = x*32 +9;
@@ -1591,16 +1591,14 @@ void Position_NPC()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 7)
+			if (map[y][x] == 42)
 			{
 				NPCpos.x = x * 32 +9;
 				NPCpos.y = y * 32 +6;
 				sfText_setPosition(Text, vector2f(NPCpos.x + 8.0f, NPCpos.y - 25.0f));
 				sfRectangleShape_setPosition(rectangle, vector2f(NPCpos.x + 8.0f, NPCpos.y - 30.0f));
+				map[(int)NPCpos.y][(int)NPCpos.x] = 1;
 			}
 		}
 	}
-	
-
-
 }
