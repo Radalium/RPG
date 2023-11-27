@@ -95,7 +95,7 @@ void updateMusique()
 	sfMusic_setVolume(porte, volume);
 	sfMusic_setVolume(menu, volume);
 	sfMusic_setVolume(editeur, volume);
-	sfMusic_setVolume(forest, volume - 30);
+	sfMusic_setVolume(forest, volume);
 
 	sfSound_setVolume(coffre2, volume);
 	sfSound_setVolume(menu2, volume);

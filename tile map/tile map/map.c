@@ -341,7 +341,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Si la touche M est pressée alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
-			fichier = fopen("MAPbonus.bin", "wb");
+			fichier = fopen("MAPBonus.bin", "wb");
 			fwrite(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
@@ -373,7 +373,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Si la touche 4 est pressée alors on charge la 4
 		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
 		{
-			fichier = fopen("MAPbonus.bin", "rb");
+			fichier = fopen("MAPBonus.bin", "rb");
 			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
@@ -386,7 +386,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 	if (iModeDeJeu == 0)
 	{
-		if (sfKeyboard_isKeyPressed(sfKeyE) && timer > 0.3f)
+		if (sfKeyboard_isKeyPressed(sfKeyE) && timer_c > 0.3f)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -528,7 +528,7 @@ void changementMap(int _nb, int _tmp)
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
-	else if ((_nb == 23 || _nb == 20) && changement == 1 && nmcle >= 1)
+	else if ((_nb == 23 || _nb == 20) && changement == 1 && nmcle != 0)
 	{
 
 		fichier = fopen("MAPBonus.bin", "rb");
@@ -1477,14 +1477,9 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.x = (_sprite.width + _sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 9 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >2) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40)|| (map[fpos.y][fpos.x] <48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >1) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >2) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40)|| (map[fpos.y][fpos.x] <48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
-			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
 			}
 			else return sfFalse;
 
@@ -1497,7 +1492,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.x = (_sprite.left + _sprite.width + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 7 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 7 || map[fpos.y][fpos.x] == 7))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 7 || map[fpos.y][fpos.x] == 7) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40) || (map[fpos.y][fpos.x] < 48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
 			}
@@ -1517,7 +1512,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 10 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 10 || map[fpos.y][fpos.x] == 10))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 10 || map[fpos.y][fpos.x] == 10) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40) || (map[fpos.y][fpos.x] < 48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
 			}
@@ -1537,7 +1532,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 8 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 8 || map[fpos.y][fpos.x] == 8))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 8 || map[fpos.y][fpos.x] == 8) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40) || (map[fpos.y][fpos.x] < 48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
 			}
