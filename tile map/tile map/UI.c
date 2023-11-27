@@ -74,8 +74,8 @@ void updateUI(sfVector2f _camrect)
 
 	if (nmcle == 1)
 	{
-		Cle1pos.x = _camrect.x - 97.f;
-		Cle1pos.y = _camrect.y - 72.f;
+		Cle0pos.x = _camrect.x - 97.f;
+		Cle0pos.y = _camrect.y - 72.f;
 		sfSprite_setPosition(Cle0, Cle0pos);
 	}
 	else if (nmcle == 2)

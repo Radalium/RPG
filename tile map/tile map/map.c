@@ -1477,7 +1477,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.x = (_sprite.width + _sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 9 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >2) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >2) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40)|| (map[fpos.y][fpos.x] <48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
 			}
@@ -1573,6 +1573,7 @@ void Position_joueur()
 				spawn_or_not++;
 				Pposition.x = x*32 +9;
 				Pposition.y = y*32 +6;
+				map[y][x] = 1;
 			}
 		}
 	}
@@ -1595,9 +1596,9 @@ void Position_NPC()
 			{
 				NPCpos.x = x * 32 +9;
 				NPCpos.y = y * 32 +6;
+				map[y][x] = 1;
 				sfText_setPosition(Text, vector2f(NPCpos.x + 8.0f, NPCpos.y - 25.0f));
 				sfRectangleShape_setPosition(rectangle, vector2f(NPCpos.x + 8.0f, NPCpos.y - 30.0f));
-				map[(int)NPCpos.y][(int)NPCpos.x] = 1;
 			}
 		}
 	}
