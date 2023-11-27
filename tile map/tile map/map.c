@@ -518,19 +518,17 @@ float timemap = 0.f;
 int changement = 0;
 void changementMap(int _nb, int _tmp)
 {
-	
+	// Selon le numéro de la map on charge la map correspondante
 	changement += _tmp;
 	if (changement>1) changement = 0;
 	if (_nb == 23 && changement == 0 && nmcle == 1)
 	{
-
 		fichier = fopen("MAP1.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
-	else if ((_nb == 23 || _nb == 20) && changement == 1 && nmcle != 0)
+	else if ((_nb == 20 || _nb == 23) && changement == 1 && nmcle != 1)
 	{
-
 		fichier = fopen("MAPBonus.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
@@ -1448,6 +1446,10 @@ int onestsurquelcase(sfFloatRect _sprite)
 		if (map[fretpos.y][fretpos.x] == 23)
 		{
 			return 23;
+		}
+		if (map[fretpos.y][fretpos.x] == 20)
+		{
+			return 20;
 		}
 		if (map[fretpos.y][fretpos.x] == 47)
 		{

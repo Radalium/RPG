@@ -158,7 +158,7 @@ void updatePlayer()
 
 if (isMoving == sfTrue && actualState == JOUER)
 {
-	// Musique | Fonction qui permet de jouer le son de la case sur laquelle on est
+	// Musique | Fonction qui permet de jouer le son de la case sur laquelle on est et de savoir ou on est
 
 
 	if (letemps > 0.5f)
@@ -191,7 +191,6 @@ if (isMoving == sfTrue && actualState == JOUER)
 			{
 				sfSound_play(paspierre);
 			}
-			
 			else if (onestsurquelcase(playerfrect) == 23)
 			{
 				changementMap(23,1);
