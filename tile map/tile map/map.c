@@ -124,6 +124,8 @@ void initMap()
 	fclose(fichier);
 	fichier = fopen("MAP3.bin", "rb");
 	fclose(fichier);
+	fichier = fopen("MAPdonjon.bin", "rb");
+	fclose(fichier);
 	fichier = fopen("MAPBonus.bin", "rb");
 	fclose(fichier);
 
@@ -369,15 +371,21 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 			fclose(fichier);
 		}
 
-		// Si la touche 4 est pressée alors on charge la 4
+		// Si la touche 4 est pressée alors on charge la map donjon
 		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
+		{
+			fichier = fopen("MAPdonjon.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
+			fclose(fichier);
+		}
+
+		// si la touche 5 est pressée alors on charge la map bonus
+		if (sfKeyboard_isKeyPressed(sfKeyNum5) && timer > 0.8f)
 		{
 			fichier = fopen("MAPBonus.bin", "rb");
 			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
-
-
 	}
 
 	timer_c += GetDeltaTime();
@@ -528,11 +536,11 @@ void changementMap(int _nb, int _tmp)
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
-	else if ((_nb == 20 || _nb == 23) && changement == 1 && nmcle != 1)
+	else if ((_nb == 20 || _nb == 23) && changement == 1 && nmcle != 0)
 	{
 		sfMusic_stop(forest);
 		sfMusic_play(grotte);
-		fichier = fopen("MAPBonus.bin", "rb");
+		fichier = fopen("MAPdonjon.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}

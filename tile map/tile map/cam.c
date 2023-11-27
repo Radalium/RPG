@@ -2,6 +2,7 @@
 #include "tools.h"
 #include "SFML/Graphics.h"
 #include "map.h"
+#include "player.h"
 
 int Editor = 0;
 
@@ -24,7 +25,6 @@ void updateCam(sfVector2f _playerpos)
 		timer += GetDeltaTime();
 		if (sfKeyboard_isKeyPressed(sfKeyUp) && timer > 0.1f)
 		{
-			
 			timer = 0.0f;
 			sicam.y = sicam.y * 0.9f;
 			sicam.x = sicam.x * 0.9f;

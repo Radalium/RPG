@@ -79,7 +79,7 @@ int main()
 			updatePlayer(window);
 			updateMap(window, cam);
 			blocage3 = 1;
-
+			Vreinitialisation();
 		}
 		else if (actualState == EDITEUR)
 		{	iModeDeJeu = 1;
