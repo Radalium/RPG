@@ -10,14 +10,14 @@ sfSprite* background1;
 sfTexture* backtexture1;
 sfVector2f backpos;
 sfVector2f portedefinpos;
-
+portemus = 0;
 typedef enum coffre
 {
 	BLEU,
 	VERTE,
 	ROUGE
 }statuecoffre;
-
+ int merci_ugo_davoir_debugger_le_code = 0;
 
 statuecoffre coffstat = -1;
 
@@ -29,6 +29,7 @@ typedef enum portefin
 };
 
 sfIntRect irectporte = { 0,0, 32,32 };
+float timeouverture5123, timeouverture51 = 0.f;
 
 typedef struct Cchest Cchest;
 struct Cchest
@@ -69,10 +70,6 @@ char map[60][200];
 
 int dejaouvert = 0;
 
-//sfSprite* chest;
-//sfTexture* chesttexture;
-//sfIntRect chestrect;
-//sfVector2f chestpos;
 float timeouverture = 0.f;
 sfBool ouverture = sfFalse;
 
@@ -113,7 +110,6 @@ void initMap()
 	sfSprite_setOrigin(orbebleu, vector2f(sfSprite_getGlobalBounds(orbebleu).width / 2, sfSprite_getGlobalBounds(orbebleu).height / 2));
 	sfSprite_setOrigin(orberouge, vector2f(sfSprite_getGlobalBounds(orberouge).width / 2, sfSprite_getGlobalBounds(orberouge).height / 2));
 	sfSprite_setOrigin(orbeverte, vector2f(sfSprite_getGlobalBounds(orbeverte).width / 2, sfSprite_getGlobalBounds(orbeverte).height / 2));
-	//sfSprite_setOrigin(porteanim, vector2f(sfSprite_getGlobalBounds(porteanim).width / 2, sfSprite_getGlobalBounds(porteanim).height / 2));
 	sfSprite_setOrigin(porte, vector2f(sfSprite_getGlobalBounds(porte).width / 2, sfSprite_getGlobalBounds(porte).height / 2));
 
 	sfSprite_setScale(orbebleu, scaleorbebleu);
@@ -122,14 +118,14 @@ void initMap()
 
 
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
-	fichier = fopen("MAP1.bin", "r");
-	fread(map, sizeof(char), 15000, fichier);
+	fichier = fopen("MAP1.bin", "rb");
+	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
-	fichier = fopen("MAP2.bin", "r");
+	fichier = fopen("MAP2.bin", "rb");
 	fclose(fichier);
-	fichier = fopen("MAP3.bin", "r");
+	fichier = fopen("MAP3.bin", "rb");
 	fclose(fichier);
-	fichier = fopen("MAPBonus.bin", "r");
+	fichier = fopen("MAPBonus.bin", "rb");
 	fclose(fichier);
 
 
@@ -329,6 +325,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 		if (sfKeyboard_isKeyPressed(sfKeySpace) && timer > 0.5f)
 		{
+
 			timer = 0.0f;
 			ntile--;
 			if (ntile < 0)
@@ -344,39 +341,39 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Si la touche M est pressée alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
-			fichier = fopen("MAP1.bin", "w");
-			fwrite(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAP1.bin", "wb");
+			fwrite(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
 		// Si la touche 1 est pressée alors on charge la map 1
 		if (sfKeyboard_isKeyPressed(sfKeyNum1) && timer > 0.8f)
 		{
-			fichier = fopen("MAP1.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAP1.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
 		// Si la touche 2 est pressée alors on charge la map 2
 		if (sfKeyboard_isKeyPressed(sfKeyNum2)&& timer >0.8f)
 		{
-			fichier = fopen("MAP2.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAP2.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
 		// Si la touche 3 est pressée alors on charge la map 3
 		if (sfKeyboard_isKeyPressed(sfKeyNum3) && timer > 0.8f)
 		{
-			fichier = fopen("MAP3.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAP3.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
 		// Si la touche 4 est pressée alors on charge la 4
 		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
 		{
-			fichier = fopen("MAPbonus.bin", "r");
+			fichier = fopen("MAPbonus.bin", "rb");
 			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
@@ -439,36 +436,40 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 	}
 	// 0 à 15 images pour l'animation de la porte || Fonction qui gère l'ouverture de la porte finale
-	timeouverture += GetDeltaTime();
-	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f && (CalculD(portedefinpos, 32)) && dejaouvert == 0)
+	timeouverture5123 += GetDeltaTime();
+	timeouverture51 += GetDeltaTime();
+	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture5123 > 0.15f && (CalculD(portedefinpos, 32)) && dejaouvert == 0)
 	{
-		sfMusic_play(porte);
-		map[(int)portedefinpos.y /32][(int)portedefinpos.x / 32 ] = 47;
-		ouverture = sfTrue;	
+		/*sfMusic_play(porte);*/
+
+		map[(int)portedefinpos.y / 32][(int)portedefinpos.x / 32] = 47;
+		ouverture = sfTrue;
 		sfSprite_setPosition(porteanim, portedefinpos);
-	
+
 	}
-	if (ouverture == sfTrue && timeouverture > 1.3f)
+	if (ouverture == sfTrue && timeouverture5123 > 1.3f)
 	{
 
 		irectporte.left += 32;
 		sfSprite_setTextureRect(porteanim, irectporte);
 		isAnimated = sfTrue;
-	 	timeouverture = 0.f;
+		timeouverture5123 = 0.f;
 	}
 	if (irectporte.left == 32 * 16)
 	{
-		dejaouvert = 1;  
+		dejaouvert = 1;
 		ouverture = sfFalse;
-		sfMusic_stop(porte);
-		
+		merci_ugo_davoir_debugger_le_code = 1;
 	}
 
-	if (onestsurquelcase == 47)
+	if (dejaouvert == 1 && merci_ugo_davoir_debugger_le_code == 1 && timeouverture51 > 20.f)
 	{
 		actualState = FIN;
-
-		// Fin du jeu
+		timeouverture51 = 0.f;
+		sfMusic_stop(forest);
+		sfMusic_stop(menu);
+		sfMusic_stop(grotte);
+		sfMusic_play(finson);
 	}
 }
 
@@ -523,29 +524,29 @@ void changementMap(int _nb, int _tmp)
 	if (_nb == 23 && changement == 0 && nmcle == 1)
 	{
 
-		fichier = fopen("MAP1.bin", "r");
-		fread(map, sizeof(char), 15000, fichier);
+		fichier = fopen("MAP1.bin", "rb");
+		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if ((_nb == 23 || _nb == 20) && changement == 1 && nmcle >= 1)
 	{
 
-		fichier = fopen("MAPBonus.bin", "r");
+		fichier = fopen("MAPBonus.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if (_nb == 23 && changement == 0 && nmcle == 2)
 	{
 
-		fichier = fopen("MAP2.bin", "r");
-		fread(map, sizeof(char), 15000, fichier);
+		fichier = fopen("MAP2.bin", "rb");
+		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if (_nb == 20 && changement == 0 && nmcle == 3 || nmcle == 4)
 	{
 
-		fichier = fopen("MAP3.bin", "r");
-		fread(map, sizeof(char), 15000, fichier);
+		fichier = fopen("MAP3.bin", "rb");
+		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else

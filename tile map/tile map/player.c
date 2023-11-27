@@ -201,26 +201,6 @@ if (isMoving == sfTrue && actualState == JOUER)
 			{
 				changementMap(20, 1);
 			}
-			/*else if (onestsurquelcase(playerfrect) == 6)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 7)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 8)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 9)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 10)
-			{
-				sfMusic_play(pasbois);
-			}*/
 			letemps = 0.0f;
 		}
 	}
@@ -283,7 +263,7 @@ void Vplus()
 		vitesse.y = vitesse.y * 1.1f;
 	}
 }
-
+ 
 void Vmoins()
 {
 	if (vitesse.x < 75)

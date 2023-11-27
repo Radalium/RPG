@@ -10,7 +10,7 @@
 void initMusique()
 {	
 	// Initialisation des musiques et des sons
-	volume = 50;
+	volume = 10;
 	porte = sfMusic_createFromFile(MUSIQUE_PATH"ouvertureporte.ogg");
 	menu = sfMusic_createFromFile(MUSIQUE_PATH"musiquemenu.ogg");
 	editeur = sfMusic_createFromFile(MUSIQUE_PATH"musiqueediteur.ogg");
