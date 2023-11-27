@@ -123,10 +123,6 @@ int main()
 		}
 		else if (actualState == FIN)
 		{
-			sfMusic_stop(forest);
-			sfMusic_stop(menu);
-			sfMusic_stop(grotte);
-			sfMusic_play(finson);
 			displayFin(window);
 		}
 

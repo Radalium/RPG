@@ -2,7 +2,7 @@
 #include "tools.h"
 
 
-sfMusic* porte;
+sfMusic* murcoulissant;
 sfMusic* menu;
 sfMusic* editeur;
 sfMusic* forest;

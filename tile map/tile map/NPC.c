@@ -75,7 +75,7 @@ void updateNPC()
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(NPC);
 	rayonNPC = playerfrect.width ;
 
-	if (sfKeyboard_isKeyPressed(sfKeyV) && CalculD(NPCpos, rayonNPC))
+	if (sfKeyboard_isKeyPressed(sfKeyE) && CalculD(NPCpos, rayonNPC))
 	{
 		// elle parle
 

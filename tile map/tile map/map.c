@@ -110,7 +110,6 @@ void initMap()
 	sfSprite_setOrigin(orbebleu, vector2f(sfSprite_getGlobalBounds(orbebleu).width / 2, sfSprite_getGlobalBounds(orbebleu).height / 2));
 	sfSprite_setOrigin(orberouge, vector2f(sfSprite_getGlobalBounds(orberouge).width / 2, sfSprite_getGlobalBounds(orberouge).height / 2));
 	sfSprite_setOrigin(orbeverte, vector2f(sfSprite_getGlobalBounds(orbeverte).width / 2, sfSprite_getGlobalBounds(orbeverte).height / 2));
-	sfSprite_setOrigin(porte, vector2f(sfSprite_getGlobalBounds(porte).width / 2, sfSprite_getGlobalBounds(porte).height / 2));
 
 	sfSprite_setScale(orbebleu, scaleorbebleu);
 	sfSprite_setScale(orberouge, scaleorberouge);
@@ -440,12 +439,10 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	timeouverture51 += GetDeltaTime();
 	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture5123 > 0.15f && (CalculD(portedefinpos, 32)) && dejaouvert == 0)
 	{
-		/*sfMusic_play(porte);*/
-
+		sfMusic_play(murcoulissant);
 		map[(int)portedefinpos.y / 32][(int)portedefinpos.x / 32] = 47;
 		ouverture = sfTrue;
 		sfSprite_setPosition(porteanim, portedefinpos);
-
 	}
 	if (ouverture == sfTrue && timeouverture5123 > 1.3f)
 	{
@@ -466,10 +463,12 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 	{
 		actualState = FIN;
 		timeouverture51 = 0.f;
-		sfMusic_stop(forest);
+		sfMusic_stop(forest);	
+		sfMusic_stop(murcoulissant);
 		sfMusic_stop(menu);
 		sfMusic_stop(grotte);
 		sfMusic_play(finson);
+	
 	}
 }
 
@@ -523,26 +522,32 @@ void changementMap(int _nb, int _tmp)
 	if (changement>1) changement = 0;
 	if (_nb == 23 && changement == 0 && nmcle == 1)
 	{
+		sfMusic_stop(grotte);
+		sfMusic_play(forest);
 		fichier = fopen("MAP1.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if ((_nb == 20 || _nb == 23) && changement == 1 && nmcle != 1)
 	{
+		sfMusic_stop(forest);
+		sfMusic_play(grotte);
 		fichier = fopen("MAPBonus.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if (_nb == 23 && changement == 0 && nmcle == 2)
 	{
-
+		sfMusic_stop(grotte);
+		sfMusic_play(forest);
 		fichier = fopen("MAP2.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if (_nb == 20 && changement == 0 && nmcle == 3 || nmcle == 4)
 	{
-
+		sfMusic_stop(grotte);
+		sfMusic_play(forest);
 		fichier = fopen("MAP3.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
@@ -1498,11 +1503,6 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			{
 				return sfTrue;
 			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
-			}
 			else return sfFalse;
 			break;
 		case DROITE:
@@ -1518,11 +1518,6 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			{
 				return sfTrue;
 			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
-			}
 			else return sfFalse;
 
 			break;
@@ -1537,11 +1532,6 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 8 || map[fpos.y][fpos.x] == 8) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40) || (map[fpos.y][fpos.x] < 48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
-			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
 			}
 			else return sfFalse;
 			break;
