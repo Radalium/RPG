@@ -200,7 +200,7 @@ int combien_de_PNJ()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 7) nombre_NPC++;
+			if (map[y][x] == 42) nombre_NPC++;
 		}
 	}
 	return nombre_NPC;
@@ -212,10 +212,23 @@ int combien_de_joueur()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 9) nombre_joueur++;
+			if (map[y][x] == 41) nombre_joueur++;
 		}
 	}
 	return nombre_joueur;
+}
+
+int combien_de_porte()
+{
+	int nombre_porte = 0;
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 40) nombre_porte++;
+		}
+	}
+	return nombre_porte;
 }
 
 void updateMap(sfRenderWindow* _window, sfView* _cam)
@@ -260,11 +273,15 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					{
 						if(combien_de_coffre() <3)map[Tposition.y][Tposition.x] = ntile;
 					}
-					else if (ntile == 7)
+					else if (ntile == 42)
 					{
 						if(combien_de_PNJ() < 1 )map[Tposition.y][Tposition.x] = ntile;
 					}
-					else if (ntile == 9)
+					else if (ntile == 40)
+					{
+						if (combien_de_porte() < 1)map[Tposition.y][Tposition.x] = ntile;
+					}
+					else if (ntile == 41)
 					{
 						if (combien_de_joueur() < 1)map[Tposition.y][Tposition.x] = ntile;
 					}
@@ -1598,3 +1615,4 @@ void Position_NPC()
 		}
 	}
 }
+
