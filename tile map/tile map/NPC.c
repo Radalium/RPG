@@ -4,6 +4,8 @@
 #include"map.h"
 #include "musique.h"
 #include "UI.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 // Initialisation des variables 
 sfSprite* NPC;
@@ -196,6 +198,7 @@ void updateNPC()
 	else
 	{
 		timeprincesse += GetDeltaTime();
+		sfSound_stop(princesse);
 	}
 	
 
