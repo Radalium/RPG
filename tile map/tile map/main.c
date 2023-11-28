@@ -70,7 +70,7 @@ int main()
 		else if (actualState == JOUER)
 		{
 
-			updateUI(camrect);
+			
 			sfMusic_stop(menu);
 			sfMusic_stop(editeur);
 			updateNPC(window);
@@ -80,6 +80,7 @@ int main()
 			updateMap(window, cam);
 			blocage3 = 1;
 			Vreinitialisation();
+			updateUI(camrect);
 		}
 		else if (actualState == EDITEUR)
 		{	iModeDeJeu = 1;
@@ -123,6 +124,7 @@ int main()
 		}
 		else if (actualState == FIN)
 		{
+			updatefin();
 			displayFin(window);
 		}
 

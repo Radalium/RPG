@@ -30,6 +30,14 @@ void initFin()
     sfView_setCenter(camfin, vector2f(400.f, 300.f));
 }
 
+void updatefin()
+{
+    if (sfKeyboard_isKeyPressed(sfKeyEscape))
+    {
+        actualState = MENU;
+    }
+}
+
 void displayFin(sfRenderWindow* _window)
 {
     sfRenderWindow_setView(_window, camfin);
