@@ -10,14 +10,14 @@ sfSprite* background1;
 sfTexture* backtexture1;
 sfVector2f backpos;
 sfVector2f portedefinpos;
-
+portemus = 0;
 typedef enum coffre
 {
 	BLEU,
 	VERTE,
 	ROUGE
 }statuecoffre;
-
+ int merci_ugo_davoir_debugger_le_code = 0;
 
 statuecoffre coffstat = -1;
 
@@ -29,6 +29,7 @@ typedef enum portefin
 };
 
 sfIntRect irectporte = { 0,0, 32,32 };
+float timeouverture5123, timeouverture51 = 0.f;
 
 typedef struct Cchest Cchest;
 struct Cchest
@@ -69,10 +70,6 @@ char map[60][200];
 
 int dejaouvert = 0;
 
-//sfSprite* chest;
-//sfTexture* chesttexture;
-//sfIntRect chestrect;
-//sfVector2f chestpos;
 float timeouverture = 0.f;
 sfBool ouverture = sfFalse;
 
@@ -113,8 +110,6 @@ void initMap()
 	sfSprite_setOrigin(orbebleu, vector2f(sfSprite_getGlobalBounds(orbebleu).width / 2, sfSprite_getGlobalBounds(orbebleu).height / 2));
 	sfSprite_setOrigin(orberouge, vector2f(sfSprite_getGlobalBounds(orberouge).width / 2, sfSprite_getGlobalBounds(orberouge).height / 2));
 	sfSprite_setOrigin(orbeverte, vector2f(sfSprite_getGlobalBounds(orbeverte).width / 2, sfSprite_getGlobalBounds(orbeverte).height / 2));
-	//sfSprite_setOrigin(porteanim, vector2f(sfSprite_getGlobalBounds(porteanim).width / 2, sfSprite_getGlobalBounds(porteanim).height / 2));
-	sfSprite_setOrigin(porte, vector2f(sfSprite_getGlobalBounds(porte).width / 2, sfSprite_getGlobalBounds(porte).height / 2));
 
 	sfSprite_setScale(orbebleu, scaleorbebleu);
 	sfSprite_setScale(orberouge, scaleorberouge);
@@ -122,14 +117,16 @@ void initMap()
 
 
 	// Initialisation de la map | ouverture du fichier MAP.bin et lecture du contenu dans le tableau map 
-	fichier = fopen("MAP1.bin", "r");
-	fread(map, sizeof(char), 15000, fichier);
+	fichier = fopen("MAP1.bin", "rb");
+	fread(map, sizeof(char), 12000, fichier);
 	fclose(fichier);
-	fichier = fopen("MAP2.bin", "r");
+	fichier = fopen("MAP2.bin", "rb");
 	fclose(fichier);
-	fichier = fopen("MAP3.bin", "r");
+	fichier = fopen("MAP3.bin", "rb");
 	fclose(fichier);
-	fichier = fopen("MAPBonus.bin", "r");
+	fichier = fopen("MAPdonjon.bin", "rb");
+	fclose(fichier);
+	fichier = fopen("MAPBonus.bin", "rb");
 	fclose(fichier);
 
 
@@ -203,7 +200,7 @@ int combien_de_PNJ()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 7) nombre_NPC++;
+			if (map[y][x] == 42) nombre_NPC++;
 		}
 	}
 	return nombre_NPC;
@@ -215,10 +212,23 @@ int combien_de_joueur()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 9) nombre_joueur++;
+			if (map[y][x] == 41) nombre_joueur++;
 		}
 	}
 	return nombre_joueur;
+}
+
+int combien_de_porte()
+{
+	int nombre_porte = 0;
+	for (int y = 0; y < 60; y++)
+	{
+		for (int x = 0; x < 200; x++)
+		{
+			if (map[y][x] == 40) nombre_porte++;
+		}
+	}
+	return nombre_porte;
 }
 
 void updateMap(sfRenderWindow* _window, sfView* _cam)
@@ -263,17 +273,21 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 					{
 						if(combien_de_coffre() <3)map[Tposition.y][Tposition.x] = ntile;
 					}
-					else if (ntile == 7)
+					else if (ntile == 42)
 					{
 						if(combien_de_PNJ() < 1 )map[Tposition.y][Tposition.x] = ntile;
 					}
-					else if (ntile == 9)
+					else if (ntile == 40)
+					{
+						if (combien_de_porte() < 1)map[Tposition.y][Tposition.x] = ntile;
+					}
+					else if (ntile == 41)
 					{
 						if (combien_de_joueur() < 1)map[Tposition.y][Tposition.x] = ntile;
 					}
 					else map[Tposition.y][Tposition.x] = ntile;
 				}
-				if (TailleBrush == 1 && ntile != 5)
+				if (TailleBrush == 1 && ntile != 5 && ntile !=40 && ntile != 41 && ntile != 42)
 				{	
 						// Gestion de la taille du pinceau 3x3
 						map[Tposition.y + 1][Tposition.x] = ntile;
@@ -287,7 +301,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 						map[Tposition.y][Tposition.x] = ntile;
 					
 				}
-				if (TailleBrush == 2)
+				if (TailleBrush == 2 && ntile != 5 && ntile != 40 && ntile != 41 && ntile != 42)
 				{	// Gestion de la taille du pinceau 3x3
 					map[Tposition.y + 1][Tposition.x] = ntile;
 					map[Tposition.y - 1][Tposition.x] = ntile;
@@ -329,6 +343,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 		if (sfKeyboard_isKeyPressed(sfKeySpace) && timer > 0.5f)
 		{
+
 			timer = 0.0f;
 			ntile--;
 			if (ntile < 0)
@@ -344,44 +359,50 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		// Si la touche M est pressée alors on sauvegarde la map
 		if (sfKeyboard_isKeyPressed(sfKeyM) && timer > 0.1f)
 		{
-			fichier = fopen("MAP1.bin", "w");
-			fwrite(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAPBonus.bin", "wb");
+			fwrite(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
 		// Si la touche 1 est pressée alors on charge la map 1
 		if (sfKeyboard_isKeyPressed(sfKeyNum1) && timer > 0.8f)
 		{
-			fichier = fopen("MAP1.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAP1.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
 		// Si la touche 2 est pressée alors on charge la map 2
 		if (sfKeyboard_isKeyPressed(sfKeyNum2)&& timer >0.8f)
 		{
-			fichier = fopen("MAP2.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
+			fichier = fopen("MAP2.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
 		// Si la touche 3 est pressée alors on charge la map 3
 		if (sfKeyboard_isKeyPressed(sfKeyNum3) && timer > 0.8f)
 		{
-			fichier = fopen("MAP3.bin", "r");
-			fread(map, sizeof(char), 15000, fichier);
-			fclose(fichier);
-		}
-
-		// Si la touche 4 est pressée alors on charge la 4
-		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
-		{
-			fichier = fopen("MAPbonus.bin", "r");
+			fichier = fopen("MAP3.bin", "rb");
 			fread(map, sizeof(char), 12000, fichier);
 			fclose(fichier);
 		}
 
+		// Si la touche 4 est pressée alors on charge la map donjon
+		if (sfKeyboard_isKeyPressed(sfKeyNum4) && timer > 0.8f)
+		{
+			fichier = fopen("MAPdonjon.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
+			fclose(fichier);
+		}
 
+		// si la touche 5 est pressée alors on charge la map bonus
+		if (sfKeyboard_isKeyPressed(sfKeyNum5) && timer > 0.8f)
+		{
+			fichier = fopen("MAPBonus.bin", "rb");
+			fread(map, sizeof(char), 12000, fichier);
+			fclose(fichier);
+		}
 	}
 
 	timer_c += GetDeltaTime();
@@ -389,7 +410,7 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 
 	if (iModeDeJeu == 0)
 	{
-		if (sfKeyboard_isKeyPressed(sfKeyE) && timer > 0.3f)
+		if (sfKeyboard_isKeyPressed(sfKeyE) && timer_c > 0.3f)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -439,36 +460,40 @@ void updateMap(sfRenderWindow* _window, sfView* _cam)
 		}
 	}
 	// 0 à 15 images pour l'animation de la porte || Fonction qui gère l'ouverture de la porte finale
-	timeouverture += GetDeltaTime();
-	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture > 0.15f && (CalculD(portedefinpos, 32)) && dejaouvert == 0)
+	timeouverture5123 += GetDeltaTime();
+	timeouverture51 += GetDeltaTime();
+	if (nmcle == 4 && sfKeyboard_isKeyPressed(sfKeyE) && timeouverture5123 > 0.15f && (CalculD(portedefinpos, 32)) && dejaouvert == 0)
 	{
-		sfMusic_play(porte);
-		map[(int)portedefinpos.y /32][(int)portedefinpos.x / 32 ] = 47;
-		ouverture = sfTrue;	
+		sfMusic_play(murcoulissant);
+		map[(int)portedefinpos.y / 32][(int)portedefinpos.x / 32] = 47;
+		ouverture = sfTrue;
 		sfSprite_setPosition(porteanim, portedefinpos);
-	
 	}
-	if (ouverture == sfTrue && timeouverture > 1.3f)
+	if (ouverture == sfTrue && timeouverture5123 > 1.3f)
 	{
 
 		irectporte.left += 32;
 		sfSprite_setTextureRect(porteanim, irectporte);
 		isAnimated = sfTrue;
-	 	timeouverture = 0.f;
+		timeouverture5123 = 0.f;
 	}
 	if (irectporte.left == 32 * 16)
 	{
-		dejaouvert = 1;  
+		dejaouvert = 1;
 		ouverture = sfFalse;
-		sfMusic_stop(porte);
-		
+		merci_ugo_davoir_debugger_le_code = 1;
 	}
 
-	if (onestsurquelcase == 47)
+	if (dejaouvert == 1 && merci_ugo_davoir_debugger_le_code == 1 && timeouverture51 > 20.f)
 	{
 		actualState = FIN;
-
-		// Fin du jeu
+		timeouverture51 = 0.f;
+		sfMusic_stop(forest);	
+		sfMusic_stop(murcoulissant);
+		sfMusic_stop(menu);
+		sfMusic_stop(grotte);
+		sfMusic_play(finson);
+	
 	}
 }
 
@@ -517,35 +542,39 @@ float timemap = 0.f;
 int changement = 0;
 void changementMap(int _nb, int _tmp)
 {
-	
+	// Selon le numéro de la map on charge la map correspondante
 	changement += _tmp;
 	if (changement>1) changement = 0;
 	if (_nb == 23 && changement == 0 && nmcle == 1)
 	{
-
-		fichier = fopen("MAP1.bin", "r");
-		fread(map, sizeof(char), 15000, fichier);
+		sfMusic_stop(grotte);
+		sfMusic_play(forest);
+		fichier = fopen("MAP1.bin", "rb");
+		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
-	else if ((_nb == 23 || _nb == 20) && changement == 1 && nmcle >= 1)
+	else if ((_nb == 20 || _nb == 23) && changement == 1 && nmcle != 0)
 	{
-
-		fichier = fopen("MAPBonus.bin", "r");
+		sfMusic_stop(forest);
+		sfMusic_play(grotte);
+		fichier = fopen("MAPdonjon.bin", "rb");
 		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if (_nb == 23 && changement == 0 && nmcle == 2)
 	{
-
-		fichier = fopen("MAP2.bin", "r");
-		fread(map, sizeof(char), 15000, fichier);
+		sfMusic_stop(grotte);
+		sfMusic_play(forest);
+		fichier = fopen("MAP2.bin", "rb");
+		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else if (_nb == 20 && changement == 0 && nmcle == 3 || nmcle == 4)
 	{
-
-		fichier = fopen("MAP3.bin", "r");
-		fread(map, sizeof(char), 15000, fichier);
+		sfMusic_stop(grotte);
+		sfMusic_play(forest);
+		fichier = fopen("MAP3.bin", "rb");
+		fread(map, sizeof(char), 12000, fichier);
 		fclose(fichier);
 	}
 	else
@@ -1448,6 +1477,10 @@ int onestsurquelcase(sfFloatRect _sprite)
 		{
 			return 23;
 		}
+		if (map[fretpos.y][fretpos.x] == 20)
+		{
+			return 20;
+		}
 		if (map[fretpos.y][fretpos.x] == 47)
 		{
 			return 47;
@@ -1459,7 +1492,7 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 {
 	// Gestions des collisions avec les murs
 
-	
+
 	sfVector2i fpos;
 	sfVector2i fpos2;
 	if (iModeDeJeu == 0)
@@ -1474,19 +1507,14 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos.x = (_sprite.left + _vitesse.x * GetDeltaTime()) / 32;
 			fpos2.y = (_sprite.top + 8 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.width + _sprite.left + _vitesse.x * GetDeltaTime()) / 32;
-			
+
 			// Si la case est 5 4 3 9 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >2) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >1) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] >1) || (map[fpos2.y][fpos2.x] == 9 || map[fpos.y][fpos.x] == 9) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40)|| (map[fpos.y][fpos.x] <48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
 			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
-			}
 			else return sfFalse;
-			
+
 			break;
 		case BAS:
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
@@ -1496,14 +1524,9 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.x = (_sprite.left + _sprite.width + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 7 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 7 || map[fpos.y][fpos.x] == 7))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >1) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 1) || (map[fpos2.y][fpos2.x] == 7 || map[fpos.y][fpos.x] == 7) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40) || (map[fpos.y][fpos.x] < 48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
-			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
 			}
 			else return sfFalse;
 			break;
@@ -1516,14 +1539,9 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			fpos2.x = (_sprite.left + _sprite.width + 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 10 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 10 || map[fpos.y][fpos.x] == 10))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >1) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 1) || (map[fpos2.y][fpos2.x] == 10 || map[fpos.y][fpos.x] == 10) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40) || (map[fpos.y][fpos.x] < 48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
-			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
 			}
 			else return sfFalse;
 
@@ -1532,23 +1550,18 @@ sfBool collision(sfFloatRect _sprite, Direction _direction, sfVector2f _vitesse)
 			// Calcul des coordonnées de la case dans laquelle le personnage va se déplacer
 			fpos.y = (_sprite.top + _sprite.height + _vitesse.y * GetDeltaTime()) / 32;
 			fpos.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
-			fpos2.y = (_sprite.top +10 + _vitesse.y * GetDeltaTime()) / 32;
+			fpos2.y = (_sprite.top + 10 + _vitesse.y * GetDeltaTime()) / 32;
 			fpos2.x = (_sprite.left - 2 + _vitesse.x * GetDeltaTime()) / 32;
 
 			// Si la case est 5 4 3 8 alors, on renvoie vrai
-			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >2) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 2) || (map[fpos2.y][fpos2.x] == 8 || map[fpos.y][fpos.x] == 8))
+			if ((map[fpos.y][fpos.x] < 6 && map[fpos.y][fpos.x] >1) || (map[fpos2.y][fpos2.x] < 6 && map[fpos2.y][fpos2.x] > 1) || (map[fpos2.y][fpos2.x] == 8 || map[fpos.y][fpos.x] == 8) || (map[fpos2.y][fpos2.x] == 16 || map[fpos.y][fpos.x] == 16) || (map[fpos2.y][fpos2.x] == 18 || map[fpos.y][fpos.x] == 18) || (map[fpos2.y][fpos2.x] == 21 || map[fpos.y][fpos.x] == 21) || (map[fpos.y][fpos.x] < 28 && map[fpos.y][fpos.x] >23) || (map[fpos2.y][fpos2.x] < 28 && map[fpos2.y][fpos2.x] >23) || (map[fpos2.y][fpos2.x] == 33 || map[fpos.y][fpos.x] == 33) || (map[fpos2.y][fpos2.x] == 35 || map[fpos.y][fpos.x] == 35) || (map[fpos2.y][fpos2.x] == 36 || map[fpos.y][fpos.x] == 36) || (map[fpos2.y][fpos2.x] == 39 || map[fpos.y][fpos.x] == 39) || (map[fpos2.y][fpos2.x] == 40 || map[fpos.y][fpos.x] == 40) || (map[fpos.y][fpos.x] < 48 && map[fpos.y][fpos.x] >42) || (map[fpos2.y][fpos2.x] < 48 && map[fpos2.y][fpos2.x] >42))
 			{
 				return sfTrue;
-			}
-			else if (map[fpos.y][fpos.x] == 2 || map[fpos2.y][fpos2.x] == 2)
-			{
-				// Renvoie 2 pour stipuler que la case est de l'eau
-				return sfTrue + 1;
 			}
 			else return sfFalse;
 			break;
 		}
-	
+
 	}
 	if (iModeDeJeu == 1)
 	{ // Quand le mode de jeu est en mode édition de map | pas de collisions
@@ -1567,11 +1580,12 @@ void Position_joueur()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 9)
+			if (map[y][x] == 41)
 			{
 				spawn_or_not++;
 				Pposition.x = x*32 +9;
 				Pposition.y = y*32 +6;
+				map[y][x] = 1;
 			}
 		}
 	}
@@ -1590,16 +1604,15 @@ void Position_NPC()
 	{
 		for (int x = 0; x < 200; x++)
 		{
-			if (map[y][x] == 7)
+			if (map[y][x] == 42)
 			{
 				NPCpos.x = x * 32 +9;
 				NPCpos.y = y * 32 +6;
+				map[y][x] = 1;
 				sfText_setPosition(Text, vector2f(NPCpos.x + 8.0f, NPCpos.y - 25.0f));
 				sfRectangleShape_setPosition(rectangle, vector2f(NPCpos.x + 8.0f, NPCpos.y - 30.0f));
 			}
 		}
 	}
-	
-
-
 }
+

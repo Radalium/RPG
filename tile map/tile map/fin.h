@@ -9,4 +9,6 @@ sfTexture* ecrantitreT;
 
 void initFin();
 
+void updatefin();
+
 void displayFin(sfRenderWindow* window);

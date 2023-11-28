@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "tools.h"
 
-
 void initPlayer();
 
 typedef enum  Direction Direction;
@@ -26,8 +25,7 @@ int blocage3;
 void displayPlayer(sfRenderWindow* _window);
 void EditorMod_player();
 void GameMod_player();
-void Vplus();
-void Vmoins();
+void Vreinitialisation();
 
 sfBool CalculD(sfVector2f _obj, float _rayon2);
 
@@ -35,5 +33,6 @@ sfBool CalculD(sfVector2f _obj, float _rayon2);
 void couv(int _chestouvert);
 
 void animpcoffre(int _i);
+
 
 

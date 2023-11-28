@@ -4,6 +4,8 @@
 #include"map.h"
 #include "musique.h"
 #include "UI.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 // Initialisation des variables 
 sfSprite* NPC;
@@ -22,16 +24,15 @@ sfText* Text;
 sfRectangleShape* rectangle;
 float thickness = 1.0f;
 char* clear = "";
-char* un = "          Link,     \n       te voila !";
+char* un = "          Link,     \n     te voila !";
 char* deux = "     J'ai besoin   \n    de ton aide !  ";
 char* trois = "   Un grand mal \nest venu s'installer";
-char* quatre = "    Tu te dois de \n    retrouver les\nmorceaux de l'orbe ";
+char* quatre = "    Tu te dois de \n    retrouver les \nmorceaux de l'orbe ";
 char* cinq = "    Elle seule te \npermettra d'ouvrir\n  la porte divine";
 char* six = "    Pour trouver\n  l'excalibur qui\n  pourra trancher\n         le mal !";
 char* unun = "          Link,     \n     depeche toi !";
-char* deuxdeux = " Arrete de me\n        gaver";
-char* temple1 = "      Dirige toi\n      vers l'EST";
-char* easter = "    Je vais te\n      MANGER";
+char* temple1 = "      Dirige toi\n      vers l'Est";
+char* easter = "		 \n				 ............";
 int deroulement = 2;
 int spam = 0;
 int blocage2 = 0;
@@ -76,7 +77,7 @@ void updateNPC()
 	sfFloatRect playerfrect = sfSprite_getGlobalBounds(NPC);
 	rayonNPC = playerfrect.width ;
 
-	if (sfKeyboard_isKeyPressed(sfKeyV) && CalculD(NPCpos, rayonNPC))
+	if (sfKeyboard_isKeyPressed(sfKeyE) && CalculD(NPCpos, rayonNPC))
 	{
 		// elle parle
 
@@ -197,6 +198,7 @@ void updateNPC()
 	else
 	{
 		timeprincesse += GetDeltaTime();
+		sfSound_stop(princesse);
 	}
 	
 

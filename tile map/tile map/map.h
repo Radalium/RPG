@@ -34,6 +34,7 @@ void displayMap(sfRenderWindow* _window, sfView* _cam);
 int combien_de_coffre();
 int combien_de_PNJ();
 int combien_de_joueur();
+int combien_de_porte();
 
 void Position_joueur();
 void Position_NPC();
@@ -41,8 +42,5 @@ void Position_NPC();
 int onestsurquelcase(sfFloatRect _sprite);
 void appararitionObjet();
 void changementMap(int _nb, int _tmp);
-
-void ouvertureporte();
-
 
 

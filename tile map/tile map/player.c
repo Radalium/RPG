@@ -26,7 +26,7 @@ int actualTile;
 int blocage3 = 0;
 
 
-
+int vit = 0;
 float rayon1;
 
 int chestouverture=0;
@@ -158,7 +158,7 @@ void updatePlayer()
 
 if (isMoving == sfTrue && actualState == JOUER)
 {
-	// Musique | Fonction qui permet de jouer le son de la case sur laquelle on est
+	// Musique | Fonction qui permet de jouer le son de la case sur laquelle on est et de savoir ou on est
 
 
 	if (letemps > 0.5f)
@@ -191,7 +191,6 @@ if (isMoving == sfTrue && actualState == JOUER)
 			{
 				sfSound_play(paspierre);
 			}
-			
 			else if (onestsurquelcase(playerfrect) == 23)
 			{
 				changementMap(23,1);
@@ -201,26 +200,6 @@ if (isMoving == sfTrue && actualState == JOUER)
 			{
 				changementMap(20, 1);
 			}
-			/*else if (onestsurquelcase(playerfrect) == 6)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 7)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 8)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 9)
-			{
-				sfMusic_play(pasbois);
-			}
-			else if (onestsurquelcase(playerfrect) == 10)
-			{
-				sfMusic_play(pasbois);
-			}*/
 			letemps = 0.0f;
 		}
 	}
@@ -251,13 +230,33 @@ void displayPlayer(sfRenderWindow* _window)
 
 void EditorMod_player()
 {
-	
-	
 	// Editeur | Fonction qui permet de changer la taille et la vitesse du joueur en fonction du mode 
 	scale.x = 0.0f;
 	scale.y = 0.0f;
-	vitesse.x = 2000.f;
-	vitesse.y = 2000.f;
+	if (vit == 0)
+	{
+		vitesse.x = 2000.f;
+		vitesse.y = 2000.f;
+		vit = 1;
+	}
+	if (sfKeyboard_isKeyPressed(sfKeyLeft) && timer > 0.1f)
+	{
+		timer = 0.0f;
+		if (vitesse.x > 75)
+		{
+			vitesse.x = vitesse.x * 0.9f;
+			vitesse.y = vitesse.y * 0.9f;
+		}
+	}
+	if (sfKeyboard_isKeyPressed(sfKeyRight) && timer > 0.1f)
+	{
+		timer = 0.0f;
+		if (vitesse.x < 4000)
+		{
+			vitesse.x = vitesse.x * 1.1f;
+			vitesse.y = vitesse.y * 1.1f;
+		}
+	}
 	sfSprite_setScale(player, scale);
 }
 
@@ -275,23 +274,12 @@ void GameMod_player()
 	sfSprite_setScale(player, scale);
 }
 
-void Vplus()
+void Vreinitialisation()
 {
-	if (vitesse.x < 4000)
-	{
-		vitesse.x = vitesse.x * 1.1f;
-		vitesse.y = vitesse.y * 1.1f;
-	}
+	vit=0;
 }
+ 
 
-void Vmoins()
-{
-	if (vitesse.x < 75)
-	{
-		vitesse.x = vitesse.x * 0.9f;
-		vitesse.y = vitesse.y * 0.9f;
-	}
-}
 
 
 sfBool CalculD(sfVector2f _pos1, float _rayon2)

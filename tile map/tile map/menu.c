@@ -178,165 +178,166 @@ void updateMenu(sfRenderWindow* _window)
 	
 
 	
-	// Detection si la souris est sur le bloc
-	if (sfFloatRect_contains(&rectjouer, mousepos.x, mousepos.y))
-	{	
-		if (timermusique > 0.15f)
+	if (demandetouches == 0)
+	{// Detection si la souris est sur le bloc
+		if (sfFloatRect_contains(&rectjouer, mousepos.x, mousepos.y))
 		{
-			sfSound_play(menu2);
-			timermusique = 0.f;
-		}
-		
-		sfSprite_setColor(Bouton_Jouer, sfColor_fromRGBA(255, 255, 255, 200));
-		if (sfMouse_isButtonPressed(sfMouseLeft))
-		{
-			
-			// Changement du statut de jeu
-			actualState = JOUER;
-			Position_joueur();
-			Position_NPC();
-			GameMod_cam();
-			GameMod_player();
-			sfMusic_play(forest);
-		}
-	}
-	else
-	{
-		timermusique += GetDeltaTime();
-		sfSprite_setColor(Bouton_Jouer, sfColor_fromRGBA(255, 255, 255, 255));
-	}
-
-	// Detection si la souris est sur le bloc
-	if (sfFloatRect_contains(&rectedit, mousepos.x, mousepos.y))
-	{
-		if (timermusique1 > 0.15f)
-		{
-			sfSound_play(menu2);
-			timermusique1 = 0.f;
-		}
-
-		sfSprite_setColor(Bouton_Editeur, sfColor_fromRGBA(255, 255, 255, 200));
-		if (sfMouse_isButtonPressed(sfMouseLeft))
-		{
-			// Changement du statut de jeu
-			actualState = EDITEUR;
-			EditorMod_cam();
-			EditorMod_player();
-			sfMusic_play(editeur);
-		}
-	}
-	else
-	{
-		timermusique1 += GetDeltaTime();
-		sfSprite_setColor(Bouton_Editeur, sfColor_fromRGBA(255, 255, 255, 255));
-	}
-
-	// Detection si la souris est sur le bloc
-	if (sfFloatRect_contains(&rectquitter, mousepos.x, mousepos.y))
-	{
-		if (timermusique2 > 0.15f)
-		{
-			sfSound_play(menu2);
-			timermusique2 = 0.f;
-		}
-
-		sfSprite_setColor(Bouton_Quitter, sfColor_fromRGBA(255, 255, 255, 200));
-		if (sfMouse_isButtonPressed(sfMouseLeft))
-		{
-			// Changement du statut de jeu
-			actualState = QUITTER;
-		}
-	}
-	else
-	{
-		timermusique2 += GetDeltaTime();
-		sfSprite_setColor(Bouton_Quitter, sfColor_fromRGBA(255, 255, 255, 255));
-	}
-
-	// Detection si la souris est sur le bloc
-	if (sfFloatRect_contains(&rectsonplus, mousepos.x, mousepos.y))
-	{
-		if (timermusique3 > 0.15f)
-		{ // Joue le son menu2
-			sfSound_play(menu2);
-			timermusique3 = 0.f;
-		}
-		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 200));
-		if (sfMouse_isButtonPressed(sfMouseLeft) && volume < 100)
-		{
-			// Si le bouton gauche de la souris est preser et que le volume est inferieur a 100 cela augmente le volume
-			if (timermusique5 > 0.1f)
-			{	
-				
-				volume += 10;
-				timermusique5 = 0.f;
-				sprintf(volchar, "%d", volume);
-				sfText_setString(text2, volchar);
-			}
-		}
-	}
-	else
-	{
-		timermusique3 += GetDeltaTime();
-		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 255));
-	}
-	
-	timermusique5 += GetDeltaTime();
-
-	if (sfFloatRect_contains(&rectpointintero, mousepos.x, mousepos.y))
-	{
-		if (timermusique7 > 0.15f)
-		{ // Joue le son menu2
-			sfSound_play(menu2);
-			timermusique7 = 0.f;
-		}
-		sfSprite_setColor(pointintero, sfColor_fromRGBA(255, 255, 255, 200));
-	
-		if (sfMouse_isButtonPressed(sfMouseLeft))
-		{
-			if (timermusique8 > 0.15f)
+			if (timermusique > 0.15f)
 			{
-				demandetouches = 1;
-				timermusique8 = 0.f;
+				sfSound_play(menu2);
+				timermusique = 0.f;
 			}
-		}
-	}
-	else
-	{
-		timermusique7 += GetDeltaTime();
-		sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 255));
-	}
-	timermusique8 += GetDeltaTime();
 
-	// Detection si la souris est sur le bloc
-	if (sfFloatRect_contains(&rectsonmoins, mousepos.x, mousepos.y))
-	{
-		if (timermusique4 > 0.15f)
-		{ // Joue le son menu2
-			sfSound_play(menu2);
-			timermusique4 = 0.f;
-		}
-
-		sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 200));
-		if (sfMouse_isButtonPressed(sfMouseLeft) && volume > 0)
-		{// Si le bouton gauche de la souris est preser et que le volume est superieur a 0 cela diminue le volume
-			if (timermusique6 > 0.1f)
+			sfSprite_setColor(Bouton_Jouer, sfColor_fromRGBA(255, 255, 255, 200));
+			if (sfMouse_isButtonPressed(sfMouseLeft))
 			{
-				volume -= 10;
-				timermusique6 = 0.f;
-				sprintf(volchar, "%d", volume);
-				sfText_setString(text2, volchar);
+
+				// Changement du statut de jeu
+				actualState = JOUER;
+				Position_joueur();
+				Position_NPC();
+				GameMod_cam();
+				GameMod_player();
+				sfMusic_play(forest);
 			}
 		}
-	}
-	else
-	{
-		timermusique4 += GetDeltaTime();
-		
-		sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 255));
-	}
-	timermusique6 += GetDeltaTime();
+		else
+		{
+			timermusique += GetDeltaTime();
+			sfSprite_setColor(Bouton_Jouer, sfColor_fromRGBA(255, 255, 255, 255));
+		}
 
+		// Detection si la souris est sur le bloc
+		if (sfFloatRect_contains(&rectedit, mousepos.x, mousepos.y))
+		{
+			if (timermusique1 > 0.15f)
+			{
+				sfSound_play(menu2);
+				timermusique1 = 0.f;
+			}
+
+			sfSprite_setColor(Bouton_Editeur, sfColor_fromRGBA(255, 255, 255, 200));
+			if (sfMouse_isButtonPressed(sfMouseLeft))
+			{
+				// Changement du statut de jeu
+				actualState = EDITEUR;
+				EditorMod_cam();
+				EditorMod_player();
+				sfMusic_play(editeur);
+			}
+		}
+		else
+		{
+			timermusique1 += GetDeltaTime();
+			sfSprite_setColor(Bouton_Editeur, sfColor_fromRGBA(255, 255, 255, 255));
+		}
+
+		// Detection si la souris est sur le bloc
+		if (sfFloatRect_contains(&rectquitter, mousepos.x, mousepos.y))
+		{
+			if (timermusique2 > 0.15f)
+			{
+				sfSound_play(menu2);
+				timermusique2 = 0.f;
+			}
+
+			sfSprite_setColor(Bouton_Quitter, sfColor_fromRGBA(255, 255, 255, 200));
+			if (sfMouse_isButtonPressed(sfMouseLeft))
+			{
+				// Changement du statut de jeu
+				actualState = QUITTER;
+			}
+		}
+		else
+		{
+			timermusique2 += GetDeltaTime();
+			sfSprite_setColor(Bouton_Quitter, sfColor_fromRGBA(255, 255, 255, 255));
+		}
+
+		// Detection si la souris est sur le bloc
+		if (sfFloatRect_contains(&rectsonplus, mousepos.x, mousepos.y))
+		{
+			if (timermusique3 > 0.15f)
+			{ // Joue le son menu2
+				sfSound_play(menu2);
+				timermusique3 = 0.f;
+			}
+			sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 200));
+			if (sfMouse_isButtonPressed(sfMouseLeft) && volume < 100)
+			{
+				// Si le bouton gauche de la souris est preser et que le volume est inferieur a 100 cela augmente le volume
+				if (timermusique5 > 0.1f)
+				{
+
+					volume += 10;
+					timermusique5 = 0.f;
+					sprintf(volchar, "%d", volume);
+					sfText_setString(text2, volchar);
+				}
+			}
+		}
+		else
+		{
+			timermusique3 += GetDeltaTime();
+			sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 255));
+		}
+
+		timermusique5 += GetDeltaTime();
+
+		if (sfFloatRect_contains(&rectpointintero, mousepos.x, mousepos.y))
+		{
+			if (timermusique7 > 0.15f)
+			{ // Joue le son menu2
+				sfSound_play(menu2);
+				timermusique7 = 0.f;
+			}
+			sfSprite_setColor(pointintero, sfColor_fromRGBA(255, 255, 255, 200));
+
+			if (sfMouse_isButtonPressed(sfMouseLeft))
+			{
+				if (timermusique8 > 0.15f)
+				{
+					demandetouches = 1;
+					timermusique8 = 0.f;
+				}
+			}
+		}
+		else
+		{
+			timermusique7 += GetDeltaTime();
+			sfSprite_setColor(Sonplus, sfColor_fromRGBA(255, 255, 255, 255));
+		}
+		timermusique8 += GetDeltaTime();
+
+		// Detection si la souris est sur le bloc
+		if (sfFloatRect_contains(&rectsonmoins, mousepos.x, mousepos.y))
+		{
+			if (timermusique4 > 0.15f)
+			{ // Joue le son menu2
+				sfSound_play(menu2);
+				timermusique4 = 0.f;
+			}
+
+			sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 200));
+			if (sfMouse_isButtonPressed(sfMouseLeft) && volume > 0)
+			{// Si le bouton gauche de la souris est preser et que le volume est superieur a 0 cela diminue le volume
+				if (timermusique6 > 0.1f)
+				{
+					volume -= 10;
+					timermusique6 = 0.f;
+					sprintf(volchar, "%d", volume);
+					sfText_setString(text2, volchar);
+				}
+			}
+		}
+		else
+		{
+			timermusique4 += GetDeltaTime();
+
+			sfSprite_setColor(Sonmoins, sfColor_fromRGBA(255, 255, 255, 255));
+		}
+		timermusique6 += GetDeltaTime();
+	}
 	if (sfKeyboard_isKeyPressed(sfKeyEscape))
 	{
 		demandetouches = 0;
